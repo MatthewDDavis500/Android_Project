@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LabAndriodDemo">
         <activity
+            android:name=".MainMenuActivity"
+            android:exported="false" />
+        <activity
+            android:name=".CharacterCreationActivity"
+            android:exported="false" />
+        <activity
             android:name=".CharacterSelectActivity"
             android:exported="false" />
         <activity

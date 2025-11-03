@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".CharacterCreationActivity">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="150dip"
+        android:id="@+id/createCharacterTextView"
+        android:textSize="42sp"
+        android:text="Create Character"
+        android:gravity="center"
+        android:layout_margin="16dip"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dip"
+        android:textColor="@color/black"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="85dp"
+        android:hint="Character Name"
+        app:layout_constraintTop_toBottomOf="@+id/createCharacterTextView"
+        android:layout_margin="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/nameEnterEditText"
+        android:autofillHints="Please enter username"
+        android:textSize="24sp"
+        android:inputType="text"
+        android:gravity="center"
+        />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:hint="Knight, Ranger, or Mage"
+        app:layout_constraintTop_toBottomOf="@+id/nameEnterEditText"
+        android:layout_margin="40dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/classEditText"
+        android:autofillHints="Please enter password"
+        android:textSize="24sp"
+        android:inputType="textPassword"
+        android:gravity="center"
+        />
+
+    <Button
+        android:id="@+id/createButton"
+        android:layout_width="match_parent"
+        android:layout_height="105dp"
+        android:layout_margin="80dp"
+        android:layout_marginTop="152dp"
+        android:backgroundTint="@color/black"
+        android:text="Finish Character"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.906"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/classEditText" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

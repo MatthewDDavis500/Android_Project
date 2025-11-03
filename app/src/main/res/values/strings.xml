@@ -3,4 +3,8 @@
     <string name="create_character">Create Character</string>
     <string name="create_character2">Create Character</string>
     <string name="create_character3">Create Character</string>
+    <string name="welcome_adventurer_charactername">Welcome Adventurer CharacterName</string>
+    <string name="level">Level: ###</string>
+    <string name="hp">Hp: ##/##</string>
+    <string name="gold">Gold: ###</string>
 </resources>
