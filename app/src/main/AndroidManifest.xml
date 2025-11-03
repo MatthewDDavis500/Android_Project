@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LabAndriodDemo">
         <activity
+            android:name=".CharacterSelectActivity"
+            android:exported="false" />
+        <activity
+            android:name=".AccountCreationActivity"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>
