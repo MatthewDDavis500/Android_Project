@@ -12,7 +12,7 @@
         android:layout_height="150dip"
         android:id="@+id/titleLoginTextView"
         android:textSize="42sp"
-        android:text="Please Login"
+        android:text="Computer Doom\n Please Login"
         android:gravity="center"
         android:layout_margin="16dip"
         app:layout_constraintTop_toTopOf="parent"
