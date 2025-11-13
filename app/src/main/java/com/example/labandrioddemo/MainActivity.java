@@ -35,6 +35,13 @@ public class MainActivity extends AppCompatActivity {
                 verifyUser();
             }
         });
+
+        binding.sighUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(AccountCreationActivity.accountCreationActivityIntentFactory(getApplicationContext()));
+            }
+        });
     }
 
     private void verifyUser() {

@@ -1,5 +1,7 @@
 package com.example.labandrioddemo;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
@@ -60,5 +62,12 @@ public class AccountCreationActivity extends AppCompatActivity {
         // Add new user to the database
         User newUser = new User(username, password);
         repository.insertUser(newUser);
+
+        // Send user to MainActivity to sign in
+        startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
+    }
+
+    static Intent accountCreationActivityIntentFactory(Context context) {
+        return new Intent(context, AccountCreationActivity.class);
     }
 }
