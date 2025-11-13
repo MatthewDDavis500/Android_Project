@@ -8,6 +8,7 @@ import com.example.labandrioddemo.databinding.ActivityMainBinding;
 
 
 public class MainActivity extends AppCompatActivity {
+    public static final String TAG = "COMP_DOOM";
     private ActivityMainBinding binding;
 
     @Override
