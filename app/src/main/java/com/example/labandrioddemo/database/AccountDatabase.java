@@ -15,7 +15,7 @@ import com.example.labandrioddemo.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class}, version = 0, exportSchema = false)
+@Database(entities = {User.class}, version = 1, exportSchema = false)
 public abstract class AccountDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     private static final String DATABASE_NAME = "Accountdatabase";
@@ -45,17 +45,17 @@ public abstract class AccountDatabase extends RoomDatabase {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
-//            Log.i(MainActivity.TAG, "Database Created!");
+            Log.i(MainActivity.TAG, "Database Created!");
             databaseWriteExecutor.execute(() -> {
-//                UserDAO dao = INSTANCE.userDAO();
-//                dao.deleteAll();
+                UserDAO dao = INSTANCE.userDAO();
+                dao.deleteAll();
 
-//                User admin = new User("admin1", "admin1");
-//                admin.setAdmin(true);
-//                dao.insert(admin);
-//
-//                User testUser1 = new User("testuser1", "testuser1");
-//                dao.insert(testUser1);
+                User admin = new User("admin2", "admin2");
+                admin.setAdmin(true);
+                dao.insert(admin);
+
+                User testUser1 = new User("testuser1", "testuser1");
+                dao.insert(testUser1);
             });
         }
     };
