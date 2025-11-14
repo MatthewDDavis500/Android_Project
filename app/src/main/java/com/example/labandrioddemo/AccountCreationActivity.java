@@ -77,6 +77,9 @@ public class AccountCreationActivity extends AppCompatActivity {
                 if(user == null) { // username is available
                     // Add new user to database
                     User newUser = new User(username, password);
+                    if(binding.adminCodeEditText.getText().toString().equals("0")) {
+                        newUser.setAdmin(true);
+                    }
                     repository.insertUser(newUser);
 
                     userObserver.removeObserver(this); // remove observer to prevent multiple firings
