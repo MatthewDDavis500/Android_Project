@@ -26,6 +26,12 @@ public class AccountRepository {
 //        this.allCharacters = (ArrayList<GymLog>) this.gymLogDAO.getAllRecords();
     }
 
+    /**
+     * This method allows the application to access the repository.
+     * The repository is primarily used by activities to interact with the database
+     * @param application The application that the repository is called from
+     * @return the repository
+     */
     public static AccountRepository getRepository(Application application) {
         if(repository != null) {
             return repository;
@@ -67,16 +73,30 @@ public class AccountRepository {
 //        return null;
 //    }
 
+    /**
+     * Insert a User object into the Account Database
+     * @param user User object to be inserted into the database
+     */
     public void insertUser(User... user) {
         AccountDatabase.databaseWriteExecutor.execute(() -> {
             userDAO.insert(user);
         });
     }
 
+    /**
+     * Search the AccountDatabase for a User by username
+     * @param username Username string to search users by
+     * @return a LiveData object holding a User object
+     */
     public LiveData<User> getUserByUsername(String username) {
         return userDAO.getUserByUsername(username);
     }
 
+    /**
+     * Search the AccountDatabase for a User by userId
+     * @param userId UserID string to search users by
+     * @return a LiveData object holding a User object
+     */
     public LiveData<User> getUserByUserId(int userId) {
         return userDAO.getUserByUserId(userId);
     }

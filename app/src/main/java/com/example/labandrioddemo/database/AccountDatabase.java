@@ -23,6 +23,11 @@ public abstract class AccountDatabase extends RoomDatabase {
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
+    /**
+     * This method allows the application to retrieve the database. Primarily used by the repository
+     * @param context The current application context
+     * @return the AccountDatabase
+     */
     static AccountDatabase getDatabase(final Context context) {
         if(INSTANCE == null) {
             synchronized (AccountDatabase.class) {
@@ -41,6 +46,10 @@ public abstract class AccountDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
+    /**
+     * onCreate method for the database.
+     * Initializes test user and admin
+     */
     private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
