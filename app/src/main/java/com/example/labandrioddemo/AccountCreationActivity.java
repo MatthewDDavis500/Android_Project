@@ -6,11 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Toast;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
@@ -31,8 +27,6 @@ public class AccountCreationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         repository = AccountRepository.getRepository(getApplication());
-
-        currentUserLogin = new User("noooooo", "NOOOOO");
 
         binding.createButton.setOnClickListener(new View.OnClickListener() {
             @Override
