@@ -77,7 +77,7 @@ public class AccountCreationActivity extends AppCompatActivity {
                 if(user == null) { // username is available
                     // Add new user to database
                     User newUser = new User(username, password);
-                    if(binding.adminCodeEditText.getText().toString().equals("0")) {
+                    if(binding.adminCodeEditText.getText().toString().equals(getString(R.string.adminCode))) {
                         newUser.setAdmin(true);
                     }
                     repository.insertUser(newUser);
@@ -93,19 +93,6 @@ public class AccountCreationActivity extends AppCompatActivity {
                 userObserver.removeObserver(this); // remove observer to prevent multiple firings
             }
         });
-
-        if(currentUserLogin != null) { // if a user is found in the database with the entered username, then it's taken
-            Toast.makeText(this, "Username already exists.", Toast.LENGTH_SHORT).show();
-            return;
-        }
-
-
-
-        // Add new user to the database
-        User newUser = new User(username, password);
-        repository.insertUser(newUser);
-
-
     }
 
     static Intent accountCreationActivityIntentFactory(Context context) {
