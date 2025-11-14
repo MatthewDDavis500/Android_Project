@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.User;
@@ -20,6 +22,8 @@ public class AccountCreationActivity extends AppCompatActivity {
     private ActivityAccountCreationBinding binding;
     private AccountRepository repository;
 
+    private User currentUserLogin;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,6 +31,8 @@ public class AccountCreationActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         repository = AccountRepository.getRepository(getApplication());
+
+        currentUserLogin = new User("noooooo", "NOOOOO");
 
         binding.createButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -42,29 +48,61 @@ public class AccountCreationActivity extends AppCompatActivity {
      * Otherwise, a new User object is created with the entered info and added to the database.
      */
     public void createUser() {
-        // Validate username
         String username = binding.userNameEnterEditText.getText().toString();
+
+        // Validate that username isn't empty
         if(username.isEmpty()) {
             Toast.makeText(this, "Username may not be empty.", Toast.LENGTH_SHORT).show();
-            return;
-        } else if(repository.getUserByUsername(username) != null) {
-            Toast.makeText(this, "Username already exists.", Toast.LENGTH_SHORT).show();
             return;
         }
 
         // Validate password
         String password = binding.passwordCreateEditText.getText().toString();
+        if(password.isEmpty()) {
+            Toast.makeText(this, "Password may not be empty.", Toast.LENGTH_SHORT).show();
+            return;
+        }
         if(!password.equals(binding.passwordConfirmEditText.getText().toString())) {
             Toast.makeText(this, "Passwords don't match!", Toast.LENGTH_SHORT).show();
             return;
         }
 
+        AccountCreationActivity thisHolder = this; // this is so that the Toast can be made in the observer block
+
+        // Validate that username is available
+        LiveData<User> userObserver = repository.getUserByUsername(username);
+        userObserver.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if(user == null) { // username is available
+                    // Add new user to database
+                    User newUser = new User(username, password);
+                    repository.insertUser(newUser);
+
+                    userObserver.removeObserver(this); // remove observer to prevent multiple firings
+
+                    // Send user to MainActivity to sign in
+                    startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
+                } else {
+                    Toast.makeText(thisHolder, "Username already exists.", Toast.LENGTH_SHORT).show();
+                }
+
+                userObserver.removeObserver(this); // remove observer to prevent multiple firings
+            }
+        });
+
+        if(currentUserLogin != null) { // if a user is found in the database with the entered username, then it's taken
+            Toast.makeText(this, "Username already exists.", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+
+
         // Add new user to the database
         User newUser = new User(username, password);
         repository.insertUser(newUser);
 
-        // Send user to MainActivity to sign in
-        startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
+
     }
 
     static Intent accountCreationActivityIntentFactory(Context context) {
