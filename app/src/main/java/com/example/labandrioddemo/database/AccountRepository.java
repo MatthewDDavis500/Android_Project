@@ -6,15 +6,18 @@ import android.util.Log;
 import androidx.lifecycle.LiveData;
 
 import com.example.labandrioddemo.MainActivity;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Future;
 
 public class AccountRepository {
     private final UserDAO userDAO;
+    private final CharacterDAO characterDAO;
 
 //    private ArrayList<> allCharacters;
 
@@ -23,6 +26,7 @@ public class AccountRepository {
     private AccountRepository(Application application) {
         AccountDatabase db = AccountDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
+        this.characterDAO = db.characterDAO();
 //        this.allCharacters = (ArrayList<GymLog>) this.gymLogDAO.getAllRecords();
     }
 
@@ -79,6 +83,18 @@ public class AccountRepository {
 
     public LiveData<User> getUserByUserId(int userId) {
         return userDAO.getUserByUserId(userId);
+    }
+
+    public void insertCharacter(ProjectCharacter...characters) {
+        AccountDatabase.databaseWriteExecutor.execute(() -> characterDAO.insert(characters));
+    }
+
+    public LiveData<List<ProjectCharacter>> getAllCharacters() {
+        return characterDAO.getAllCharacters();
+    }
+
+    public LiveData<ProjectCharacter> getCharacterByName(String name) {
+        return characterDAO.getAllCharacterByName(name);
     }
 
 

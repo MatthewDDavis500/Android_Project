@@ -10,12 +10,13 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.labandrioddemo.MainActivity;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class}, version = 1, exportSchema = false)
+@Database(entities = {User.class, ProjectCharacter.class}, version = 2, exportSchema = false)
 public abstract class AccountDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     public static final String CHARACTER_TABLE = "charactertable";
@@ -49,6 +50,7 @@ public abstract class AccountDatabase extends RoomDatabase {
             Log.i(MainActivity.TAG, "Database Created!");
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
+                CharacterDAO cdao = INSTANCE.characterDAO();
                 dao.deleteAll();
 
                 User admin = new User("admin2", "admin2");
@@ -57,6 +59,10 @@ public abstract class AccountDatabase extends RoomDatabase {
 
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
+
+                ProjectCharacter name = new ProjectCharacter("testdummy1", testUser1.getId(), 4321, 1, 500000,
+                        5, 100, 5, 7, 52);
+                cdao.insert(name);
             });
         }
     };
