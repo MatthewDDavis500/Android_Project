@@ -35,6 +35,14 @@ public class CharacterSelectActivity extends AppCompatActivity {
         // update loggedInUserId using the intent extra
         loggedInUserId = getIntent().getIntExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
 
+        // update the admin tag if the user is an admin
+        if (user != null && user.isAdmin()) {
+            // Use a string resource instead of a literal
+            binding.adminConfirmation.setText(getString(R.string.admin_true));
+        } else {
+            binding.adminConfirmation.setText(getString(R.string.admin_false));
+        }
+
         // if the user is somehow still logged out, send them back to MainActivity to login
         if(loggedInUserId == LOGGED_OUT) {
             startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
