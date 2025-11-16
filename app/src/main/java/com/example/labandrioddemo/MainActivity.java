@@ -12,6 +12,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.User;
@@ -40,13 +41,7 @@ public class MainActivity extends AppCompatActivity {
         repository = AccountRepository.getRepository(getApplication());
 
         // attempt to login user based on previously stored info (like shared preferences and saved instance states)
-        loginUser(savedInstanceState);
-
-        // check to see if user is logged in
-        if(loggedInUserId != LOGGED_OUT) {
-            Intent intent = CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), loggedInUserId);
-            startActivity(intent);
-        }
+//        loginUser(savedInstanceState);
 
         // links the login button to the verifyUser method
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -87,12 +82,24 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
-        userObserver.observe(this, user -> {
-            if(user != null) {
-//                invalidateOptionsMenu(); uncomment if we used options menu
+        LiveData<User> userLoginObserver = repository.getUserByUserId(loggedInUserId);
+        Observer<User> observer = new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    Intent intent = CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), loggedInUserId);
+                    startActivity(intent);
+                } else {
+                    // The user ID in memory was bad, so log out
+                    loggedInUserId = LOGGED_OUT;
+                    updateSharedPreference();
+                }
+
+                // Remove this observer
+                userLoginObserver.removeObserver(this);
             }
-        });
+        };
+        userLoginObserver.observe(this, observer);
     }
 
     @Override
@@ -127,22 +134,24 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LiveData<User> userObserver = repository.getUserByUsername(username);
-        userObserver.observe(this, user -> {
-            if(user != null) {
-                String password = binding.passwordLoginEditText.getText().toString();
-                if(password.equals(user.getPassword())) {
-//                    invalidateOptionsMenu();
-                    loggedInUserId = user.getId();
-                    updateSharedPreference();
-                    startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId()));
+        LiveData<User> userVerifyLiveData = repository.getUserByUsername(username);
+        userVerifyLiveData.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if(user != null) {
+                    String password = binding.passwordLoginEditText.getText().toString();
+
+                    if(password.equals(user.getPassword())) {
+//                        invalidateOptionsMenu();
+                        loggedInUserId = user.getId();
+                        updateSharedPreference();
+                        startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId())); //THE ERROR IS HERE
+                    } else {
+                        Toast.makeText(MainActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
+                    }
                 } else {
-                    Toast.makeText(this, "Invalid password.", Toast.LENGTH_SHORT).show();
-                    binding.passwordLoginEditText.setSelection(0);
+//                    Toast.makeText(MainActivity.this, username + " is not a valid username.", Toast.LENGTH_SHORT).show();
                 }
-            } else {
-                Toast.makeText(this, username + " is not a valid username.", Toast.LENGTH_SHORT).show();
-                binding.passwordLoginEditText.setSelection(0);
             }
         });
     }
