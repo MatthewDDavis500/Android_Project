@@ -41,7 +41,7 @@ public class MainActivity extends AppCompatActivity {
         repository = AccountRepository.getRepository(getApplication());
 
         // attempt to login user based on previously stored info (like shared preferences and saved instance states)
-//        loginUser(savedInstanceState);
+        loginUser(savedInstanceState);
 
         // links the login button to the verifyUser method
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +82,11 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LiveData<User> userLoginObserver = repository.getUserByUserId(loggedInUserId);
-        Observer<User> observer = new Observer<User>() {
+        LiveData<User> userLoginLiveData = repository.getUserByUserId(loggedInUserId);
+        userLoginLiveData.observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                if (user != null) {
+                if(user != null) {
                     Intent intent = CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), loggedInUserId);
                     startActivity(intent);
                 } else {
@@ -94,12 +94,8 @@ public class MainActivity extends AppCompatActivity {
                     loggedInUserId = LOGGED_OUT;
                     updateSharedPreference();
                 }
-
-                // Remove this observer
-                userLoginObserver.removeObserver(this);
             }
-        };
-        userLoginObserver.observe(this, observer);
+        });
     }
 
     @Override
