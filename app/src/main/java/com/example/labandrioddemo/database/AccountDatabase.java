@@ -10,24 +10,21 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.labandrioddemo.MainActivity;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, ProjectCharacter.class}, version = 4, exportSchema = false)
 public abstract class AccountDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
+    public static final String CHARACTER_TABLE = "charactertable";
     private static final String DATABASE_NAME = "Accountdatabase";
     private static volatile AccountDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
     static final ExecutorService databaseWriteExecutor = Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
-    /**
-     * This method allows the application to retrieve the database. Primarily used by the repository
-     * @param context The current application context
-     * @return the AccountDatabase
-     */
     static AccountDatabase getDatabase(final Context context) {
         if(INSTANCE == null) {
             synchronized (AccountDatabase.class) {
@@ -46,10 +43,6 @@ public abstract class AccountDatabase extends RoomDatabase {
         return INSTANCE;
     }
 
-    /**
-     * onCreate method for the database.
-     * Initializes test user and admin
-     */
     private static final RoomDatabase.Callback addDefaultValues = new RoomDatabase.Callback() {
         @Override
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
@@ -57,7 +50,9 @@ public abstract class AccountDatabase extends RoomDatabase {
             Log.i(MainActivity.TAG, "Database Created!");
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
+                CharacterDAO cdao = INSTANCE.characterDAO();
                 dao.deleteAll();
+                cdao.deleteAll();
 
                 User admin = new User("admin2", "admin2");
                 admin.setAdmin(true);
@@ -65,9 +60,15 @@ public abstract class AccountDatabase extends RoomDatabase {
 
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
+
+                ProjectCharacter name = new ProjectCharacter("testdummy1", testUser1.getId(), 4321, 1, 500000,
+                        5, 100, 5, 7, 52);
+                cdao.insert(name);
             });
         }
     };
 
     public abstract UserDAO userDAO();
+
+    public abstract CharacterDAO characterDAO();
 }
