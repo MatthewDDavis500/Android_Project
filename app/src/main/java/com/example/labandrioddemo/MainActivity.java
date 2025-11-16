@@ -90,7 +90,7 @@ public class MainActivity extends AppCompatActivity {
         LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
         userObserver.observe(this, user -> {
             if(user != null) {
-//                invalidateOptionsMenu();
+//                invalidateOptionsMenu(); uncomment if we used options menu
             }
         });
     }
@@ -102,6 +102,9 @@ public class MainActivity extends AppCompatActivity {
         updateSharedPreference();
     }
 
+    /**
+     * This method updates the sharedPreferences, which is used for login persistence
+     */
     private void updateSharedPreference() {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
@@ -140,6 +143,9 @@ public class MainActivity extends AppCompatActivity {
                 binding.passwordLoginEditText.setSelection(0);
             }
         });
+
+        int a = 5;
+        int b = 9;
     }
 
     /**
