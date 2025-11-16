@@ -16,7 +16,7 @@ import com.example.labandrioddemo.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, ProjectCharacter.class}, version = 2, exportSchema = false)
+@Database(entities = {User.class, ProjectCharacter.class}, version = 4, exportSchema = false)
 public abstract class AccountDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     public static final String CHARACTER_TABLE = "charactertable";
@@ -52,6 +52,7 @@ public abstract class AccountDatabase extends RoomDatabase {
                 UserDAO dao = INSTANCE.userDAO();
                 CharacterDAO cdao = INSTANCE.characterDAO();
                 dao.deleteAll();
+                cdao.deleteAll();
 
                 User admin = new User("admin2", "admin2");
                 admin.setAdmin(true);
