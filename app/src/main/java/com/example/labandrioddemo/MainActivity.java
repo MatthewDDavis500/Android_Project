@@ -133,6 +133,8 @@ public class MainActivity extends AppCompatActivity {
                 String password = binding.passwordLoginEditText.getText().toString();
                 if(password.equals(user.getPassword())) {
 //                    invalidateOptionsMenu();
+                    loggedInUserId = user.getId();
+                    updateSharedPreference();
                     startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId()));
                 } else {
                     Toast.makeText(this, "Invalid password.", Toast.LENGTH_SHORT).show();
@@ -143,9 +145,6 @@ public class MainActivity extends AppCompatActivity {
                 binding.passwordLoginEditText.setSelection(0);
             }
         });
-
-        int a = 5;
-        int b = 9;
     }
 
     /**
