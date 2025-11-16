@@ -10,4 +10,5 @@
     <string name="preference_file_key">compDoomPreferenceFileNameProject</string>
     <string name="preference_userId_key">compDoomPreferenceUserIdKeyProject</string>
     <string name="adminCode">0</string>
+    <string name="logout">Logout</string>
 </resources>

@@ -87,8 +87,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LiveData<User> userObserver = repository.getUserByUserId(loggedInUserId);
-        userObserver.observe(this, user -> {
+        LiveData<User> userLoginObserver = repository.getUserByUserId(loggedInUserId);
+        userLoginObserver.observe(this, user -> {
             if(user != null) {
 //                invalidateOptionsMenu(); uncomment if we used options menu
             }
@@ -127,8 +127,8 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LiveData<User> userObserver = repository.getUserByUsername(username);
-        userObserver.observe(this, user -> {
+        LiveData<User> userVerifyObserver = repository.getUserByUsername(username);
+        userVerifyObserver.observe(this, user -> {
             if(user != null) {
                 String password = binding.passwordLoginEditText.getText().toString();
                 if(password.equals(user.getPassword())) {
@@ -138,11 +138,9 @@ public class MainActivity extends AppCompatActivity {
                     startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId()));
                 } else {
                     Toast.makeText(this, "Invalid password.", Toast.LENGTH_SHORT).show();
-                    binding.passwordLoginEditText.setSelection(0);
                 }
             } else {
                 Toast.makeText(this, username + " is not a valid username.", Toast.LENGTH_SHORT).show();
-                binding.passwordLoginEditText.setSelection(0);
             }
         });
     }
