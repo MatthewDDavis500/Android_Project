@@ -51,7 +51,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
         binding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                logout();
             }
         });
     }
