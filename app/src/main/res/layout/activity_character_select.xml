@@ -2,14 +2,14 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/main"
+    android:id="@+id/characterSelect"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".CharacterSelectActivity">
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="150dip"
+        android:layout_height="100dip"
         android:id="@+id/CharacterSelectTextView"
         android:textSize="42sp"
         android:text="Select Character"
@@ -20,6 +20,21 @@
         android:layout_marginBottom="24dip"
         android:textColor="@color/black"
         />
+
+    <TextView
+        android:layout_width="100dp"
+        android:layout_height="20dip"
+        android:id="@+id/adminConfirmation"
+        android:textSize="10sp"
+        android:text="@string/admin_boolean"
+        android:gravity="center"
+        android:layout_margin="16dip"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginBottom="24dip"
+        android:textColor="@color/black"
+        />
+
 
     <Button
         android:layout_width="match_parent"

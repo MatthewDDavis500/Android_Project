@@ -10,4 +10,6 @@
     <string name="preference_file_key">compDoomPreferenceFileNameProject</string>
     <string name="preference_userId_key">compDoomPreferenceUserIdKeyProject</string>
     <string name="adminCode">0</string>
+    <string name="admin_true">Admin: True</string>
+    <string name="admin_false">Admin: False</string>
 </resources>

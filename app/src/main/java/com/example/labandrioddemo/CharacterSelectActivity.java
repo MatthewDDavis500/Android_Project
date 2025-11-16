@@ -18,7 +18,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     public static final String CHARACTER_SELECT_ACTIVITY_USER_ID = "com.example.labandrioddemo.CHARACTER_SELECT_ACTIVITY_USER_ID";
 
-    private ActivityAccountCreationBinding binding;
+    private ActivityCharacterSelectBinding binding;
     private AccountRepository repository;
 
     int loggedInUserId = -1;
@@ -28,6 +28,12 @@ public class CharacterSelectActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_character_select);
+        if (user != null && user.isAdmin()) {
+            // Use a string resource instead of a literal
+            binding.adminConfirmation.setText(getString(R.string.admin_true));
+        } else {
+            binding.adminConfirmation.setText(getString(R.string.admin_false));
+        }
     }
 
 
