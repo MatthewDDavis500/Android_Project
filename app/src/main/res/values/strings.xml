@@ -25,4 +25,9 @@
     <string name="health_1S">Health +1</string>
     <string name="flee_chance_1S">Flee Chance +1</string>
     <string name="backS">Back</string>
+    <string name="enemy_hpV">Enemy Hp: ##/##</string>
+    <string name="current_situationV">Current Situation</string>
+    <string name="attackV">Attack</string>
+    <string name="fleeV">Flee</string>
+    <string name="battle_xV">Battle X</string>
 </resources>
