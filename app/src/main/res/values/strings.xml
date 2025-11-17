@@ -13,4 +13,11 @@
     <string name="logout">Logout</string>
     <string name="admin_true">Admin: True</string>
     <string name="admin_false">Admin: False</string>
+    <string name="town">Town</string>
+    <string name="levelT">Level: ###</string>
+    <string name="goldT">Gold: ###</string>
+    <string name="hpT">HP ##/##</string>
+    <string name="rest_x_goldT">Rest(X Gold)</string>
+    <string name="shopT">Shop</string>
+    <string name="leaveT">Leave</string>
 </resources>
