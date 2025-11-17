@@ -29,7 +29,8 @@ public class MainActivity extends AppCompatActivity {
     private AccountRepository repository;
     int loggedInUserId = LOGGED_OUT;
     private User user;
-
+    private boolean loginNullVerificationDone = false; // this variable is used for the asynchronous calls in login and verifyUser. The update function is immediately called with a null value, this variable is set to true, and if the update is called again with a null value, then the username is invalid
+    private boolean verifyNullVerificationDone = false; // same as above, but for verify method
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
         repository = AccountRepository.getRepository(getApplication());
 
         // attempt to login user based on previously stored info (like shared preferences and saved instance states)
-//        loginUser(savedInstanceState);
+        loginUser(savedInstanceState);
 
         // links the login button to the verifyUser method
         binding.loginButton.setOnClickListener(new View.OnClickListener() {
@@ -82,24 +83,26 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        LiveData<User> userLoginObserver = repository.getUserByUserId(loggedInUserId);
-        Observer<User> observer = new Observer<User>() {
+        LiveData<User> userLoginLiveData = repository.getUserByUserId(loggedInUserId);
+        userLoginLiveData.observe(this, new Observer<User>() {
             @Override
             public void onChanged(User user) {
-                if (user != null) {
+                if(user != null) {
+                    loginNullVerificationDone = false;
                     Intent intent = CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), loggedInUserId);
                     startActivity(intent);
                 } else {
-                    // The user ID in memory was bad, so log out
-                    loggedInUserId = LOGGED_OUT;
-                    updateSharedPreference();
-                }
+                    if(loginNullVerificationDone) {
+                        loggedInUserId = LOGGED_OUT;
+                        updateSharedPreference();
+                        loginNullVerificationDone = false;
+                    } else {
+                        loginNullVerificationDone = true;
+                    }
 
-                // Remove this observer
-                userLoginObserver.removeObserver(this);
+                }
             }
-        };
-        userLoginObserver.observe(this, observer);
+        });
     }
 
     @Override
@@ -145,12 +148,18 @@ public class MainActivity extends AppCompatActivity {
 //                        invalidateOptionsMenu();
                         loggedInUserId = user.getId();
                         updateSharedPreference();
+                        verifyNullVerificationDone = false;
                         startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId())); //THE ERROR IS HERE
                     } else {
                         Toast.makeText(MainActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-//                    Toast.makeText(MainActivity.this, username + " is not a valid username.", Toast.LENGTH_SHORT).show();
+                    if(verifyNullVerificationDone) {
+                        Toast.makeText(MainActivity.this, username + " is not a valid username.", Toast.LENGTH_SHORT).show();
+                        verifyNullVerificationDone = false;
+                    } else {
+                        verifyNullVerificationDone = true;
+                    }
                 }
             }
         });
