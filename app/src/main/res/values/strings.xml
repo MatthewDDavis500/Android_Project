@@ -20,4 +20,9 @@
     <string name="rest_x_goldT">Rest(X Gold)</string>
     <string name="shopT">Shop</string>
     <string name="leaveT">Leave</string>
+    <string name="goldS">Gold: ###</string>
+    <string name="damage_1S">Damage +1</string>
+    <string name="health_1S">Health +1</string>
+    <string name="flee_chance_1S">Flee Chance +1</string>
+    <string name="backS">Back</string>
 </resources>

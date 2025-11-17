@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LabAndriodDemo">
         <activity
+            android:name=".townShopActivity"
+            android:exported="false" />
+        <activity
             android:name=".townScreen"
             android:exported="false" />
         <activity
