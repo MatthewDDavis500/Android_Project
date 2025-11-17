@@ -5,12 +5,12 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VillageScreenActivity">
+    tools:context=".townShopActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="150dip"
-        android:id="@+id/battleName"
-        android:text="Battle X"
+        android:text="Town Shop"
+        android:id="@+id/townShopTextView"
         android:textSize="42sp"
         android:gravity="center"
         android:layout_margin="16dip"
@@ -20,37 +20,12 @@
         android:textColor="@color/black"
         tools:ignore="HardcodedText"
         />
-
     <TextView
         android:layout_width="match_parent"
         android:layout_height="100dip"
-        android:text="@string/hp"
-        android:id="@+id/hpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/battleName"
-        android:layout_margin="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="24sp"
-        android:gravity="center"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="100dip"
-        android:text="Enemy Hp: ##/##"
-        android:id="@+id/enemyHpTextView"
-        app:layout_constraintTop_toBottomOf="@+id/hpTextView"
-        android:layout_margin="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="24sp"
-        android:gravity="center"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="100dip"
-        android:text="Current Situation"
-        android:id="@+id/currentSituationTextView"
-        app:layout_constraintTop_toBottomOf="@id/enemyHpTextView"
+        android:text="@string/goldS"
+        android:id="@+id/goldTextView"
+        app:layout_constraintTop_toBottomOf="@+id/townShopTextView"
         android:layout_margin="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -59,31 +34,51 @@
         />
     <Button
         android:layout_width="match_parent"
-        android:layout_height="105dp"
-        app:layout_constraintTop_toBottomOf="@+id/currentSituationTextView"
-        android:id="@+id/attackButton"
-        android:text="Attack"
+        android:layout_height="95dp"
+        android:id="@+id/damageButton"
+        android:text="@string/damage_1S"
+        app:layout_constraintTop_toBottomOf="@+id/goldTextView"
         android:textSize="32sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/black"
         />
-
     <Button
         android:layout_width="match_parent"
-        android:layout_height="105dp"
-        app:layout_constraintTop_toBottomOf="@+id/attackButton"
-        android:id="@+id/SurrenderButton"
-        android:text="Flee"
+        android:layout_height="95dp"
+        android:id="@+id/healthButton"
+        android:text="@string/health_1S"
+        app:layout_constraintTop_toBottomOf="@+id/damageButton"
         android:textSize="32sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/black"
         />
-
-
-
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:id="@+id/fleeChanceButton"
+        android:text="@string/flee_chance_1S"
+        app:layout_constraintTop_toBottomOf="@+id/healthButton"
+        android:textSize="32sp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/black"
+        />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="95dp"
+        android:id="@+id/backButton"
+        android:text="@string/backS"
+        app:layout_constraintTop_toBottomOf="@+id/fleeChanceButton"
+        android:textSize="32sp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:backgroundTint="@color/black"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
