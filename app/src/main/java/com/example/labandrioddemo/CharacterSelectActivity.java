@@ -12,6 +12,7 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
 
@@ -48,11 +49,21 @@ public class CharacterSelectActivity extends AppCompatActivity {
             this.user = user;
 
             // update the admin tag if the user is an admin
-            if (user != null && user.isAdmin()) {
+            if(user != null && user.isAdmin()) {
                 // Use a string resource instead of a literal
                 binding.adminConfirmation.setText(getString(R.string.admin_true));
             } else {
                 binding.adminConfirmation.setText(getString(R.string.admin_false));
+            }
+        });
+
+        // get the ProjectCharacter object corresponding to the logged in user
+        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByUserId(loggedInUserId);
+        characterLiveData.observe(this, character -> {
+            if(character != null) {
+                binding.character1Button.setText(character.getCharacterName());
+            } else {
+                binding.character1Button.setText(getString(R.string.create_character));
             }
         });
 

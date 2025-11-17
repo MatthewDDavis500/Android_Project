@@ -117,5 +117,7 @@ public class AccountRepository {
         return characterDAO.getAllCharacterByName(name);
     }
 
-
+    public LiveData<ProjectCharacter> getCharacterByUserId(int userId) {
+        return characterDAO.getCharacterByUserId(userId);
+    }
 }
