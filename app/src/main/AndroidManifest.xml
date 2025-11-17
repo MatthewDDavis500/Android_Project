@@ -18,7 +18,7 @@
             android:name=".townScreen"
             android:exported="false" />
         <activity
-            android:name=".battleScreeenActivity"
+            android:name=".battleScreenActivity"
             android:exported="false" />
         <activity
             android:name=".AdminMenuActivity"
