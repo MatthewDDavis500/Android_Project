@@ -120,4 +120,8 @@ public class AccountRepository {
     public LiveData<ProjectCharacter> getCharacterByUserId(int userId) {
         return characterDAO.getCharacterByUserId(userId);
     }
+
+    public LiveData<ProjectCharacter> getCharacterByCharacterId(int characterId) {
+        return characterDAO.getCharacterByCharacterId(characterId);
+    }
 }
