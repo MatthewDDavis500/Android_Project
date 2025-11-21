@@ -41,4 +41,5 @@
     <string name="enter_a_positive_integer">Enter a positive integer</string>
     <string name="admin_edit_default_value">0</string>
     <string name="admin_search_button_label">Go</string>
+    <string name="back_to_menu_admin">Back to Menu</string>
 </resources>
