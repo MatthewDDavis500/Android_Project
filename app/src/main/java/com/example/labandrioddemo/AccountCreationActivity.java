@@ -89,7 +89,7 @@ public class AccountCreationActivity extends AppCompatActivity {
         });
     }
 
-    static Intent accountCreationActivityIntentFactory(Context context) {
+    static Intent accountCreationIntentFactory(Context context) {
         return new Intent(context, AccountCreationActivity.class);
     }
 }

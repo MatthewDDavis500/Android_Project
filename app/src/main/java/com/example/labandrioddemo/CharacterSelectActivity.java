@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
-import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
@@ -18,7 +16,7 @@ import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
 
 public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
-    public static final String CHARACTER_SELECT_ACTIVITY_USER_ID = "com.example.labandrioddemo.CHARACTER_SELECT_ACTIVITY_USER_ID";
+    public static final String COMP_DOOM_ACTIVITY_USER_ID = "com.example.labandrioddemo.COMP_DOOM_ACTIVITY_USER_ID";
 
     private ActivityCharacterSelectBinding binding;
     private AccountRepository repository;
@@ -36,7 +34,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
         repository = AccountRepository.getRepository(getApplication());
 
         // update loggedInUserId using the intent extra
-        loggedInUserId = getIntent().getIntExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
+        loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
 
         // if the user is somehow still logged out, send them back to MainActivity to login
         if(loggedInUserId == LOGGED_OUT) {
@@ -67,6 +65,13 @@ public class CharacterSelectActivity extends AppCompatActivity {
             }
         });
 
+        binding.character1Button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), 1, 1));
+            }
+        });
+
         binding.logoutButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -78,7 +83,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private void logout() {
         loggedInUserId = LOGGED_OUT;
         updateSharedPreference();
-        getIntent().putExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
+        getIntent().putExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
     }
 
@@ -89,9 +94,9 @@ public class CharacterSelectActivity extends AppCompatActivity {
         sharedPrefEditor.apply();
     }
 
-    static Intent characterSelectActivityIntentFactory(Context context, int userId) {
+    static Intent characterSelectIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, CharacterSelectActivity.class);
-        intent.putExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, userId);
+        intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         return intent;
     }
 }

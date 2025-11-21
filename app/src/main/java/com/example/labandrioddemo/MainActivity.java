@@ -1,6 +1,6 @@
 package com.example.labandrioddemo;
 
-import static com.example.labandrioddemo.CharacterSelectActivity.CHARACTER_SELECT_ACTIVITY_USER_ID;
+import static com.example.labandrioddemo.CharacterSelectActivity.COMP_DOOM_ACTIVITY_USER_ID;
 
 import android.content.Context;
 import android.content.Intent;
@@ -56,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         binding.signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(AccountCreationActivity.accountCreationActivityIntentFactory(getApplicationContext()));
+                startActivity(AccountCreationActivity.accountCreationIntentFactory(getApplicationContext()));
             }
         });
     }
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
             loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
         }
         if(loggedInUserId == LOGGED_OUT) {
-            loggedInUserId = getIntent().getIntExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
+            loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         }
         if(loggedInUserId == LOGGED_OUT) {
             return;
@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(User user) {
                 if(user != null) {
                     loginNullVerificationDone = false;
-                    Intent intent = CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), loggedInUserId);
+                    Intent intent = CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId);
                     startActivity(intent);
                 } else {
                     if(loginNullVerificationDone) {
@@ -149,7 +149,7 @@ public class MainActivity extends AppCompatActivity {
                         loggedInUserId = user.getId();
                         updateSharedPreference();
                         verifyNullVerificationDone = false;
-                        startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId())); //THE ERROR IS HERE
+                        startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), user.getId())); //THE ERROR IS HERE
                     } else {
                         Toast.makeText(MainActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
                     }
