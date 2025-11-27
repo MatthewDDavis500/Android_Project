@@ -21,6 +21,8 @@ public class ProjectCharacter {
     private int fleeChance;
     private int battleNum;
 
+    public static final ProjectCharacter nullCharacter = new ProjectCharacter("null", 42, 0, 0, 0, 0, 0, 0, 0, 0);
+
 
     public ProjectCharacter(String characterName, int userID, int characterID, int lvl, int gold, int currHp, int maxHp, int atkMod, int fleeChance, int battleNum) {
         this.characterName = characterName;
