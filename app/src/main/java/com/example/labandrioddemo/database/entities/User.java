@@ -14,6 +14,7 @@ public class User {
     private String username;
     private String password;
     private boolean isAdmin;
+    public static final User nullUser = new User("null", "null");
 
     public User(String username, String password) {
         this.username = username;
