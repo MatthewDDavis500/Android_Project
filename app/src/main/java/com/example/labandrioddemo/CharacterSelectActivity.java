@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
@@ -44,14 +45,17 @@ public class CharacterSelectActivity extends AppCompatActivity {
         // get the User object of the logged in user
         LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
         userLiveData.observe(this, user -> {
-            this.user = user;
+            if(user != null) {
+                this.user = user;
 
-            // update the admin tag if the user is an admin
-            if(user != null && user.isAdmin()) {
-                // Use a string resource instead of a literal
-                binding.adminConfirmation.setText(getString(R.string.admin_true));
-            } else {
-                binding.adminConfirmation.setText(getString(R.string.admin_false));
+                // update the admin tag if the user is an admin
+                if (user != null && user.isAdmin()) {
+                    // Use a string resource instead of a literal
+                    binding.adminConfirmation.setText(getString(R.string.admin_true));
+                } else {
+                    binding.adminConfirmation.setText(getString(R.string.admin_false));
+                }
+//                userLiveData.removeObserver(this);
             }
         });
 
@@ -68,7 +72,9 @@ public class CharacterSelectActivity extends AppCompatActivity {
         binding.character1Button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), 1, 1));
+//                startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), 1, 1));
+                Toast.makeText(CharacterSelectActivity.this, "Character updated successfully!", Toast.LENGTH_SHORT).show();
+
             }
         });
 

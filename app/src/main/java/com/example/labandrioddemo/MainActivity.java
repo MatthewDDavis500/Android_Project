@@ -88,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if(user != null) {
+                    userLoginLiveData.removeObserver(this);
                     loginNullVerificationDone = false;
                     Intent intent = CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId);
                     startActivity(intent);
@@ -142,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if(user != null) {
+                    userVerifyLiveData.removeObserver(this);
                     String password = binding.passwordLoginEditText.getText().toString();
 
                     if(password.equals(user.getPassword())) {
