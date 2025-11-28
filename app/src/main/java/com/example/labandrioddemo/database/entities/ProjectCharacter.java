@@ -23,10 +23,10 @@ public class ProjectCharacter {
     private int slot;
 
 
-    public ProjectCharacter(String characterName, int userID, int characterID, int lvl, int gold, int currHp, int maxHp, int atkMod, int fleeChance, int battleNum, int slot) {
+    public ProjectCharacter(String characterName, int userID, int lvl, int gold, int currHp,
+                            int maxHp, int atkMod, int fleeChance, int battleNum, int slot) {
         this.characterName = characterName;
         this.userID = userID;
-        this.characterID = characterID;
         this.lvl = lvl;
         this.gold = gold;
         this.currHp = currHp;

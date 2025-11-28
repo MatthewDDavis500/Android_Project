@@ -18,7 +18,9 @@ import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
 
 public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
-    private static final int SLOT_NUMBER = 1;
+    private static final int SLOT_NUMBER_ONE = 1;
+    private static final int SLOT_NUMBER_TWO = 2;
+    private static final int SLOT_NUMBER_THREE = 3;
     public static final String CHARACTER_SELECT_ACTIVITY_USER_ID = "com.example.labandrioddemo.CHARACTER_SELECT_ACTIVITY_USER_ID";
 
     private ActivityCharacterSelectBinding binding;
@@ -60,12 +62,68 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
 
         // get the ProjectCharacter object corresponding to the logged in user
-        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER);
-        characterLiveData.observe(this, character -> {
+        LiveData<ProjectCharacter> characterLiveData1 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_ONE);
+        characterLiveData1.observe(this, character -> {
             if(character != null) {
                 binding.character1Button.setText(character.getCharacterName());
+                binding.character1Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext()));
+                    };
+                });
             } else {
                 binding.character1Button.setText(getString(R.string.create_character));
+                binding.character1Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                    };
+                });
+            }
+        });
+
+        // get the ProjectCharacter object corresponding to the logged in user
+        LiveData<ProjectCharacter> characterLiveData2 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_TWO);
+        characterLiveData2.observe(this, character -> {
+            if(character != null) {
+                binding.character2Button.setText(character.getCharacterName());
+                binding.character2Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext()));
+                    };
+                });
+            } else {
+                binding.character2Button.setText(getString(R.string.create_character));
+                binding.character2Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                    };
+                });
+            }
+        });
+
+        // get the ProjectCharacter object corresponding to the logged in user
+        LiveData<ProjectCharacter> characterLiveData3 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_THREE);
+        characterLiveData3.observe(this, character -> {
+            if(character != null) {
+                binding.character3Button.setText(character.getCharacterName());
+                binding.character3Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext()));
+                    };
+                });
+            } else {
+                binding.character3Button.setText(getString(R.string.create_character));
+                binding.character3Button.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                    };
+                });
             }
         });
 
