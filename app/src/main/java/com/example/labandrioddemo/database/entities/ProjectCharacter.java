@@ -20,9 +20,10 @@ public class ProjectCharacter {
     private int atkMod;
     private int fleeChance;
     private int battleNum;
+    private int slot;
 
 
-    public ProjectCharacter(String characterName, int userID, int characterID, int lvl, int gold, int currHp, int maxHp, int atkMod, int fleeChance, int battleNum) {
+    public ProjectCharacter(String characterName, int userID, int characterID, int lvl, int gold, int currHp, int maxHp, int atkMod, int fleeChance, int battleNum, int slot) {
         this.characterName = characterName;
         this.userID = userID;
         this.characterID = characterID;
@@ -33,6 +34,7 @@ public class ProjectCharacter {
         this.atkMod = atkMod;
         this.fleeChance = fleeChance;
         this.battleNum = battleNum;
+        this.slot = slot;
     }
 
     public String getCharacterName() {
