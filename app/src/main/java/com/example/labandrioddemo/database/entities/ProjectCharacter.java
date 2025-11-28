@@ -20,12 +20,13 @@ public class ProjectCharacter {
     private int atkMod;
     private int fleeChance;
     private int battleNum;
+    private int slot;
 
 
-    public ProjectCharacter(String characterName, int userID, int characterID, int lvl, int gold, int currHp, int maxHp, int atkMod, int fleeChance, int battleNum) {
+    public ProjectCharacter(String characterName, int userID, int lvl, int gold, int currHp,
+                            int maxHp, int atkMod, int fleeChance, int battleNum, int slot) {
         this.characterName = characterName;
         this.userID = userID;
-        this.characterID = characterID;
         this.lvl = lvl;
         this.gold = gold;
         this.currHp = currHp;
@@ -33,6 +34,7 @@ public class ProjectCharacter {
         this.atkMod = atkMod;
         this.fleeChance = fleeChance;
         this.battleNum = battleNum;
+        this.slot = slot;
     }
 
     public String getCharacterName() {
@@ -115,15 +117,23 @@ public class ProjectCharacter {
         this.battleNum = battleNum;
     }
 
+    public int getSlot() {
+        return slot;
+    }
+
+    public void setSlot(int slot) {
+        this.slot = slot;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (o == null || getClass() != o.getClass()) return false;
         ProjectCharacter that = (ProjectCharacter) o;
-        return userID == that.userID && lvl == that.lvl && gold == that.gold && currHp == that.currHp && maxHp == that.maxHp && atkMod == that.atkMod && fleeChance == that.fleeChance && battleNum == that.battleNum && Objects.equals(characterName, that.characterName) && Objects.equals(characterID, that.characterID);
+        return characterID == that.characterID && userID == that.userID && lvl == that.lvl && gold == that.gold && currHp == that.currHp && maxHp == that.maxHp && atkMod == that.atkMod && fleeChance == that.fleeChance && battleNum == that.battleNum && slot == that.slot && Objects.equals(characterName, that.characterName);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(characterName, userID, characterID, lvl, gold, currHp, maxHp, atkMod, fleeChance, battleNum);
+        return Objects.hash(characterID, characterName, userID, lvl, gold, currHp, maxHp, atkMod, fleeChance, battleNum, slot);
     }
 }
