@@ -18,6 +18,7 @@ import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
 
 public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
+    private static final int SLOT_NUMBER = 1;
     public static final String CHARACTER_SELECT_ACTIVITY_USER_ID = "com.example.labandrioddemo.CHARACTER_SELECT_ACTIVITY_USER_ID";
 
     private ActivityCharacterSelectBinding binding;
@@ -57,8 +58,9 @@ public class CharacterSelectActivity extends AppCompatActivity {
             }
         });
 
+
         // get the ProjectCharacter object corresponding to the logged in user
-        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByUserId(loggedInUserId);
+        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER);
         characterLiveData.observe(this, character -> {
             if(character != null) {
                 binding.character1Button.setText(character.getCharacterName());
