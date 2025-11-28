@@ -27,8 +27,9 @@ public interface CharacterDAO {
     LiveData<ProjectCharacter> getAllCharacterByName(String characterName);
 
     // TODO: Edit this to search via slot number as well. This is not complete as is.
-    @Query("SELECT * from " + AccountDatabase.CHARACTER_TABLE + " WHERE userID == :userId")
-    LiveData<ProjectCharacter> getCharacterByUserId(int userId);
+    @Query("SELECT * from " + AccountDatabase.CHARACTER_TABLE + " WHERE userID == :userId AND slot == :slot")
+    LiveData<ProjectCharacter> getCharacterByUserIdAndSlot(int userId, int slot);
+
 
     @Query("SELECT * from " + AccountDatabase.CHARACTER_TABLE + " WHERE characterID == :characterId")
     LiveData<ProjectCharacter> getCharacterByCharacterId(int characterId);
