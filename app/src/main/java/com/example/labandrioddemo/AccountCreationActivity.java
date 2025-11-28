@@ -11,12 +11,18 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityAccountCreationBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountCreationActivity extends AppCompatActivity {
     private ActivityAccountCreationBinding binding;
     private AccountRepository repository;
+    private boolean nullVerificationDone = false;
+    private List<Observer<ProjectCharacter>> activeObservers = new ArrayList<>();
 
     private User currentUserLogin;
 

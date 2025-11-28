@@ -17,6 +17,9 @@ import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityAdminPowersBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class AdminPowersActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityAdminPowersBinding binding;
@@ -24,6 +27,7 @@ public class AdminPowersActivity extends AppCompatActivity {
     private String searchName = "";
     private int searchId = -1;
     private boolean nullVerificationDone = false;
+    private List<Observer<ProjectCharacter>> activeObservers = new ArrayList<>();
     private ProjectCharacter currentCharacter;
     private Toast mToast;
 
@@ -96,12 +100,22 @@ public class AdminPowersActivity extends AppCompatActivity {
                     binding.characterLevelEdit.setText(character.getLvl() + "");
                     binding.characterCurrentHealthEdit.setText(character.getCurrHp() + "");
                     binding.characterMaxHealthEdit.setText(character.getMaxHp() + "");
+
                     characterLiveData.removeObserver(this);
+                    for(Observer<ProjectCharacter> obs : activeObservers) {
+                        characterLiveData.removeObserver(obs);
+                    }
                 } else {
                     if(nullVerificationDone) {
                         Toast.makeText(AdminPowersActivity.this, "Character does not exist.", Toast.LENGTH_SHORT).show();
                         nullVerificationDone = false;
+
+                        characterLiveData.removeObserver(this);
+                        for(Observer<ProjectCharacter> obs : activeObservers) {
+                            characterLiveData.removeObserver(obs);
+                        }
                     } else {
+                        activeObservers.add(this);
                         nullVerificationDone = true;
                     }
                 }
@@ -139,24 +153,6 @@ public class AdminPowersActivity extends AppCompatActivity {
 
 //        showToast("Character updated successfully!");
         Toast.makeText(this, "Character updated successfully!", Toast.LENGTH_SHORT).show();
-    }
-
-    private void showToast(String message) {
-        // Run this on the UI thread to be safe
-        runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                if (mToast == null) {
-                    // Create the Toast if it doesn't exist
-                    mToast = Toast.makeText(AdminPowersActivity.this, message, Toast.LENGTH_SHORT);
-                } else {
-                    // Just update the text and reset the duration
-                    mToast.setText(message);
-                    mToast.setDuration(Toast.LENGTH_SHORT);
-                }
-                mToast.show();
-            }
-        });
     }
 
     static Intent adminPowersIntentFactory(Context context, int userId, int characterId) {

@@ -15,8 +15,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -30,7 +34,9 @@ public class MainActivity extends AppCompatActivity {
     int loggedInUserId = LOGGED_OUT;
     private User user;
     private boolean loginNullVerificationDone = false; // this variable is used for the asynchronous calls in login and verifyUser. The update function is immediately called with a null value, this variable is set to true, and if the update is called again with a null value, then the username is invalid
+    private List<Observer<User>> loginActiveObservers = new ArrayList<>();
     private boolean verifyNullVerificationDone = false; // same as above, but for verify method
+    private List<Observer<User>> verifyActiveObservers = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +96,12 @@ public class MainActivity extends AppCompatActivity {
                 if(user != null) {
                     userLoginLiveData.removeObserver(this);
                     loginNullVerificationDone = false;
+
+                    userLoginLiveData.removeObserver(this);
+                    for(Observer<User> obs : loginActiveObservers) {
+                        userLoginLiveData.removeObserver(obs);
+                    }
+
                     Intent intent = CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId);
                     startActivity(intent);
                 } else {
@@ -97,7 +109,13 @@ public class MainActivity extends AppCompatActivity {
                         loggedInUserId = LOGGED_OUT;
                         updateSharedPreference();
                         loginNullVerificationDone = false;
+
+                        userLoginLiveData.removeObserver(this);
+                        for(Observer<User> obs : loginActiveObservers) {
+                            userLoginLiveData.removeObserver(obs);
+                        }
                     } else {
+                        loginActiveObservers.add(this);
                         loginNullVerificationDone = true;
                     }
 
@@ -151,7 +169,7 @@ public class MainActivity extends AppCompatActivity {
                         loggedInUserId = user.getId();
                         updateSharedPreference();
                         verifyNullVerificationDone = false;
-                        startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), user.getId())); //THE ERROR IS HERE
+                        startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), user.getId()));
                     } else {
                         Toast.makeText(MainActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
                     }

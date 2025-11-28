@@ -9,11 +9,15 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
@@ -24,6 +28,8 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
     int loggedInUserId = -1;
     private User user;
+    private CharacterSelectActivity thisHolder = this;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,28 +50,35 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
         // get the User object of the logged in user
         LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
-        userLiveData.observe(this, user -> {
-            if(user != null) {
-                this.user = user;
+        userLiveData.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    thisHolder.user = user;
 
-                // update the admin tag if the user is an admin
-                if (user != null && user.isAdmin()) {
-                    // Use a string resource instead of a literal
-                    binding.adminConfirmation.setText(getString(R.string.admin_true));
-                } else {
-                    binding.adminConfirmation.setText(getString(R.string.admin_false));
+                    // update the admin tag if the user is an admin
+                    if (user.isAdmin()) {
+                        // Use a string resource instead of a literal
+                        binding.adminConfirmation.setText(getString(R.string.admin_true));
+                        userLiveData.removeObserver(this);
+                    } else {
+                        binding.adminConfirmation.setText(getString(R.string.admin_false));
+                    }
                 }
-//                userLiveData.removeObserver(this);
             }
         });
 
         // get the ProjectCharacter object corresponding to the logged in user
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByUserId(loggedInUserId);
-        characterLiveData.observe(this, character -> {
-            if(character != null) {
-                binding.character1Button.setText(character.getCharacterName());
-            } else {
-                binding.character1Button.setText(getString(R.string.create_character));
+        characterLiveData.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if(character != null) {
+                    binding.character1Button.setText(character.getCharacterName());
+                    characterLiveData.removeObserver(this);
+                } else {
+                    binding.character1Button.setText(getString(R.string.create_character));
+                }
             }
         });
 
