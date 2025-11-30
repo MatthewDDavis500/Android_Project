@@ -21,7 +21,7 @@
             android:name=".townScreen"
             android:exported="false" />
         <activity
-            android:name=".VillageScreenActivity"
+            android:name=".battleScreenActivity"
             android:exported="false" />
         <activity
             android:name=".MainMenuActivity"
