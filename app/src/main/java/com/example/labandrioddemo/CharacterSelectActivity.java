@@ -34,6 +34,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private CharacterSelectActivity thisHolder = this;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,67 +74,85 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
         // get the ProjectCharacter object corresponding to the logged in user
         LiveData<ProjectCharacter> characterLiveData1 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_ONE);
-        characterLiveData1.observe(this, character -> {
-            if(character != null) {
-                binding.character1Button.setText(character.getCharacterName());
-                binding.character1Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext()));
-                    };
-                });
-            } else {
-                binding.character1Button.setText(getString(R.string.create_character));
-                binding.character1Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
-                    };
-                });
+        characterLiveData1.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if(character != null) {
+                    binding.character1Button.setText(character.getCharacterName());
+
+                    binding.character1Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, character.getCharacterID()));
+                        }
+                    });
+
+                    characterLiveData1.removeObserver(this);
+                } else {
+                    binding.character1Button.setText(getString(R.string.create_character));
+                    binding.character1Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                        }
+                    });
+                }
             }
         });
 
         // get the ProjectCharacter object corresponding to the logged in user
         LiveData<ProjectCharacter> characterLiveData2 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_TWO);
-        characterLiveData2.observe(this, character -> {
-            if(character != null) {
-                binding.character2Button.setText(character.getCharacterName());
-                binding.character2Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext()));
-                    };
-                });
-            } else {
-                binding.character2Button.setText(getString(R.string.create_character));
-                binding.character2Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
-                    };
-                });
+        characterLiveData2.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if (character != null) {
+                    binding.character2Button.setText(character.getCharacterName());
+
+                    binding.character2Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, character.getCharacterID()));
+                        }
+                    });
+
+                    characterLiveData2.removeObserver(this);
+                } else {
+                    binding.character2Button.setText(getString(R.string.create_character));
+                    binding.character2Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                        }
+                    });
+                }
             }
         });
 
         // get the ProjectCharacter object corresponding to the logged in user
         LiveData<ProjectCharacter> characterLiveData3 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_THREE);
-        characterLiveData3.observe(this, character -> {
-            if(character != null) {
-                binding.character3Button.setText(character.getCharacterName());
-                binding.character3Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext()));
-                    };
-                });
-            } else {
-                binding.character3Button.setText(getString(R.string.create_character));
-                binding.character3Button.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
-                    };
-                });
+        characterLiveData3.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if (character != null) {
+                    binding.character3Button.setText(character.getCharacterName());
+
+                    binding.character3Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, character.getCharacterID()));
+                        }
+                    });
+
+                    characterLiveData3.removeObserver(this);
+                } else {
+                    binding.character3Button.setText(getString(R.string.create_character));
+                    binding.character3Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                        }
+                    });
+                }
             }
         });
 
@@ -157,6 +176,10 @@ public class CharacterSelectActivity extends AppCompatActivity {
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
         sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
         sharedPrefEditor.apply();
+    }
+
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     static Intent characterSelectIntentFactory(Context context, int userId) {

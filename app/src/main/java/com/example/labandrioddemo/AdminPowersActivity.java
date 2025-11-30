@@ -6,6 +6,7 @@ import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_CHA
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.view.View;
 import android.widget.Toast;
 
@@ -26,10 +27,7 @@ public class AdminPowersActivity extends AppCompatActivity {
     private AccountRepository repository;
     private String searchName = "";
     private int searchId = -1;
-    private boolean nullVerificationDone = false;
-    private List<Observer<ProjectCharacter>> activeObservers = new ArrayList<>();
     private ProjectCharacter currentCharacter;
-    private Toast mToast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +36,19 @@ public class AdminPowersActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         repository = AccountRepository.getRepository(getApplication());
+
+        binding.characterSearchToggle.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(binding.characterSearchToggle.isChecked()) {
+                    binding.characterSearchBar.setInputType(InputType.TYPE_CLASS_TEXT);
+                    binding.characterSearchBar.setText("");
+                } else {
+                    binding.characterSearchBar.setInputType(InputType.TYPE_CLASS_NUMBER);
+                    binding.characterSearchBar.setText("");
+                }
+            }
+        });
 
         binding.adminSearchButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -71,10 +82,10 @@ public class AdminPowersActivity extends AppCompatActivity {
 
             // data validation
             if(searchId == -1) {
-                Toast.makeText(this, "Please enter a valid ID.", Toast.LENGTH_SHORT).show();
+                makeToast("Please enter a valid ID.");
                 return;
             } else if(searchId < 0) {
-                Toast.makeText(this, "ID cannot be negative.", Toast.LENGTH_SHORT).show();
+                makeToast("ID cannot be negative.");
                 return;
             }
 
@@ -91,6 +102,8 @@ public class AdminPowersActivity extends AppCompatActivity {
             @Override
             public void onChanged(ProjectCharacter character) {
                 if(character != null) {
+                    makeToast("Character found.");
+
                     currentCharacter = character;
                     binding.currentCharacterNameTextView.setText("Name: " + character.getCharacterName());
                     binding.currentCharacterIdTextView.setText("Character ID: " + character.getCharacterID());
@@ -102,22 +115,8 @@ public class AdminPowersActivity extends AppCompatActivity {
                     binding.characterMaxHealthEdit.setText(character.getMaxHp() + "");
 
                     characterLiveData.removeObserver(this);
-                    for(Observer<ProjectCharacter> obs : activeObservers) {
-                        characterLiveData.removeObserver(obs);
-                    }
                 } else {
-                    if(nullVerificationDone) {
-                        Toast.makeText(AdminPowersActivity.this, "Character does not exist.", Toast.LENGTH_SHORT).show();
-                        nullVerificationDone = false;
-
-                        characterLiveData.removeObserver(this);
-                        for(Observer<ProjectCharacter> obs : activeObservers) {
-                            characterLiveData.removeObserver(obs);
-                        }
-                    } else {
-                        activeObservers.add(this);
-                        nullVerificationDone = true;
-                    }
+                    makeToast("Character does not exist.");
                 }
             }
         });
@@ -126,22 +125,22 @@ public class AdminPowersActivity extends AppCompatActivity {
     private void updateCharacterProperties() {
         // check to make sure there is a character selected to edit
         if(currentCharacter == null) {
-//            Toast.makeText(this, "Please search for a character to edit", Toast.LENGTH_SHORT).show();
+            makeToast("Please search for a character to edit.");
             return;
         }
 
         // validate data
         if(binding.characterGoldEdit.getText().toString().isEmpty()) {
-//            Toast.makeText(this, "Gold may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Gold may not be empty.");
             return;
         } else if(binding.characterLevelEdit.getText().toString().isEmpty()) {
-//            Toast.makeText(this, "Level may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Level may not be empty.");
             return;
         } else if(binding.characterCurrentHealthEdit.getText().toString().isEmpty()) {
-//            Toast.makeText(this, "Current HP may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Current HP may not be empty.");
             return;
         } else if(binding.characterMaxHealthEdit.getText().toString().isEmpty()) {
-//            Toast.makeText(this, "Max HP may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Max HP may not be empty.");
             return;
         }
 
@@ -150,9 +149,13 @@ public class AdminPowersActivity extends AppCompatActivity {
         currentCharacter.setLvl(Integer.parseInt(binding.characterLevelEdit.getText().toString()));
         currentCharacter.setCurrHp(Integer.parseInt(binding.characterCurrentHealthEdit.getText().toString()));
         currentCharacter.setMaxHp(Integer.parseInt(binding.characterMaxHealthEdit.getText().toString()));
+        repository.updateCharacter(currentCharacter);
 
-//        showToast("Character updated successfully!");
-        Toast.makeText(this, "Character updated successfully!", Toast.LENGTH_SHORT).show();
+        makeToast("Character updated successfully!");
+    }
+
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     static Intent adminPowersIntentFactory(Context context, int userId, int characterId) {
