@@ -126,4 +126,11 @@ public class AccountRepository {
     public LiveData<ProjectCharacter> getCharacterByCharacterId(int characterId) {
         return characterDAO.getCharacterByCharacterId(characterId);
     }
+
+    public void updateCharacter(ProjectCharacter character) {
+        // Run this on the background thread
+        AccountDatabase.databaseWriteExecutor.execute(() -> {
+            characterDAO.updateCharacter(character);
+        });
+    }
 }
