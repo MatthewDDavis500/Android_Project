@@ -11,13 +11,17 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityAccountCreationBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AccountCreationActivity extends AppCompatActivity {
     private ActivityAccountCreationBinding binding;
     private AccountRepository repository;
-
+    private boolean nullVerificationDone = false;
     private User currentUserLogin;
 
     @Override
@@ -46,18 +50,18 @@ public class AccountCreationActivity extends AppCompatActivity {
 
         // Validate that username isn't empty
         if(username.isEmpty()) {
-            Toast.makeText(this, "Username may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Username may not be empty.");
             return;
         }
 
         // Validate password
         String password = binding.passwordCreateEditText.getText().toString();
         if(password.isEmpty()) {
-            Toast.makeText(this, "Password may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Password may not be empty.");
             return;
         }
         if(!password.equals(binding.passwordConfirmEditText.getText().toString())) {
-            Toast.makeText(this, "Passwords don't match!", Toast.LENGTH_SHORT).show();
+            makeToast("Passwords don't match!");
             return;
         }
 
@@ -76,20 +80,30 @@ public class AccountCreationActivity extends AppCompatActivity {
                     }
                     repository.insertUser(newUser);
 
-                    userObserver.removeObserver(this); // remove observer to prevent multiple firings
+                    nullVerificationDone = false;
+                    userObserver.removeObserver(this);
 
                     // Send user to MainActivity to sign in
                     startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
                 } else {
-                    Toast.makeText(thisHolder, "Username already exists.", Toast.LENGTH_SHORT).show();
-                }
+                    if(nullVerificationDone) {
+                        makeToast("Username already exists.");
+                        nullVerificationDone = false;
 
-                userObserver.removeObserver(this); // remove observer to prevent multiple firings
+                        userObserver.removeObserver(this);
+                    } else {
+                        nullVerificationDone = true;
+                    }
+                }
             }
         });
     }
 
-    static Intent accountCreationActivityIntentFactory(Context context) {
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    static Intent accountCreationIntentFactory(Context context) {
         return new Intent(context, AccountCreationActivity.class);
     }
 }

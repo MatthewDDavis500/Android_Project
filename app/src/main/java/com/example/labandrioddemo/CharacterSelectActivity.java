@@ -16,15 +16,23 @@ import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
-    public static final String CHARACTER_SELECT_ACTIVITY_USER_ID = "com.example.labandrioddemo.CHARACTER_SELECT_ACTIVITY_USER_ID";
+    private static final int SLOT_NUMBER_ONE = 1;
+    private static final int SLOT_NUMBER_TWO = 2;
+    private static final int SLOT_NUMBER_THREE = 3;
+    public static final String COMP_DOOM_ACTIVITY_USER_ID = "com.example.labandrioddemo.COMP_DOOM_ACTIVITY_USER_ID";
 
     private ActivityCharacterSelectBinding binding;
     private AccountRepository repository;
-
     int loggedInUserId = -1;
     private User user;
+    private CharacterSelectActivity thisHolder = this;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +44,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
         repository = AccountRepository.getRepository(getApplication());
 
         // update loggedInUserId using the intent extra
-        loggedInUserId = getIntent().getIntExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
+        loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
 
         // if the user is somehow still logged out, send them back to MainActivity to login
         if(loggedInUserId == LOGGED_OUT) {
@@ -45,25 +53,117 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
         // get the User object of the logged in user
         LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
-        userLiveData.observe(this, user -> {
-            this.user = user;
+        userLiveData.observe(this, new Observer<User>() {
+            @Override
+            public void onChanged(User user) {
+                if (user != null) {
+                    thisHolder.user = user;
 
-            // update the admin tag if the user is an admin
-            if(user != null && user.isAdmin()) {
-                // Use a string resource instead of a literal
-                binding.adminConfirmation.setText(getString(R.string.admin_true));
-            } else {
-                binding.adminConfirmation.setText(getString(R.string.admin_false));
+                    // update the admin tag if the user is an admin
+                    if (user.isAdmin()) {
+                        // Use a string resource instead of a literal
+                        binding.adminConfirmation.setText(getString(R.string.admin_true));
+                        userLiveData.removeObserver(this);
+                    } else {
+                        binding.adminConfirmation.setText(getString(R.string.admin_false));
+                    }
+                }
             }
         });
 
         // get the ProjectCharacter object corresponding to the logged in user
-        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByUserId(loggedInUserId);
-        characterLiveData.observe(this, character -> {
-            if(character != null) {
-                binding.character1Button.setText(character.getCharacterName());
-            } else {
-                binding.character1Button.setText(getString(R.string.create_character));
+        LiveData<ProjectCharacter> characterLiveData1 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_ONE);
+        characterLiveData1.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if(character != null) {
+                    binding.character1Button.setText(character.getCharacterName());
+
+                    binding.character1Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                                    loggedInUserId,
+                                    character.getCharacterID(),
+                                    user.isAdmin()
+                            ));
+                        }
+                    });
+
+                    characterLiveData1.removeObserver(this);
+                } else {
+                    binding.character1Button.setText(getString(R.string.create_character));
+                    binding.character1Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                        }
+                    });
+                }
+            }
+        });
+
+        // get the ProjectCharacter object corresponding to the logged in user
+        LiveData<ProjectCharacter> characterLiveData2 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_TWO);
+        characterLiveData2.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if (character != null) {
+                    binding.character2Button.setText(character.getCharacterName());
+
+                    binding.character2Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                                    loggedInUserId,
+                                    character.getCharacterID(),
+                                    user.isAdmin()
+                                ));
+                        }
+                    });
+
+                    characterLiveData2.removeObserver(this);
+                } else {
+                    binding.character2Button.setText(getString(R.string.create_character));
+                    binding.character2Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                        }
+                    });
+                }
+            }
+        });
+
+        // get the ProjectCharacter object corresponding to the logged in user
+        LiveData<ProjectCharacter> characterLiveData3 = repository.getCharacterByUserIdAndSlot(loggedInUserId, SLOT_NUMBER_THREE);
+        characterLiveData3.observe(this, new Observer<ProjectCharacter>() {
+            @Override
+            public void onChanged(ProjectCharacter character) {
+                if (character != null) {
+                    binding.character3Button.setText(character.getCharacterName());
+
+                    binding.character3Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                                    loggedInUserId,
+                                    character.getCharacterID(),
+                                    user.isAdmin()
+                            ));
+                        }
+                    });
+
+                    characterLiveData3.removeObserver(this);
+                } else {
+                    binding.character3Button.setText(getString(R.string.create_character));
+                    binding.character3Button.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                        }
+                    });
+                }
             }
         });
 
@@ -78,7 +178,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private void logout() {
         loggedInUserId = LOGGED_OUT;
         updateSharedPreference();
-        getIntent().putExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
+        getIntent().putExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
     }
 
@@ -89,9 +189,13 @@ public class CharacterSelectActivity extends AppCompatActivity {
         sharedPrefEditor.apply();
     }
 
-    static Intent characterSelectActivityIntentFactory(Context context, int userId) {
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
+
+    static Intent characterSelectIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, CharacterSelectActivity.class);
-        intent.putExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, userId);
+        intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         return intent;
     }
 }

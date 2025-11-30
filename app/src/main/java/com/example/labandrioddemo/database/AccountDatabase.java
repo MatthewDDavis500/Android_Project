@@ -16,7 +16,7 @@ import com.example.labandrioddemo.database.entities.User;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, ProjectCharacter.class}, version = 5, exportSchema = false)
+@Database(entities = {User.class, ProjectCharacter.class}, version = 6, exportSchema = false)
 public abstract class AccountDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     public static final String CHARACTER_TABLE = "charactertable";
@@ -61,9 +61,13 @@ public abstract class AccountDatabase extends RoomDatabase {
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
 
-                ProjectCharacter name = new ProjectCharacter("testdummy1", 2, 4321, 1, 500000,
-                        5, 100, 5, 7, 52);
-                cdao.insert(name);
+                ProjectCharacter userTestCharacter = new ProjectCharacter("testdummy1", 2, 1, 500000,
+                        5, 100, 5, 7, 52, 1);
+                cdao.insert(userTestCharacter);
+
+                ProjectCharacter adminTestCharacter = new ProjectCharacter("testdummy2", 1, 1, 500000,
+                        5, 100, 5, 7, 52, 1);
+                cdao.insert(adminTestCharacter);
             });
         }
     };

@@ -62,7 +62,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="75dp"
         app:layout_constraintTop_toBottomOf="@+id/hpTextView"
         android:id="@+id/nextMissionButton"
         android:text="Next Mission"
@@ -75,7 +75,7 @@
 
     <Button
         android:layout_width="match_parent"
-        android:layout_height="105dp"
+        android:layout_height="75dp"
         app:layout_constraintTop_toBottomOf="@+id/nextMissionButton"
         android:id="@+id/visitTownButton"
         android:text="Visit Town"
@@ -84,6 +84,33 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:backgroundTint="@color/black"
+        />
+
+    <Button
+        android:id="@+id/adminPowersButton"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/black"
+        android:text="Admin Powers"
+        android:textSize="32sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/visitTownButton"
+        android:visibility="invisible"
+        />
+
+    <Button
+        android:id="@+id/mainMenuBackButton"
+        android:layout_width="match_parent"
+        android:layout_height="75dp"
+        android:layout_margin="16dp"
+        android:backgroundTint="@color/red"
+        android:text="Back to Character Select"
+        android:textSize="28sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/adminPowersButton"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

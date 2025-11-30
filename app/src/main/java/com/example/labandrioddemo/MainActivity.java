@@ -1,6 +1,6 @@
 package com.example.labandrioddemo;
 
-import static com.example.labandrioddemo.CharacterSelectActivity.CHARACTER_SELECT_ACTIVITY_USER_ID;
+import static com.example.labandrioddemo.CharacterSelectActivity.COMP_DOOM_ACTIVITY_USER_ID;
 
 import android.content.Context;
 import android.content.Intent;
@@ -15,8 +15,12 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityMainBinding;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -28,9 +32,8 @@ public class MainActivity extends AppCompatActivity {
     private ActivityMainBinding binding;
     private AccountRepository repository;
     int loggedInUserId = LOGGED_OUT;
+    private boolean loginNullVerificationDone = false;
     private User user;
-    private boolean loginNullVerificationDone = false; // this variable is used for the asynchronous calls in login and verifyUser. The update function is immediately called with a null value, this variable is set to true, and if the update is called again with a null value, then the username is invalid
-    private boolean verifyNullVerificationDone = false; // same as above, but for verify method
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         binding.signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(AccountCreationActivity.accountCreationActivityIntentFactory(getApplicationContext()));
+                startActivity(AccountCreationActivity.accountCreationIntentFactory(getApplicationContext()));
             }
         });
     }
@@ -77,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
             loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
         }
         if(loggedInUserId == LOGGED_OUT) {
-            loggedInUserId = getIntent().getIntExtra(CHARACTER_SELECT_ACTIVITY_USER_ID, LOGGED_OUT);
+            loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         }
         if(loggedInUserId == LOGGED_OUT) {
             return;
@@ -89,17 +92,21 @@ public class MainActivity extends AppCompatActivity {
             public void onChanged(User user) {
                 if(user != null) {
                     loginNullVerificationDone = false;
-                    Intent intent = CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), loggedInUserId);
+
+                    userLoginLiveData.removeObserver(this);
+
+                    Intent intent = CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId);
                     startActivity(intent);
                 } else {
                     if(loginNullVerificationDone) {
                         loggedInUserId = LOGGED_OUT;
                         updateSharedPreference();
                         loginNullVerificationDone = false;
+
+                        userLoginLiveData.removeObserver(this);
                     } else {
                         loginNullVerificationDone = true;
                     }
-
                 }
             }
         });
@@ -133,7 +140,7 @@ public class MainActivity extends AppCompatActivity {
         String username = binding.userNameLoginEditText.getText().toString();
 
         if(username.isEmpty()) {
-            Toast.makeText(this, "Username may not be empty.", Toast.LENGTH_SHORT).show();
+            makeToast("Username may not be empty.");
             return;
         }
 
@@ -144,25 +151,27 @@ public class MainActivity extends AppCompatActivity {
                 if(user != null) {
                     String password = binding.passwordLoginEditText.getText().toString();
 
+                    userVerifyLiveData.removeObserver(this);
+
                     if(password.equals(user.getPassword())) {
 //                        invalidateOptionsMenu();
                         loggedInUserId = user.getId();
                         updateSharedPreference();
-                        verifyNullVerificationDone = false;
-                        startActivity(CharacterSelectActivity.characterSelectActivityIntentFactory(getApplicationContext(), user.getId())); //THE ERROR IS HERE
+                        makeToast("Successful Login!!!!");
+
+                        startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), user.getId()));
                     } else {
-                        Toast.makeText(MainActivity.this, "Invalid password.", Toast.LENGTH_SHORT).show();
+                        makeToast("Invalid password.");
                     }
                 } else {
-                    if(verifyNullVerificationDone) {
-                        Toast.makeText(MainActivity.this, username + " is not a valid username.", Toast.LENGTH_SHORT).show();
-                        verifyNullVerificationDone = false;
-                    } else {
-                        verifyNullVerificationDone = true;
-                    }
+                    makeToast(username + " is not a valid username.");
                 }
             }
         });
+    }
+
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     /**
