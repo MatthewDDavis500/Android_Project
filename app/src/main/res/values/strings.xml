@@ -25,4 +25,21 @@
     <string name="health_1S">Health +1</string>
     <string name="flee_chance_1S">Flee Chance +1</string>
     <string name="backS">Back</string>
+    <string name="welcome_admin">Welcome Admin</string>
+    <string name="editing_character">Character Info:</string>
+    <string name="character_name">Name:</string>
+    <string name="character_id">Character ID:</string>
+    <string name="user">User ID:</string>
+    <string name="edit_properties">Edit Properties:</string>
+    <string name="gold_edit_label">Gold:</string>
+    <string name="level_edit_label">Level:</string>
+    <string name="current_hp_edit_label">Current HP:</string>
+    <string name="max_hp_edit_label">Max HP:</string>
+    <string name="save_changes">Save Changes</string>
+    <string name="search_by_id">Search By ID</string>
+    <string name="search_by_name">Search By Name</string>
+    <string name="enter_a_positive_integer">Enter a positive integer</string>
+    <string name="admin_edit_default_value">0</string>
+    <string name="admin_search_button_label">Go</string>
+    <string name="back_to_menu_admin">Back to Menu</string>
 </resources>

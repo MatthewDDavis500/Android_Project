@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LabAndriodDemo">
         <activity
+            android:name=".AdminPowersActivity"
+            android:exported="false" />
+        <activity
             android:name=".townShopActivity"
             android:exported="false" />
         <activity
@@ -19,9 +22,6 @@
             android:exported="false" />
         <activity
             android:name=".VillageScreenActivity"
-            android:exported="false" />
-        <activity
-            android:name=".AdminMenuActivity"
             android:exported="false" />
         <activity
             android:name=".MainMenuActivity"
