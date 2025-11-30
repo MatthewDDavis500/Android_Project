@@ -2,6 +2,7 @@ package com.example.labandrioddemo;
 
 import static com.example.labandrioddemo.CharacterSelectActivity.COMP_DOOM_ACTIVITY_USER_ID;
 import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_CHARACTER_ID;
+import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_IS_ADMIN_ID;
 
 import android.content.Context;
 import android.content.Intent;
@@ -69,7 +70,9 @@ public class AdminPowersActivity extends AppCompatActivity {
             public void onClick(View v) {
                 startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
                     getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
-                    getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT)));
+                    getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT),
+                    getIntent().getBooleanExtra(COMP_DOOM_ACTIVITY_IS_ADMIN_ID, false)
+                ));
             }
         });
     }
@@ -158,10 +161,11 @@ public class AdminPowersActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    static Intent adminPowersIntentFactory(Context context, int userId, int characterId) {
+    static Intent adminPowersIntentFactory(Context context, int userId, int characterId, boolean isAdmin) {
         Intent intent = new Intent(context, AdminPowersActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
+        intent.putExtra(COMP_DOOM_ACTIVITY_IS_ADMIN_ID, isAdmin);
         return intent;
     }
 }

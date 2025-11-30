@@ -28,7 +28,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
 
     private ActivityCharacterSelectBinding binding;
     private AccountRepository repository;
-
     int loggedInUserId = -1;
     private User user;
     private CharacterSelectActivity thisHolder = this;
@@ -83,7 +82,11 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, character.getCharacterID()));
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                                    loggedInUserId,
+                                    character.getCharacterID(),
+                                    user.isAdmin()
+                            ));
                         }
                     });
 
@@ -111,7 +114,11 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, character.getCharacterID()));
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                                    loggedInUserId,
+                                    character.getCharacterID(),
+                                    user.isAdmin()
+                                ));
                         }
                     });
 
@@ -139,7 +146,11 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, character.getCharacterID()));
+                            startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                                    loggedInUserId,
+                                    character.getCharacterID(),
+                                    user.isAdmin()
+                            ));
                         }
                     });
 
