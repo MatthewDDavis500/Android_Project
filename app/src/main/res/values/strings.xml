@@ -17,7 +17,7 @@
     <string name="levelT">Level: ###</string>
     <string name="goldT">Gold: ###</string>
     <string name="hpT">HP ##/##</string>
-    <string name="rest_x_goldT">Rest(X Gold)</string>
+    <string name="rest_x_goldT">Rest \n(Replenish 25% HP for 10 Gold)</string>
     <string name="shopT">Shop</string>
     <string name="leaveT">Leave</string>
     <string name="goldS">Gold: ###</string>
