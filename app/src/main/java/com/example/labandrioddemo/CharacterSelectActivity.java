@@ -84,8 +84,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
                                     loggedInUserId,
-                                    character.getCharacterID(),
-                                    user.isAdmin()
+                                    character.getCharacterID()
                             ));
                         }
                     });
@@ -116,8 +115,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
                                     loggedInUserId,
-                                    character.getCharacterID(),
-                                    user.isAdmin()
+                                    character.getCharacterID()
                                 ));
                         }
                     });
@@ -148,8 +146,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                         public void onClick(View view) {
                             startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
                                     loggedInUserId,
-                                    character.getCharacterID(),
-                                    user.isAdmin()
+                                    character.getCharacterID()
                             ));
                         }
                     });
