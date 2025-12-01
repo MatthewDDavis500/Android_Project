@@ -90,7 +90,7 @@ public class TownScreenActivity extends AppCompatActivity {
     }
 
     static Intent townScreenIntentFactory(Context context, int userId, int characterId) {
-        Intent intent = new Intent(context, MainMenuActivity.class);
+        Intent intent = new Intent(context, TownScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;
