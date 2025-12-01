@@ -61,7 +61,7 @@
         app:layout_constraintTop_toBottomOf="@+id/hpTextView"
         android:id="@+id/restButton"
         android:text="@string/rest_x_goldT"
-        android:textSize="32sp"
+        android:textSize="22sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
