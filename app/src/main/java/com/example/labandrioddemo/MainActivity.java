@@ -112,6 +112,10 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * saves the state of the device, used before closing to keep things intact.
+     * @param outState Bundle in which to place your saved state.
+     */
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
@@ -175,7 +179,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     /**
-     * Intent factory for MainActivity
+     * Intent factory for MainActivity, passes context and the class
      * @param context Application context
      * @return an Intent for the MainActivity
      */

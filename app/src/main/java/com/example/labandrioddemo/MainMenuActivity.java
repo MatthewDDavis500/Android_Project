@@ -32,7 +32,9 @@ public class MainMenuActivity extends AppCompatActivity {
         binding.nextMissionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // open mission activity
+                startActivity(BattleScreenActivity.BattleScreenIntentFactory(getApplicationContext(),
+                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT)
+                ));
             }
         });
 
