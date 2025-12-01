@@ -59,6 +59,16 @@ public class TownScreenActivity extends AppCompatActivity {
             }
         });
 
+        binding.leaveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
+                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
+                        loggedInCharacterId
+                ));
+            }
+        });
+
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             @Override
