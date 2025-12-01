@@ -18,7 +18,7 @@
             android:name=".townShopActivity"
             android:exported="false" />
         <activity
-            android:name=".townScreen"
+            android:name=".TownScreenActivity"
             android:exported="false" />
         <activity
             android:name=".battleScreenActivity"
