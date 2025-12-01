@@ -39,7 +39,7 @@ public class BattleScreenActivity extends AppCompatActivity {
                     characterLiveData.removeObserver(this);
                     thisHolder.character = character;
                     binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
-                    binding.battleName.setText("Battle " + battleNum);
+                    binding.battleName.setText("Battle " + character.getBattleNum());
                 }
             }
         });
