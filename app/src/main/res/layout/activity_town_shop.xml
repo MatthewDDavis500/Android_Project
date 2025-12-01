@@ -5,10 +5,10 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".townShopActivity">
+    tools:context=".TownShopActivity">
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="150dip"
+        android:layout_height="100dip"
         android:text="Town Shop"
         android:id="@+id/townShopTextView"
         android:textSize="42sp"
@@ -22,14 +22,50 @@
         />
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="100dip"
+        android:layout_height="50dip"
         android:text="@string/goldS"
         android:id="@+id/goldTextView"
         app:layout_constraintTop_toBottomOf="@+id/townShopTextView"
         android:layout_margin="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:textSize="24sp"
+        android:textSize="30sp"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:text="Attack Modifier: +#"
+        android:id="@+id/atkModTextView"
+        app:layout_constraintTop_toBottomOf="@+id/goldTextView"
+        android:layout_margin="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="22sp"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:text="Health: ##/##"
+        android:id="@+id/healthTextView"
+        app:layout_constraintTop_toBottomOf="@+id/atkModTextView"
+        android:layout_margin="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="22sp"
+        android:gravity="center"
+        />
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:text="Flee Chance: #%"
+        android:id="@+id/fleeChanceTextView"
+        app:layout_constraintTop_toBottomOf="@+id/healthTextView"
+        android:layout_margin="6dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textSize="22sp"
         android:gravity="center"
         />
     <Button
@@ -37,8 +73,8 @@
         android:layout_height="95dp"
         android:id="@+id/damageButton"
         android:text="@string/damage_1S"
-        app:layout_constraintTop_toBottomOf="@+id/goldTextView"
-        android:textSize="32sp"
+        app:layout_constraintTop_toBottomOf="@+id/fleeChanceTextView"
+        android:textSize="28sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -50,7 +86,7 @@
         android:id="@+id/healthButton"
         android:text="@string/health_1S"
         app:layout_constraintTop_toBottomOf="@+id/damageButton"
-        android:textSize="32sp"
+        android:textSize="28sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -62,7 +98,7 @@
         android:id="@+id/fleeChanceButton"
         android:text="@string/flee_chance_1S"
         app:layout_constraintTop_toBottomOf="@+id/healthButton"
-        android:textSize="32sp"
+        android:textSize="28sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -78,7 +114,7 @@
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:backgroundTint="@color/black"
+        android:backgroundTint="@color/red"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
