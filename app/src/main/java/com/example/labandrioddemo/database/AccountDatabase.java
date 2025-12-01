@@ -62,11 +62,11 @@ public abstract class AccountDatabase extends RoomDatabase {
                 dao.insert(testUser1);
 
                 ProjectCharacter userTestCharacter = new ProjectCharacter("testdummy1", 2, 1, 500000,
-                        5, 100, 5, 7, 52, 1);
+                        5, 100, 5, 7, 52, 1, 1);
                 cdao.insert(userTestCharacter);
 
                 ProjectCharacter adminTestCharacter = new ProjectCharacter("testdummy2", 1, 1, 500000,
-                        5, 100, 5, 7, 52, 1);
+                        5, 100, 5, 7, 52, 1, 1);
                 cdao.insert(adminTestCharacter);
             });
         }
