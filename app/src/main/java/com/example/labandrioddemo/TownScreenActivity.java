@@ -21,6 +21,7 @@ public class TownScreenActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityTownScreenBinding binding;
     private AccountRepository repository;
+    private TownScreenActivity thisHolder = this;
     private ProjectCharacter character;
     private int loggedInCharacterId = LOGGED_OUT;
 
@@ -37,25 +38,7 @@ public class TownScreenActivity extends AppCompatActivity {
         binding.restButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(character != null) {
-                    if(character.getGold() < 10) {
-                        makeToast("Insufficient gold.");
-                    } else if(character.getCurrHp() == character.getMaxHp()) {
-                        makeToast("Already at full health.");
-                    } else {
-                        character.setGold(character.getGold() - 10);
-
-                        int currentHp = character.getCurrHp();
-                        currentHp += character.getMaxHp() / 4;
-                        if(currentHp > character.getMaxHp()) {
-                            currentHp = character.getMaxHp();
-                        }
-                        character.setCurrHp(currentHp);
-
-                        repository.updateCharacter(character);
-                        makeToast("Rest Successful.");
-                    }
-                }
+                restCharacter();
             }
         });
 
@@ -74,6 +57,8 @@ public class TownScreenActivity extends AppCompatActivity {
             @Override
             public void onChanged(ProjectCharacter character) {
                 if(character != null) {
+                    thisHolder.character = character;
+
                     binding.levelTextView.setText("Level: " + character.getLvl());
                     binding.goldTextView.setText("Gold: " + character.getGold());
                     binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
@@ -83,6 +68,30 @@ public class TownScreenActivity extends AppCompatActivity {
             }
         });
 
+    }
+
+    private void restCharacter() {
+        if(character != null) {
+            if(character.getGold() < 10) {
+                makeToast("Insufficient gold.");
+            } else if(character.getCurrHp() == character.getMaxHp()) {
+                makeToast("Already at full health.");
+            } else {
+                character.setGold(character.getGold() - 10);
+
+                int currentHp = character.getCurrHp();
+                currentHp += character.getMaxHp() / 4;
+                if(currentHp > character.getMaxHp()) {
+                    currentHp = character.getMaxHp();
+                }
+                character.setCurrHp(currentHp);
+
+                repository.updateCharacter(character);
+                binding.goldTextView.setText("Gold: " + character.getGold());
+                binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
+                makeToast("Rest Successful.");
+            }
+        }
     }
 
     public void makeToast(String message) {
