@@ -85,7 +85,7 @@ public class MainMenuActivity extends AppCompatActivity {
         binding.visitTownButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // open town activity
+                startActivity(TownScreenActivity.townScreenIntentFactory(getApplicationContext(), loggedInUserId, loggedInCharacterId));
             }
         });
 
