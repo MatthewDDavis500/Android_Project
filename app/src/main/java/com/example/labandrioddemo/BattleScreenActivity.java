@@ -73,8 +73,20 @@ public class BattleScreenActivity extends AppCompatActivity {
         binding.fleeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int chance = random.nextInt(0,10);
-                if (monsterCurHp <= 0)
+                int chance = random.nextInt(1 + character.getFleeChance(),10);
+                if (monsterCurHp <= 0) {
+                    //go back to mainMenu
+                } else if (character.getCurrHp() <= 0) {
+                    //go back to character create and terminate character
+                } else {
+                    if (chance > 5) {
+                        // return to main menu
+                    } else {
+                        binding.currentSituationTextView.setText("You tried to flee and failed!");
+                        character.setCurrHp(character.getCurrHp() - random.nextInt(character.getBattleNum(),5 + character.getBattleNum()));
+                        binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
+                    }
+                }
             }
         });
     }
