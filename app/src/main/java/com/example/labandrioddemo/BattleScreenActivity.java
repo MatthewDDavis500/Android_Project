@@ -63,9 +63,9 @@ public class BattleScreenActivity extends AppCompatActivity {
                     if (monsterCurHp > 0) {
                         binding.currentSituationTextView.setText(character.getCharacterName() + " did and took damage.");
                     }
-                    binding.currentSituationTextView.setText("You beat the monster! Flee to return to village");
+                    binding.currentSituationTextView.setText("You beat the monster!");
                 } else {
-                    binding.currentSituationTextView.setText("You died! Flee to return to character creation");
+                    binding.currentSituationTextView.setText("You died!");
                 }
             }
         });
@@ -75,9 +75,9 @@ public class BattleScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int chance = random.nextInt(1 + character.getFleeChance(),10);
                 if (monsterCurHp <= 0) {
-                    //go back to mainMenu
+                    //go to victory screen
                 } else if (character.getCurrHp() <= 0) {
-                    //go back to character create and terminate character
+                    //go to loss screen
                 } else {
                     if (chance > 5) {
                         // return to main menu
