@@ -111,12 +111,12 @@ public class TownShopActivity extends AppCompatActivity {
 
     private void buyFleeChance() {
         if(character != null) {
-            if(character.getGold() < 30) {
+            if(character.getGold() < 10) {
                 makeToast("Insufficient gold.");
             } else if(character.getFleeChance() >= 100) {
                 makeToast("Flee Chance already 100%.");
             } else {
-                character.setGold(character.getGold() - 30);
+                character.setGold(character.getGold() - 10);
 
                 character.setFleeChance(character.getFleeChance() + 5);
 
