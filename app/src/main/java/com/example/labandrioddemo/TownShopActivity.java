@@ -35,10 +35,10 @@ public class TownShopActivity extends AppCompatActivity {
 
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
 
-        binding.damageButton.setOnClickListener(new View.OnClickListener() {
+        binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyDamage();
+                buyAttack();
             }
         });
 
@@ -74,7 +74,7 @@ public class TownShopActivity extends AppCompatActivity {
         });
     }
 
-    private void buyDamage() {
+    private void buyAttack() {
         if(character != null) {
             if(character.getGold() < 20) {
                 makeToast("Insufficient gold.");

@@ -71,7 +71,7 @@
     <Button
         android:layout_width="match_parent"
         android:layout_height="95dp"
-        android:id="@+id/damageButton"
+        android:id="@+id/attackButton"
         android:text="@string/damage_1S"
         app:layout_constraintTop_toBottomOf="@+id/fleeChanceTextView"
         android:textSize="28sp"
@@ -85,7 +85,7 @@
         android:layout_height="95dp"
         android:id="@+id/healthButton"
         android:text="@string/health_1S"
-        app:layout_constraintTop_toBottomOf="@+id/damageButton"
+        app:layout_constraintTop_toBottomOf="@+id/attackButton"
         android:textSize="28sp"
         android:layout_margin="16dp"
         app:layout_constraintStart_toStartOf="parent"
