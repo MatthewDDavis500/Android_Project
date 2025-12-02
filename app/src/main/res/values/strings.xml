@@ -23,7 +23,7 @@
     <string name="goldS">Gold: ###</string>
     <string name="damage_1S">Attack Modifier +1 \n (20 gold)</string>
     <string name="health_1S">Max Health +5 \n (30 gold)</string>
-    <string name="flee_chance_1S">Flee Chance +5% \n (10 gold)</string>
+    <string name="flee_chance_1S">Flee Chance +10% \n (10 gold)</string>
     <string name="backS">Back</string>
     <string name="enemy_hpV">Enemy Hp: ##/##</string>
     <string name="current_situationV">Current Situation</string>
