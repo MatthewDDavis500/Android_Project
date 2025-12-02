@@ -42,6 +42,16 @@ public class TownScreenActivity extends AppCompatActivity {
             }
         });
 
+        binding.shopButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(TownShopActivity.townShopIntentFactory(getApplicationContext(),
+                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
+                        loggedInCharacterId
+                ));
+            }
+        });
+
         binding.leaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -15,7 +15,7 @@
             android:name=".AdminPowersActivity"
             android:exported="false" />
         <activity
-            android:name=".townShopActivity"
+            android:name=".TownShopActivity"
             android:exported="false" />
         <activity
             android:name=".TownScreenActivity"
