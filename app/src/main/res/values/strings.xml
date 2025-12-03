@@ -47,4 +47,11 @@
     <string name="admin_edit_default_value">0</string>
     <string name="admin_search_button_label">Go</string>
     <string name="back_to_menu_admin">Back to Menu</string>
+    <string name="victory">Victory</string>
+    <string name="level_up">Level Up!</string>
+    <string name="gold_gained">## Gold gained</string>
+    <string name="returnV">Return</string>
+    <string name="game_over">Game Over</string>
+    <string name="restartGO">Restart</string>
+    <string name="final_levelGO">Final Level</string>
 </resources>
