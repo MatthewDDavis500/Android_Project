@@ -5,13 +5,13 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".VictoryScreen">
+    tools:context=".GameOverScreenActivity">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="150dip"
-        android:id="@+id/victory"
+        android:id="@+id/gameOverTextView"
         android:textSize="42sp"
-        android:text="@string/victory"
+        android:text="@string/game_over"
         android:gravity="center"
         android:layout_margin="16dip"
         app:layout_constraintTop_toTopOf="parent"
@@ -22,21 +22,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="55dp"
-        android:text="@string/gold_gained"
-        app:layout_constraintTop_toBottomOf="@id/victory"
-        android:layout_margin="6dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/goldGainedTextView"
-        android:textSize="24sp"
-        android:gravity="center"
-        />
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="55dp"
-        android:text="@string/level_up"
-        android:id="@+id/levelUpTextView"
-        app:layout_constraintTop_toBottomOf="@id/goldGainedTextView"
+        android:id="@+id/finalLevelTextView"
+        android:text="@string/final_levelGO"
+        app:layout_constraintTop_toBottomOf="@id/gameOverTextView"
         android:layout_margin="6dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,18 +33,16 @@
         />
 
     <Button
-        android:id="@+id/returnButton"
+        android:id="@+id/RestartButton"
         android:layout_width="match_parent"
         android:layout_height="105dp"
         android:layout_margin="16dp"
-        android:layout_marginTop="292dp"
         android:backgroundTint="@color/black"
-        android:text="@string/returnV"
+        android:text="@string/restartGO"
         android:textSize="32sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/levelUpTextView"
-        app:layout_constraintVertical_bias="1.0" />
+        app:layout_constraintTop_toBottomOf="@id/finalLevelTextView"
+        app:layout_constraintVertical_bias="0.959" />
 </androidx.constraintlayout.widget.ConstraintLayout>
