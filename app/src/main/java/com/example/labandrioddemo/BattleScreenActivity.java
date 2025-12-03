@@ -34,6 +34,9 @@ public class BattleScreenActivity extends AppCompatActivity {
         repository = AccountRepository.getRepository(getApplication());
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, -1));
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
+            /**
+             * Creates the initial layout of the screen by pulling data related to character
+             */
             @Override
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
@@ -50,6 +53,9 @@ public class BattleScreenActivity extends AppCompatActivity {
         });
         //Don't put stuff here, too slow ^
 
+        /**
+         * On click listener for attack, does damage to both player and monster, checks if either are dead.
+         */
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,14 +68,19 @@ public class BattleScreenActivity extends AppCompatActivity {
                 if (character.getCurrHp() > 0) {
                     if (monsterCurHp > 0) {
                         binding.currentSituationTextView.setText(character.getCharacterName() + " did and took damage.");
+                    } else {
+                        binding.currentSituationTextView.setText("You beat the monster!");
                     }
-                    binding.currentSituationTextView.setText("You beat the monster!");
                 } else {
                     binding.currentSituationTextView.setText("You died!");
                 }
             }
         });
 
+        /**
+         * Flee button rolls to see if you escape and tells you if you did, also move you to victory or loss
+         * based on game state.
+         */
         binding.fleeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -80,7 +91,7 @@ public class BattleScreenActivity extends AppCompatActivity {
                     //go to loss screen
                 } else {
                     if (chance > 5) {
-                        // return to main menu
+                        startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                     } else {
                         binding.currentSituationTextView.setText("You tried to flee and failed!");
                         character.setCurrHp(character.getCurrHp() - random.nextInt(character.getBattleNum(),5 + character.getBattleNum()));
@@ -92,7 +103,12 @@ public class BattleScreenActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * BattleScreenIntentFactory takes in context and characterId for accessing all the related data
+     * @param context the screen
+     * @param characterId the id for the selected character
+     * @return the intent
+     */
     static Intent BattleScreenIntentFactory(Context context, int characterId) {
         Intent intent = new Intent(context, BattleScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
