@@ -17,13 +17,13 @@
     <string name="levelT">Level: ###</string>
     <string name="goldT">Gold: ###</string>
     <string name="hpT">HP ##/##</string>
-    <string name="rest_x_goldT">Rest(X Gold)</string>
+    <string name="rest_x_goldT">Rest \n(Replenish 25% HP for 10 Gold)</string>
     <string name="shopT">Shop</string>
     <string name="leaveT">Leave</string>
     <string name="goldS">Gold: ###</string>
-    <string name="damage_1S">Damage +1</string>
-    <string name="health_1S">Health +1</string>
-    <string name="flee_chance_1S">Flee Chance +1</string>
+    <string name="damage_1S">Attack Modifier +1 \n (20 gold)</string>
+    <string name="health_1S">Max Health +5 \n (30 gold)</string>
+    <string name="flee_chance_1S">Flee Chance +10% \n (10 gold)</string>
     <string name="backS">Back</string>
     <string name="enemy_hpV">Enemy Hp: ##/##</string>
     <string name="current_situationV">Current Situation</string>

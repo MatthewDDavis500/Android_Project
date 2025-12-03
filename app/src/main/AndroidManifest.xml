@@ -15,13 +15,13 @@
             android:name=".AdminPowersActivity"
             android:exported="false" />
         <activity
-            android:name=".townShopActivity"
+            android:name=".TownShopActivity"
             android:exported="false" />
         <activity
-            android:name=".townScreen"
+            android:name=".TownScreenActivity"
             android:exported="false" />
         <activity
-            android:name=".battleScreenActivity"
+            android:name=".BattleScreenActivity"
             android:exported="false" />
         <activity
             android:name=".MainMenuActivity"
