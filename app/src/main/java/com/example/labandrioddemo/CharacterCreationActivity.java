@@ -7,12 +7,15 @@ import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityCharacterCreationBinding;
 
 public class CharacterCreationActivity extends AppCompatActivity {
     private ActivityCharacterCreationBinding binding;
     private ProjectCharacter character;
+
+    private AccountRepository repository;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -24,11 +27,12 @@ public class CharacterCreationActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), character.getCharacterID()));
+
             }
         });
     }
 
     static Intent characterCreationIntentFactory(Context context) {
-        return new Intent(context, CharacterSelectActivity.class);
+        return new Intent(context, CharacterCreationActivity.class);
     }
 }
