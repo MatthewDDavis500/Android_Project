@@ -89,6 +89,12 @@ public class AccountRepository {
         });
     }
 
+    public void deleteCharacter(ProjectCharacter character) {
+        AccountDatabase.databaseWriteExecutor.execute(() -> {
+            characterDAO.delete(character);
+        });
+    }
+
     /**
      * Search the AccountDatabase for a User by username
      * @param username Username string to search users by
