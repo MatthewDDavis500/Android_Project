@@ -56,6 +56,16 @@ public class TownShopActivity extends AppCompatActivity {
             }
         });
 
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(TownScreenActivity.townScreenIntentFactory(getApplicationContext(),
+                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
+                        loggedInCharacterId
+                ));
+            }
+        });
+
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             @Override
