@@ -16,7 +16,8 @@ public class BattleHistory {
     private int remainingHp;
     private boolean isWin;
 
-    public BattleHistory(int battleNumber, int remainingHp, boolean isWin) {
+    public BattleHistory(int characterId, int battleNumber, int remainingHp, boolean isWin) {
+        this.characterId = characterId;
         this.battleNumber = battleNumber;
         this.remainingHp = remainingHp;
         this.isWin = isWin;

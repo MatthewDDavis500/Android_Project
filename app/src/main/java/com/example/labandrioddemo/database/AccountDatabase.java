@@ -73,7 +73,7 @@ public abstract class AccountDatabase extends RoomDatabase {
                         5, 100, 100, 7, 52, 1);
                 cdao.insert(adminTestCharacter);
 
-                BattleHistory battleHistory = new BattleHistory(1, 10, true);
+                BattleHistory battleHistory = new BattleHistory(1, 10, 10, false);
                 bdao.insert(battleHistory);
             });
         }
