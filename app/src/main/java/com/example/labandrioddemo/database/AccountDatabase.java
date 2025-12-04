@@ -10,16 +10,18 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.example.labandrioddemo.MainActivity;
+import com.example.labandrioddemo.database.entities.BattleHistory;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-@Database(entities = {User.class, ProjectCharacter.class}, version = 6, exportSchema = false)
+@Database(entities = {User.class, ProjectCharacter.class, BattleHistory.class}, version = 7, exportSchema = false)
 public abstract class AccountDatabase extends RoomDatabase {
     public static final String USER_TABLE = "usertable";
     public static final String CHARACTER_TABLE = "charactertable";
+    public static final String BATTLE_HISTORY_TABLE = "battle_history_table";
     private static final String DATABASE_NAME = "Accountdatabase";
     private static volatile AccountDatabase INSTANCE;
     private static final int NUMBER_OF_THREADS = 4;
@@ -51,8 +53,10 @@ public abstract class AccountDatabase extends RoomDatabase {
             databaseWriteExecutor.execute(() -> {
                 UserDAO dao = INSTANCE.userDAO();
                 CharacterDAO cdao = INSTANCE.characterDAO();
+                BattleHistoryDAO bdao = INSTANCE.battleHistoryDAO();
                 dao.deleteAll();
                 cdao.deleteAll();
+                bdao.deleteAll();
 
                 User admin = new User("admin2", "admin2");
                 admin.setAdmin(true);
@@ -61,13 +65,16 @@ public abstract class AccountDatabase extends RoomDatabase {
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
 
-                ProjectCharacter userTestCharacter = new ProjectCharacter("testdummy1", 2, 1, 500000,
-                        5, 100, 100, 7, 52, 1, 1);
+                ProjectCharacter userTestCharacter = new ProjectCharacter("testdummy1", 1, 1, 500000,
+                        5, 100, 100, 7, 52, 1);
                 cdao.insert(userTestCharacter);
 
                 ProjectCharacter adminTestCharacter = new ProjectCharacter("testdummy2", 1, 1, 500000,
-                        5, 100, 100, 7, 52, 1, 1);
+                        5, 100, 100, 7, 52, 1);
                 cdao.insert(adminTestCharacter);
+
+                BattleHistory battleHistory = new BattleHistory(1, 10, true);
+                bdao.insert(battleHistory);
             });
         }
     };
@@ -75,4 +82,5 @@ public abstract class AccountDatabase extends RoomDatabase {
     public abstract UserDAO userDAO();
 
     public abstract CharacterDAO characterDAO();
+    public abstract BattleHistoryDAO battleHistoryDAO();
 }
