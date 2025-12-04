@@ -78,7 +78,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if(character != null) {
                     binding.character1Button.setText(character.getCharacterName());
-
+                    characterLiveData1.removeObserver(this);
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -89,7 +89,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
                         }
                     });
 
-                    characterLiveData1.removeObserver(this);
                 } else {
                     binding.character1Button.setText(getString(R.string.create_character));
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
@@ -109,7 +108,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     binding.character2Button.setText(character.getCharacterName());
-
+                    characterLiveData2.removeObserver(this);
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -119,8 +118,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
                                 ));
                         }
                     });
-
-                    characterLiveData2.removeObserver(this);
                 } else {
                     binding.character2Button.setText(getString(R.string.create_character));
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
@@ -140,7 +137,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     binding.character3Button.setText(character.getCharacterName());
-
+                    characterLiveData3.removeObserver(this);
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -150,8 +147,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
                             ));
                         }
                     });
-
-                    characterLiveData3.removeObserver(this);
                 } else {
                     binding.character3Button.setText(getString(R.string.create_character));
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
