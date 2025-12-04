@@ -12,6 +12,9 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LabAndriodDemo">
         <activity
+            android:name=".BattleHistoryActivity"
+            android:exported="false" />
+        <activity
             android:name=".GameOverScreenActivity"
             android:exported="false" />
         <activity
