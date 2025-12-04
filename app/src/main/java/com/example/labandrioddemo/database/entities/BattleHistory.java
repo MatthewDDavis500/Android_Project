@@ -74,4 +74,19 @@ public class BattleHistory {
     public int hashCode() {
         return Objects.hash(battleNumber, recordKey, remainingHp, isWin);
     }
+
+    @Override
+    public String toString() {
+        String result = "";
+
+        if(isWin) {
+            result = "Victory";
+        } else {
+            result = "Defeat";
+        }
+
+        return "Battle " + battleNumber + ":\n" +
+                "    Result: " + result + "\n" +
+                "    Remaining HP: " + remainingHp;
+    }
 }
