@@ -12,6 +12,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.LabAndriodDemo">
         <activity
+            android:name=".GameOverScreenActivity"
+            android:exported="false" />
+        <activity
+            android:name=".VictoryScreen"
+            android:exported="false" />
+        <activity
             android:name=".AdminPowersActivity"
             android:exported="false" />
         <activity
