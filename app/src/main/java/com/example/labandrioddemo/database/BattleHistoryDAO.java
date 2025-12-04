@@ -19,8 +19,8 @@ public interface BattleHistoryDAO {
     @Delete
     void delete(BattleHistory battleHistory);
 
-    @Query("SELECT * from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE battleNumber == :battleNumber")
-    LiveData<BattleHistory> getAllBattleNumbers(int battleNumber);
+    @Query("SELECT * from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId")
+    LiveData<BattleHistory> getBattleByCharacterId(int characterId);
 
     @Query("DELETE from " + AccountDatabase.BATTLE_HISTORY_TABLE)
     void deleteAll();

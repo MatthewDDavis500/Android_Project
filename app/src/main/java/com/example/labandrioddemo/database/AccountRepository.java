@@ -137,7 +137,7 @@ public class AccountRepository {
         });
     }
 
-    public LiveData<BattleHistory> getAllBattleNumbers(int battleNumber) {
-        return battleHistoryDAO.getAllBattleNumbers(battleNumber);
+    public LiveData<BattleHistory> getAllBattleNumbers(int characterId) {
+        return battleHistoryDAO.getBattleByCharacterId(characterId);
     }
 }
