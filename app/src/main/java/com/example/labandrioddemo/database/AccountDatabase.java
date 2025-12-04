@@ -65,7 +65,7 @@ public abstract class AccountDatabase extends RoomDatabase {
                 User testUser1 = new User("testuser1", "testuser1");
                 dao.insert(testUser1);
 
-                ProjectCharacter userTestCharacter = new ProjectCharacter("testdummy1", 1, 1, 500000,
+                ProjectCharacter userTestCharacter = new ProjectCharacter("testdummy1", 2, 1, 500000,
                         5, 100, 100, 7, 52, 1);
                 cdao.insert(userTestCharacter);
 
@@ -73,7 +73,7 @@ public abstract class AccountDatabase extends RoomDatabase {
                         5, 100, 100, 7, 52, 1);
                 cdao.insert(adminTestCharacter);
 
-                BattleHistory battleHistory = new BattleHistory(1, 10, 10, false);
+                BattleHistory battleHistory = new BattleHistory(userTestCharacter.getCharacterID(), 10, 0, false);
                 bdao.insert(battleHistory);
             });
         }
