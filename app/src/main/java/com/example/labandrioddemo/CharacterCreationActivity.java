@@ -39,7 +39,8 @@ public class CharacterCreationActivity extends AppCompatActivity {
 
                 repository.insertCharacter(character);
 
-                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), character.getCharacterID()));
+                // Steven's genius
+                finish();
             }
         });
     }
