@@ -90,7 +90,7 @@ public class BattleScreenActivity extends AppCompatActivity {
             public void onClick(View v) {
                 int chance = random.nextInt(1 + character.getFleeChance(),10);
                 if (monsterCurHp <= 0) {
-                    startActivity(VictoryScreen.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
+                    startActivity(VictoryScreenActivity.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                 } else if (character.getCurrHp() <= 0) {
                     startActivity(GameOverScreenActivity.GameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
                 } else {
