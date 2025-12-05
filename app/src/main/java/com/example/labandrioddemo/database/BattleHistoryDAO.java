@@ -20,7 +20,7 @@ public interface BattleHistoryDAO {
     @Delete
     void delete(BattleHistory battleHistory);
 
-    @Query("SELECT * from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId ORDER BY battleNumber")
+    @Query("SELECT * from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId ORDER BY battleNumber AND recordKey")
     LiveData<List<BattleHistory>> getBattleByCharacterId(int characterId);
 
     @Query("DELETE from " + AccountDatabase.BATTLE_HISTORY_TABLE)

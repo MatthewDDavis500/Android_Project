@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.BattleHistory;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityBattleScreenBinding;
 import java.util.Random;
@@ -112,6 +113,10 @@ public class BattleScreenActivity extends AppCompatActivity {
 
                     if (chance == 10) {
                         repository.updateCharacter(character);
+
+                        BattleHistory battleRecord = new BattleHistory(character.getCharacterID(), character.getBattleNum(), character.getCurrHp(), false);
+                        repository.insertBattleHistory(battleRecord);
+
                         makeToast("Flee successful!");
                         startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                     } else {
