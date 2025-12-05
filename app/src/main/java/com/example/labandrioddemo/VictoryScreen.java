@@ -17,12 +17,15 @@ import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityVictoryScreenBinding;
 
+import java.util.Random;
+
 
 public class VictoryScreen extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityVictoryScreenBinding binding;
     private AccountRepository repository;
     private ProjectCharacter character;
+    private Random random;
     private int loggedInCharacterId = LOGGED_OUT;
 
 
@@ -40,7 +43,8 @@ public class VictoryScreen extends AppCompatActivity {
                     characterLiveData.removeObserver(this);
                     VictoryScreen.this.character = character;
                     VictoryScreen.this.loggedInCharacterId = character.getCharacterID();
-                    binding.goldGainedTextView.setText(character.getGold() + " gold gained");
+                    int goldGained = random.nextInt(3,5) * character.getBattleNum();
+                    binding.goldGainedTextView.setText(goldGained + " gold gained");
                 }
             }
         });
