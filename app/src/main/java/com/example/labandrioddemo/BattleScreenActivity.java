@@ -109,9 +109,9 @@ public class BattleScreenActivity extends AppCompatActivity {
                     repository.updateCharacter(character);
                     startActivity(GameOverScreenActivity.GameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
                 } else {
-                    int chance = random.nextInt(1 + character.getFleeChance(),11);
+                    int fleeRoll = random.nextInt(1,101);
 
-                    if (chance == 10) {
+                    if (fleeRoll <= character.getFleeChance()) {
                         repository.updateCharacter(character);
 
                         BattleHistory battleRecord = new BattleHistory(character.getCharacterID(), character.getBattleNum(), character.getCurrHp(), false);
