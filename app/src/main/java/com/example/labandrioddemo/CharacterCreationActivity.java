@@ -99,15 +99,15 @@ public class CharacterCreationActivity extends AppCompatActivity {
         if(characterClass.equals("knight")) {
             character = new ProjectCharacter(name, userId, 1, 20,
                     120, 120, 2,
-                    5, 1, slot);
+                    20, 1, slot);
         } else if(characterClass.equals("ranger")) {
             character = new ProjectCharacter(name, userId, 1, 40,
                     80, 80, 1,
-                    5, 1, slot);
+                    60, 1, slot);
         } else if(characterClass.equals("mage")) {
-            character = new ProjectCharacter(name, userId, 1, 0,
+            character = new ProjectCharacter(name, userId, 1, 10,
                     100, 100, 4,
-                    5, 1, slot);
+                    10, 1, slot);
         } else {
             makeToast("Character must have a class.");
             return false;
