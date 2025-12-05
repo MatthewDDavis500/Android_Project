@@ -14,7 +14,7 @@
         android:textSize="42sp"
         android:text="@string/welcome_adventurer_charactername"
         android:gravity="center"
-        android:layout_margin="16dip"
+        android:layout_margin="32dip"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         android:layout_marginBottom="24dip"
