@@ -25,7 +25,7 @@ public class VictoryScreenActivity extends AppCompatActivity {
     private ActivityVictoryScreenBinding binding;
     private AccountRepository repository;
     private ProjectCharacter character;
-    private Random random;
+    private Random random = Random.Default;
     private int loggedInCharacterId = LOGGED_OUT;
     private VictoryScreenActivity thisHolder = this;
 
@@ -44,14 +44,15 @@ public class VictoryScreenActivity extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     characterLiveData.removeObserver(this);
+                    thisHolder.character = character;
 
                     BattleHistory battleRecord = new BattleHistory(loggedInCharacterId, character.getBattleNum(), character.getCurrHp(), true);
                     repository.insertBattleHistory(battleRecord);
 
-                    thisHolder.character = character;
                     int goldGained = random.nextInt(3,5) * character.getBattleNum();
                     binding.goldGainedTextView.setText(goldGained + " gold gained");
                     character.setGold(character.getGold() + goldGained);
+
                     character.setBattleNum(character.getBattleNum() + 1);
                     if (character.getLvl() * 2 == character.getBattleNum()) {
                         character.setLvl(character.getLvl() + 1);
@@ -59,6 +60,8 @@ public class VictoryScreenActivity extends AppCompatActivity {
                     } else {
                         binding.levelUpTextView.setText(" ");
                     }
+
+                    repository.updateCharacter(character);
                 }
             }
         });
