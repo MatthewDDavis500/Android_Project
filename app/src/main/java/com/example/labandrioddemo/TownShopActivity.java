@@ -133,7 +133,7 @@ public class TownShopActivity extends AppCompatActivity {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.fleeChanceTextView.setText("Flee Chance: " + character.getFleeChance() + "%");
-                makeToast("Purchased +5% to Flee Chance.");
+                makeToast("Purchased +10% to Flee Chance.");
             }
         }
     }
