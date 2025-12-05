@@ -1,11 +1,22 @@
 package com.example.labandrioddemo;
 
 import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_CHARACTER_ID;
+
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import com.example.labandrioddemo.database.AccountRepository;
@@ -20,6 +31,8 @@ public class BattleScreenActivity extends AppCompatActivity {
     private int battleNum;
     private int monsterMaxHp;
     private int monsterCurHp;
+    private static final String CHANNEL_ID = "MESSAGE_CHANNEL";
+    private static final int NOTIFICATION_ID= 1;
 
     Random random = new Random();
 
@@ -32,6 +45,7 @@ public class BattleScreenActivity extends AppCompatActivity {
         binding = ActivityBattleScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         repository = AccountRepository.getRepository(getApplication());
+        createNotificationChannel();
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, -1));
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             /**
@@ -70,9 +84,11 @@ public class BattleScreenActivity extends AppCompatActivity {
                         binding.currentSituationTextView.setText(character.getCharacterName() + " did and took damage.");
                     } else {
                         binding.currentSituationTextView.setText("You beat the monster!");
+                        showBattleNotification("You Ween");
                     }
                 } else {
                     binding.currentSituationTextView.setText("You died!");
+                    showBattleNotification("Skill Issue");
                 }
             }
         });
@@ -87,8 +103,10 @@ public class BattleScreenActivity extends AppCompatActivity {
                 int chance = random.nextInt(1 + character.getFleeChance(),10);
                 if (monsterCurHp <= 0) {
                     //go to victory screen
+                    showBattleNotification("You Ween");
                 } else if (character.getCurrHp() <= 0) {
                     //go to loss screen
+                    showBattleNotification("Skill Issue");
                 } else {
                     if (chance > 5) {
                         startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
@@ -102,6 +120,39 @@ public class BattleScreenActivity extends AppCompatActivity {
         });
     }
 
+    private void createNotificationChannel() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            CharSequence name = getString(R.string.character_name);
+            String description = "Notifications about battle outcomes";
+            int importance = NotificationManager.IMPORTANCE_DEFAULT;
+            NotificationChannel channel = new NotificationChannel(CHANNEL_ID, name, importance);
+            channel.setDescription(description);
+
+            NotificationManager notificationManager = getSystemService(NotificationManager.class);
+            notificationManager.createNotificationChannel(channel);
+        }
+    }
+
+    private void showBattleNotification(String message) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            return;
+        }
+        Intent intent = new Intent(this, BattleScreenActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_launcher_background)
+                .setContentTitle("Battle Decision")
+                .setContentText(message)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+                .setContentIntent(pendingIntent);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(1, builder.build());
+
+        NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, builder.build());
+    }
 
     /**
      * BattleScreenIntentFactory takes in context and characterId for accessing all the related data
