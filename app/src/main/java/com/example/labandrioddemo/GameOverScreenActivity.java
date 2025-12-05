@@ -47,6 +47,7 @@ public class GameOverScreenActivity extends AppCompatActivity {
         binding.RestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                repository.deleteBattleHistoryByCharacterId(character.getCharacterID());
                 repository.deleteCharacter(character);
                 startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), character.getUserID()));
             }

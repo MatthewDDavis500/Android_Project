@@ -3,7 +3,7 @@
     <string name="create_character">Create Character</string>
     <string name="create_character2">Create Character</string>
     <string name="create_character3">Create Character</string>
-    <string name="welcome_adventurer_charactername">Welcome Adventurer CharacterName</string>
+    <string name="welcome_adventurer_charactername">Welcome\nAdventurer\nCharacterName</string>
     <string name="level">Level: ###</string>
     <string name="hp">Hp: ##/##</string>
     <string name="gold">Gold: ###</string>
@@ -55,5 +55,5 @@
     <string name="restartGO">Restart</string>
     <string name="final_levelGO">Final Level</string>
     <string name="back_to_main_menu_history">Back to Main Menu</string>
-    <string name="charactername_s_nhistory">CharacterName\'s\nHistory</string>
+    <string name="charactername_s_nhistory">Battle History</string>
 </resources>
