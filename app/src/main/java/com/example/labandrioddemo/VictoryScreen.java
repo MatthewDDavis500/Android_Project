@@ -45,6 +45,7 @@ public class VictoryScreen extends AppCompatActivity {
                     VictoryScreen.this.loggedInCharacterId = character.getCharacterID();
                     int goldGained = random.nextInt(3,5) * character.getBattleNum();
                     binding.goldGainedTextView.setText(goldGained + " gold gained");
+                    character.setGold(character.getGold() + goldGained);
                 }
             }
         });
