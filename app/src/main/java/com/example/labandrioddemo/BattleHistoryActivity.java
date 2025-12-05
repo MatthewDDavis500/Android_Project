@@ -30,16 +30,18 @@ public class BattleHistoryActivity extends AppCompatActivity {
         binding = ActivityBattleHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // receive values from intent extras
         loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
 
+        // setting up recycler view
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
-
         RecyclerView recyclerView = binding.historyRecyclerView;
         final HistoryAdapter adapter = new HistoryAdapter(new HistoryAdapter.HistoryDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // binding recycler view to battle histories database call
         historyViewModel.getBattleByCharacterId(loggedInCharacterId).observe(this, battleHistories -> {
             adapter.submitList(battleHistories);
         });
@@ -50,8 +52,6 @@ public class BattleHistoryActivity extends AppCompatActivity {
                 startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, loggedInCharacterId));
             }
         });
-
-
     }
 
     static Intent battleHistoryIntentFactory(Context context, int userId, int characterId) {
