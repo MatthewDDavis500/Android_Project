@@ -13,7 +13,6 @@ import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
-import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityMainMenuBinding;
 
 public class MainMenuActivity extends AppCompatActivity {
@@ -23,9 +22,6 @@ public class MainMenuActivity extends AppCompatActivity {
     private AccountRepository repository;
     private int loggedInUserId = LOGGED_OUT;
     private int loggedInCharacterId = LOGGED_OUT;
-    private User user;
-    private ProjectCharacter character;
-    private MainMenuActivity thisHolder = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,26 +33,6 @@ public class MainMenuActivity extends AppCompatActivity {
 
         loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
-
-        // get the User object of the logged in user
-//        LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
-//        userLiveData.observe(this, new Observer<User>() {
-//            @Override
-//            public void onChanged(User user) {
-//                if (user != null) {
-//                    thisHolder.user = user;
-//
-//
-//                    if (user.isAdmin()) {
-//                        binding.adminPowersButton.setVisibility(View.VISIBLE);
-//                    } else {
-//                        binding.adminPowersButton.setVisibility(View.INVISIBLE);
-//                    }
-//
-//                    userLiveData.removeObserver(this);
-//                }
-//            }
-//        });
 
         // get the ProjectCharacter object corresponding to the logged in user
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);

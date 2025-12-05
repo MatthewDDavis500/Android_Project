@@ -15,12 +15,8 @@ import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
-import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityMainBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 
 public class MainActivity extends AppCompatActivity {
@@ -33,7 +29,6 @@ public class MainActivity extends AppCompatActivity {
     private AccountRepository repository;
     int loggedInUserId = LOGGED_OUT;
     private boolean loginNullVerificationDone = false;
-    private User user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

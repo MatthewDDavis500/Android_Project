@@ -24,7 +24,6 @@ public class VictoryScreenActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityVictoryScreenBinding binding;
     private AccountRepository repository;
-    private ProjectCharacter character;
     private Random random = Random.Default;
     private int loggedInCharacterId = LOGGED_OUT;
     private VictoryScreenActivity thisHolder = this;
@@ -44,7 +43,6 @@ public class VictoryScreenActivity extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     characterLiveData.removeObserver(this);
-                    thisHolder.character = character;
 
                     BattleHistory battleRecord = new BattleHistory(loggedInCharacterId, character.getBattleNum(), character.getCurrHp(), true);
                     repository.insertBattleHistory(battleRecord);

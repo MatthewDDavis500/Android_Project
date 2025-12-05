@@ -30,14 +30,11 @@ public class BattleScreenActivity extends AppCompatActivity {
 
     private ActivityBattleScreenBinding binding;
     private AccountRepository repository;
-    private int battleNum;
     private int monsterMaxHp;
     private int monsterCurHp;
     private static final String CHANNEL_ID = "MESSAGE_CHANNEL";
-    private static final int NOTIFICATION_ID= 1;
-
+    private static final int NOTIFICATION_ID = 1;
     Random random = new Random();
-
     private ProjectCharacter character;
     private BattleScreenActivity thisHolder = this;
 

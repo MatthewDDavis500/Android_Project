@@ -1,7 +1,6 @@
 package com.example.labandrioddemo;
 
 import static com.example.labandrioddemo.CharacterSelectActivity.COMP_DOOM_ACTIVITY_USER_ID;
-import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_CHARACTER_ID;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,9 +16,6 @@ import androidx.lifecycle.Observer;
 import com.example.labandrioddemo.database.AccountRepository;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityAdminPowersBinding;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class AdminPowersActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;

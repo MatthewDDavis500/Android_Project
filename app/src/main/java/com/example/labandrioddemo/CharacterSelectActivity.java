@@ -16,9 +16,6 @@ import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityCharacterSelectBinding;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class CharacterSelectActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private static final int SLOT_NUMBER_ONE = 1;
@@ -29,7 +26,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private ActivityCharacterSelectBinding binding;
     private AccountRepository repository;
     int loggedInUserId = -1;
-    private User user;
     private CharacterSelectActivity thisHolder = this;
 
     @Override
@@ -55,8 +51,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if (user != null) {
-                    thisHolder.user = user;
-
                     // update the admin tag if the user is an admin
                     if (user.isAdmin()) {
                         // Use a string resource instead of a literal
@@ -188,10 +182,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
         sharedPrefEditor.putInt(getString(R.string.preference_userId_key), loggedInUserId);
         sharedPrefEditor.apply();
-    }
-
-    public void makeToast(String message) {
-        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     static Intent characterSelectIntentFactory(Context context, int userId) {
