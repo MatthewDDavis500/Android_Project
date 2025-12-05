@@ -56,4 +56,5 @@
     <string name="final_levelGO">Final Level</string>
     <string name="back_to_main_menu_history">Back to Main Menu</string>
     <string name="charactername_s_nhistory">Battle History</string>
+    <string name="admin_powers_button_text">Admin Powers</string>
 </resources>
