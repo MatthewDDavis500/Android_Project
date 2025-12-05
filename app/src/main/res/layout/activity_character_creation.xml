@@ -37,46 +37,49 @@
         />
 
     <Switch
+        android:id="@+id/knightClass"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        app:layout_constraintTop_toBottomOf="@+id/nameEnterEditText"
+        android:layout_margin="40dp"
+        android:checked="false"
+        android:gravity="center"
         android:text="Knight"
         android:textSize="20sp"
-        android:layout_margin="40dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/knightClass"
-        android:gravity="center"
-        tools:ignore="UseSwitchCompatOrMaterialXml"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/nameEnterEditText"
+        tools:checked="false"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Switch
+        android:id="@+id/rangerClass"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        app:layout_constraintTop_toBottomOf="@+id/knightClass"
+        android:layout_margin="40dp"
+        android:checked="false"
+        android:gravity="center"
         android:text="Ranger"
         android:textSize="20sp"
-        android:layout_margin="40dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/rangerClass"
-        android:gravity="center"
-        tools:ignore="UseSwitchCompatOrMaterialXml"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/knightClass"
+        tools:checked="false"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
     <Switch
+        android:id="@+id/mageClass"
         android:layout_width="match_parent"
         android:layout_height="45dp"
-        app:layout_constraintTop_toBottomOf="@+id/rangerClass"
+        android:layout_margin="40dp"
+        android:checked="false"
+        android:gravity="center"
         android:text="Mage"
         android:textSize="20sp"
-        android:layout_margin="40dp"
-        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:id="@+id/mageClass"
-        android:gravity="center"
-        tools:ignore="UseSwitchCompatOrMaterialXml"
-        />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rangerClass"
+        tools:checked="false"
+        tools:ignore="UseSwitchCompatOrMaterialXml" />
 
 
     <Button
