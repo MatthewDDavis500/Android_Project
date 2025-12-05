@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
@@ -110,6 +112,7 @@ public class BattleScreenActivity extends AppCompatActivity {
 
                     if (chance == 10) {
                         repository.updateCharacter(character);
+                        makeToast("Flee successful!");
                         startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                     } else {
                         binding.currentSituationTextView.setText("You tried to flee and failed!");
@@ -121,6 +124,9 @@ public class BattleScreenActivity extends AppCompatActivity {
         });
     }
 
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * BattleScreenIntentFactory takes in context and characterId for accessing all the related data
