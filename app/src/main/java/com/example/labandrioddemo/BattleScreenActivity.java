@@ -5,10 +5,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.BattleHistory;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityBattleScreenBinding;
 import java.util.Random;
@@ -59,13 +62,24 @@ public class BattleScreenActivity extends AppCompatActivity {
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Monster attacks player
                 int monsterDmg = random.nextInt(character.getBattleNum() - 1,3 + character.getBattleNum());
                 if (monsterCurHp > 0) {
-                    character.setCurrHp(character.getCurrHp() - monsterDmg);
+                    if(character.getCurrHp() - monsterDmg >= 0) {
+                        character.setCurrHp(character.getCurrHp() - monsterDmg);
+                    } else {
+                        character.setCurrHp(0);
+                    }
+
                     binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
                 }
+
+                // Player attacks monster
                 int playerDmg = random.nextInt(3,6) + character.getAtkMod();
                 monsterCurHp = monsterCurHp - (playerDmg);
+                if(monsterCurHp < 0) {
+                    monsterCurHp = 0;
+                }
                 binding.enemyHpTextView.setText("Enemy HP: " + monsterCurHp + "/" + monsterMaxHp);
                 if (character.getCurrHp() > 0) {
                     if (monsterCurHp > 0) {
@@ -88,13 +102,22 @@ public class BattleScreenActivity extends AppCompatActivity {
         binding.fleeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int chance = random.nextInt(1 + character.getFleeChance(),10);
                 if (monsterCurHp <= 0) {
-                    startActivity(VictoryScreen.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
+                    repository.updateCharacter(character);
+                    startActivity(VictoryScreenActivity.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                 } else if (character.getCurrHp() <= 0) {
+                    repository.updateCharacter(character);
                     startActivity(GameOverScreenActivity.GameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
                 } else {
-                    if (chance > 5) {
+                    int chance = random.nextInt(1 + character.getFleeChance(),11);
+
+                    if (chance == 10) {
+                        repository.updateCharacter(character);
+
+                        BattleHistory battleRecord = new BattleHistory(character.getCharacterID(), character.getBattleNum(), character.getCurrHp(), false);
+                        repository.insertBattleHistory(battleRecord);
+
+                        makeToast("Flee successful!");
                         startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                     } else {
                         binding.currentSituationTextView.setText("You tried to flee and failed!");
@@ -106,6 +129,9 @@ public class BattleScreenActivity extends AppCompatActivity {
         });
     }
 
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
+    }
 
     /**
      * BattleScreenIntentFactory takes in context and characterId for accessing all the related data

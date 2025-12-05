@@ -81,6 +81,8 @@ public class BattleHistory {
 
         if(isWin) {
             result = "Victory";
+        } else if(remainingHp > 0) {
+            result = "Successful Flee";
         } else {
             result = "Defeat";
         }

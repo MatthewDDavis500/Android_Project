@@ -64,7 +64,7 @@ public class MainMenuActivity extends AppCompatActivity {
             @Override
             public void onChanged(ProjectCharacter character) {
                 if(character != null) {
-                    binding.titleLoginTextView.setText("Welcome Adventurer " + character.getCharacterName());
+                    binding.titleLoginTextView.setText("Welcome\nAdventurer\n" + character.getCharacterName());
                     binding.levelTextView.setText("Level: " + character.getLvl());
                     binding.goldTextView.setText("Gold: " + character.getGold());
                     binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());

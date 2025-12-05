@@ -76,7 +76,7 @@ public class TownShopActivity extends AppCompatActivity {
                     binding.goldTextView.setText("Gold: " + character.getGold());
                     binding.atkModTextView.setText("Attack Modifier: +" + character.getAtkMod());
                     binding.healthTextView.setText("Health: " + character.getCurrHp() + "/" + character.getMaxHp());
-                    binding.fleeChanceTextView.setText("Flee Chance: " + character.getFleeChance() + "%");
+                    binding.fleeChanceTextView.setText("Flee Chance: " + (character.getFleeChance() * 2) + "%");
 
                     characterLiveData.removeObserver(this);
                 }

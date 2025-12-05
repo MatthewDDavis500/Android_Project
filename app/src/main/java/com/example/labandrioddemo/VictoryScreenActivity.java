@@ -8,26 +8,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.BattleHistory;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityVictoryScreenBinding;
 
-import java.util.Random;
+import kotlin.random.Random;
 
 
-public class VictoryScreen extends AppCompatActivity {
+public class VictoryScreenActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityVictoryScreenBinding binding;
     private AccountRepository repository;
     private ProjectCharacter character;
-    private Random random;
+    private Random random = Random.Default;
     private int loggedInCharacterId = LOGGED_OUT;
-
+    private VictoryScreenActivity thisHolder = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,17 +35,24 @@ public class VictoryScreen extends AppCompatActivity {
         binding = ActivityVictoryScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         repository = AccountRepository.getRepository(getApplication());
-        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, -1));
+
+        loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
+
+        LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             @Override
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     characterLiveData.removeObserver(this);
-                    VictoryScreen.this.character = character;
-                    VictoryScreen.this.loggedInCharacterId = character.getCharacterID();
+                    thisHolder.character = character;
+
+                    BattleHistory battleRecord = new BattleHistory(loggedInCharacterId, character.getBattleNum(), character.getCurrHp(), true);
+                    repository.insertBattleHistory(battleRecord);
+
                     int goldGained = random.nextInt(3,5) * character.getBattleNum();
                     binding.goldGainedTextView.setText(goldGained + " gold gained");
                     character.setGold(character.getGold() + goldGained);
+
                     character.setBattleNum(character.getBattleNum() + 1);
                     if (character.getLvl() * 2 == character.getBattleNum()) {
                         character.setLvl(character.getLvl() + 1);
@@ -53,6 +60,8 @@ public class VictoryScreen extends AppCompatActivity {
                     } else {
                         binding.levelUpTextView.setText(" ");
                     }
+
+                    repository.updateCharacter(character);
                 }
             }
         });
@@ -68,7 +77,7 @@ public class VictoryScreen extends AppCompatActivity {
     }
 
     static Intent VictoryScreenIntentFactory(Context context, int userId, int characterId) {
-        Intent intent = new Intent(context, VictoryScreen.class);
+        Intent intent = new Intent(context, VictoryScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;

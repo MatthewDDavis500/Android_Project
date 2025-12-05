@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.labandrioddemo.database.entities.BattleHistory;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 
 import java.util.List;
 
@@ -19,9 +20,12 @@ public interface BattleHistoryDAO {
     @Delete
     void delete(BattleHistory battleHistory);
 
-    @Query("SELECT * from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId ORDER BY battleNumber")
+    @Query("SELECT * from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId ORDER BY battleNumber AND recordKey")
     LiveData<List<BattleHistory>> getBattleByCharacterId(int characterId);
 
     @Query("DELETE from " + AccountDatabase.BATTLE_HISTORY_TABLE)
     void deleteAll();
+
+    @Query("DELETE from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId")
+    void deleteByCharacterId(int characterId);
 }
