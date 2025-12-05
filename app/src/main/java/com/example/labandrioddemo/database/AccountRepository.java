@@ -8,6 +8,7 @@ import androidx.lifecycle.MediatorLiveData;
 import androidx.lifecycle.MutableLiveData;
 
 import com.example.labandrioddemo.MainActivity;
+import com.example.labandrioddemo.database.entities.BattleHistory;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.database.entities.User;
 
@@ -20,6 +21,7 @@ import java.util.concurrent.Future;
 public class AccountRepository {
     private final UserDAO userDAO;
     private final CharacterDAO characterDAO;
+    private final BattleHistoryDAO battleHistoryDAO;
 
 //    private ArrayList<> allCharacters;
 
@@ -29,6 +31,7 @@ public class AccountRepository {
         AccountDatabase db = AccountDatabase.getDatabase(application);
         this.userDAO = db.userDAO();
         this.characterDAO = db.characterDAO();
+        this.battleHistoryDAO = db.battleHistoryDAO();
 //        this.allCharacters = (ArrayList<GymLog>) this.gymLogDAO.getAllRecords();
     }
 
@@ -138,5 +141,9 @@ public class AccountRepository {
         AccountDatabase.databaseWriteExecutor.execute(() -> {
             characterDAO.updateCharacter(character);
         });
+    }
+
+    public LiveData<List<BattleHistory>> getBattleByCharacterId(int characterId) {
+        return battleHistoryDAO.getBattleByCharacterId(characterId);
     }
 }

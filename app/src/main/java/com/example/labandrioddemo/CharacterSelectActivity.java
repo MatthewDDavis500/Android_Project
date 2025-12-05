@@ -32,8 +32,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private User user;
     private CharacterSelectActivity thisHolder = this;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -95,7 +93,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, 1));
                         }
                     });
                 }
@@ -109,7 +107,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     binding.character2Button.setText(character.getCharacterName());
-
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -126,7 +123,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, 2));
                         }
                     });
                 }
@@ -157,7 +154,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext()));
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, 3));
                         }
                     });
                 }
