@@ -103,10 +103,10 @@ public class TownShopActivity extends AppCompatActivity {
 
     private void buyHealth() {
         if(character != null) {
-            if(character.getGold() < 30) {
+            if(character.getGold() < 20) {
                 makeToast("Insufficient gold.");
             } else {
-                character.setGold(character.getGold() - 30);
+                character.setGold(character.getGold() - 20);
 
                 character.setMaxHp(character.getMaxHp() + 5);
                 character.setCurrHp(character.getCurrHp() + 5);
