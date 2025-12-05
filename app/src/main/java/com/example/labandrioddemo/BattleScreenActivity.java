@@ -148,9 +148,6 @@ public class BattleScreenActivity extends AppCompatActivity {
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
 
-        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
-        notificationManager.notify(1, builder.build());
-
         NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, builder.build());
     }
 
