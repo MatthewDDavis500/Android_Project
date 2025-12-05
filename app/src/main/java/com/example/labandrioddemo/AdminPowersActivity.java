@@ -67,9 +67,8 @@ public class AdminPowersActivity extends AppCompatActivity {
         binding.adminBackToMenu.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
-                    getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
-                    getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT)
+                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(),
+                    getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT)
                 ));
             }
         });
@@ -159,10 +158,9 @@ public class AdminPowersActivity extends AppCompatActivity {
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    static Intent adminPowersIntentFactory(Context context, int userId, int characterId) {
+    static Intent adminPowersIntentFactory(Context context, int userId) {
         Intent intent = new Intent(context, AdminPowersActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
-        intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;
     }
 }

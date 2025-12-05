@@ -167,6 +167,13 @@ public class CharacterSelectActivity extends AppCompatActivity {
                 logout();
             }
         });
+
+        binding.adminPowersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                startActivity(AdminPowersActivity.adminPowersIntentFactory(getApplicationContext(), loggedInUserId));
+            }
+        });
     }
 
     private void logout() {
