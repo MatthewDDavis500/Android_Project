@@ -33,6 +33,13 @@ public class AccountCreationActivity extends AppCompatActivity {
                 createUser();
             }
         });
+
+        binding.backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
     }
 
     /**

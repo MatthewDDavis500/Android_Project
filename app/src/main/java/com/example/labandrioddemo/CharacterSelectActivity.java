@@ -55,9 +55,12 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     if (user.isAdmin()) {
                         // Use a string resource instead of a literal
                         binding.adminConfirmation.setText(getString(R.string.admin_true));
+                        binding.adminPowersButton.setVisibility(View.VISIBLE);
                         userLiveData.removeObserver(this);
                     } else {
                         binding.adminConfirmation.setText(getString(R.string.admin_false));
+                        binding.adminPowersButton.setVisibility(View.INVISIBLE);
+                        userLiveData.removeObserver(this);
                     }
                 }
             }
