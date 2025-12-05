@@ -8,6 +8,7 @@ import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 
 import com.example.labandrioddemo.database.entities.BattleHistory;
+import com.example.labandrioddemo.database.entities.ProjectCharacter;
 
 import java.util.List;
 
@@ -24,4 +25,7 @@ public interface BattleHistoryDAO {
 
     @Query("DELETE from " + AccountDatabase.BATTLE_HISTORY_TABLE)
     void deleteAll();
+
+    @Query("DELETE from " + AccountDatabase.BATTLE_HISTORY_TABLE + " WHERE characterId == :characterId")
+    void deleteByCharacterId(int characterId);
 }
