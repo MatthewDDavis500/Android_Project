@@ -88,6 +88,8 @@ public class AccountCreationActivity extends AppCompatActivity {
                     // Send user to MainActivity to sign in
                     startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
                 } else {
+                    // if this is the first null received, the query may not be finished yet so don't do anything
+                    // else state that username already exists
                     if(nullVerificationDone) {
                         makeToast("Username already exists.");
                         nullVerificationDone = false;
