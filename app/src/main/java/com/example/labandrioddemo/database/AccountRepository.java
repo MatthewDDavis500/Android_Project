@@ -143,6 +143,10 @@ public class AccountRepository {
         });
     }
 
+    public void insertBattleHistory(BattleHistory...battleHistories) {
+        AccountDatabase.databaseWriteExecutor.execute(() -> battleHistoryDAO.insert(battleHistories));
+    }
+
     public LiveData<List<BattleHistory>> getBattleByCharacterId(int characterId) {
         return battleHistoryDAO.getBattleByCharacterId(characterId);
     }

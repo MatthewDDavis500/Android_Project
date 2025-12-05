@@ -39,24 +39,24 @@ public class MainMenuActivity extends AppCompatActivity {
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
 
         // get the User object of the logged in user
-        LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
-        userLiveData.observe(this, new Observer<User>() {
-            @Override
-            public void onChanged(User user) {
-                if (user != null) {
-                    thisHolder.user = user;
-
-
-                    if (user.isAdmin()) {
-                        binding.adminPowersButton.setVisibility(View.VISIBLE);
-                    } else {
-                        binding.adminPowersButton.setVisibility(View.INVISIBLE);
-                    }
-
-                    userLiveData.removeObserver(this);
-                }
-            }
-        });
+//        LiveData<User> userLiveData = repository.getUserByUserId(loggedInUserId);
+//        userLiveData.observe(this, new Observer<User>() {
+//            @Override
+//            public void onChanged(User user) {
+//                if (user != null) {
+//                    thisHolder.user = user;
+//
+//
+//                    if (user.isAdmin()) {
+//                        binding.adminPowersButton.setVisibility(View.VISIBLE);
+//                    } else {
+//                        binding.adminPowersButton.setVisibility(View.INVISIBLE);
+//                    }
+//
+//                    userLiveData.removeObserver(this);
+//                }
+//            }
+//        });
 
         // get the ProjectCharacter object corresponding to the logged in user
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);
@@ -91,10 +91,10 @@ public class MainMenuActivity extends AppCompatActivity {
             }
         });
 
-        binding.adminPowersButton.setOnClickListener(new View.OnClickListener() {
+        binding.battleHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(AdminPowersActivity.adminPowersIntentFactory(getApplicationContext(),
+                startActivity(BattleHistoryActivity.battleHistoryIntentFactory(getApplicationContext(),
                         getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
                         getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT)
                 ));

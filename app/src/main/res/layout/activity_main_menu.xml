@@ -87,17 +87,16 @@
         />
 
     <Button
-        android:id="@+id/adminPowersButton"
+        android:id="@+id/battleHistoryButton"
         android:layout_width="match_parent"
         android:layout_height="75dp"
         android:layout_margin="16dp"
         android:backgroundTint="@color/black"
-        android:text="Admin Powers"
+        android:text="Battle History"
         android:textSize="32sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/visitTownButton"
-        android:visibility="invisible"
         />
 
     <Button
@@ -110,7 +109,7 @@
         android:textSize="28sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/adminPowersButton"
+        app:layout_constraintTop_toBottomOf="@+id/battleHistoryButton"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -54,4 +54,6 @@
     <string name="game_over">Game Over</string>
     <string name="restartGO">Restart</string>
     <string name="final_levelGO">Final Level</string>
+    <string name="back_to_main_menu_history">Back to Main Menu</string>
+    <string name="charactername_s_nhistory">CharacterName\'s\nHistory</string>
 </resources>
