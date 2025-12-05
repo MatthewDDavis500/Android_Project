@@ -36,10 +36,8 @@ public class CharacterCreationActivity extends AppCompatActivity {
                 String name = creationBinding.nameEnterEditText.getText().toString();
                 ProjectCharacter character = new ProjectCharacter(name, userId, 1, 0, 100, 100, 1, 5,
                 1, slot);
-
                 repository.insertCharacter(character);
-
-                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), character.getCharacterID()));
+                finish();
             }
         });
     }

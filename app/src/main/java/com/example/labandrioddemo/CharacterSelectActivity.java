@@ -86,8 +86,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
                             ));
                         }
                     });
-
-                    characterLiveData1.removeObserver(this);
                 } else {
                     binding.character1Button.setText(getString(R.string.create_character));
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
@@ -116,8 +114,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
                                 ));
                         }
                     });
-
-                    characterLiveData2.removeObserver(this);
                 } else {
                     binding.character2Button.setText(getString(R.string.create_character));
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
@@ -147,8 +143,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
                             ));
                         }
                     });
-
-                    characterLiveData3.removeObserver(this);
                 } else {
                     binding.character3Button.setText(getString(R.string.create_character));
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
