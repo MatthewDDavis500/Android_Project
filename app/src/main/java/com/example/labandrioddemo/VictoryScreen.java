@@ -22,7 +22,6 @@ public class VictoryScreen extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityVictoryScreenBinding binding;
     private AccountRepository repository;
-    private VictoryScreen thisHolder = this;
     private ProjectCharacter character;
     private int loggedInCharacterId = LOGGED_OUT;
 
@@ -39,7 +38,8 @@ public class VictoryScreen extends AppCompatActivity {
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
                     characterLiveData.removeObserver(this);
-                    thisHolder.character = character;
+                    VictoryScreen.this.character = character;
+                    VictoryScreen.this.loggedInCharacterId = character.getCharacterID();
                     binding.goldGainedTextView.setText(character.getGold() + " gold gained");
                 }
             }
@@ -55,8 +55,9 @@ public class VictoryScreen extends AppCompatActivity {
         });
     }
 
-    static Intent VictoryScreenIntentFactory(Context context, int characterId) {
-        Intent intent = new Intent(context, BattleScreenActivity.class);
+    static Intent VictoryScreenIntentFactory(Context context, int userId, int characterId) {
+        Intent intent = new Intent(context, VictoryScreen.class);
+        intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;
     }
