@@ -36,6 +36,7 @@ public class AdminPowersActivity extends AppCompatActivity {
         binding.characterSearchToggle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // if checked, search is by name. if not checked, search is by ID
                 if(binding.characterSearchToggle.isChecked()) {
                     binding.characterSearchBar.setInputType(InputType.TYPE_CLASS_TEXT);
                     binding.characterSearchBar.setText("");
@@ -70,6 +71,15 @@ public class AdminPowersActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method will use the text from the search bar to find a character in the character table
+     * <br>
+     * If the toggle button is checked, this search will be by characterName
+     * If the toggle button is not checked, this search will be by characterId
+     * <br>
+     * If a character is found, character data is populated into the fields
+     * Also updates the currentCharacter variable
+     */
     private void searchForCharacter() {
         LiveData<ProjectCharacter> characterLiveData;
 
@@ -100,11 +110,15 @@ public class AdminPowersActivity extends AppCompatActivity {
                 if(character != null) {
                     makeToast("Character found.");
 
+                    // update currentCharacter variable
                     currentCharacter = character;
+
+                    // populate TextViews with uneditable character data
                     binding.currentCharacterNameTextView.setText("Name: " + character.getCharacterName());
                     binding.currentCharacterIdTextView.setText("Character ID: " + character.getCharacterID());
                     binding.currentCharacterUserTextView.setText("User ID: " + character.getUserID());
 
+                    // populate EditTexts with editable data
                     binding.characterGoldEdit.setText(character.getGold() + "");
                     binding.characterLevelEdit.setText(character.getLvl() + "");
                     binding.characterCurrentHealthEdit.setText(character.getCurrHp() + "");
@@ -118,6 +132,18 @@ public class AdminPowersActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method will use the fields to update character settings
+     * <br>
+     * The following situations will result in a toast and doing nothing else:
+     *     No character selected (currentCharacter is null)
+     *     Gold EditText is empty
+     *     Level EditText is empty
+     *     Current Health EditText is empty
+     *     Max Health EditText is empty
+     * <br>
+     * Otherwise, update the matching properties of the character and update the character in the database
+     */
     private void updateCharacterProperties() {
         // check to make sure there is a character selected to edit
         if(currentCharacter == null) {
