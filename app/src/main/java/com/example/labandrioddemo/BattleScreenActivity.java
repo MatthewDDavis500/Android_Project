@@ -12,14 +12,16 @@ import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.app.NotificationCompat;
 import androidx.core.app.NotificationManagerCompat;
-import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Observer;
 import com.example.labandrioddemo.database.AccountRepository;
+import com.example.labandrioddemo.database.entities.BattleHistory;
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 import com.example.labandrioddemo.databinding.ActivityBattleScreenBinding;
 import java.util.Random;
@@ -44,8 +46,11 @@ public class BattleScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityBattleScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
         repository = AccountRepository.getRepository(getApplication());
+
         createNotificationChannel();
+
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, -1));
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             /**
@@ -58,7 +63,7 @@ public class BattleScreenActivity extends AppCompatActivity {
                     thisHolder.character = character;
                     binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
                     binding.battleName.setText("Battle " + character.getBattleNum());
-                    monsterMaxHp = character.getBattleNum()*2 + 10;
+                    monsterMaxHp = (character.getBattleNum()- 1) * 2 + 10;
                     monsterCurHp = monsterMaxHp;
                     binding.enemyHpTextView.setText("Enemy HP: " + monsterCurHp + "/" + monsterMaxHp);
                     binding.currentSituationTextView.setText("A Monster Appears!");
@@ -73,22 +78,35 @@ public class BattleScreenActivity extends AppCompatActivity {
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Monster attacks player
+                int monsterDmg = random.nextInt(character.getBattleNum() - 1,3 + character.getBattleNum());
                 if (monsterCurHp > 0) {
-                    character.setCurrHp(character.getCurrHp() - random.nextInt(character.getBattleNum(),5 + character.getBattleNum()));
+                    if(character.getCurrHp() - monsterDmg >= 0) {
+                        character.setCurrHp(character.getCurrHp() - monsterDmg);
+                    } else {
+                        character.setCurrHp(0);
+                    }
+
                     binding.hpTextView.setText("HP: " + character.getCurrHp() + "/" + character.getMaxHp());
                 }
-                monsterCurHp = monsterCurHp - ( 5 + character.getAtkMod());
+
+                // Player attacks monster
+                int playerDmg = random.nextInt(3,6) + character.getAtkMod();
+                monsterCurHp = monsterCurHp - (playerDmg);
+                if(monsterCurHp < 0) {
+                    monsterCurHp = 0;
+                }
                 binding.enemyHpTextView.setText("Enemy HP: " + monsterCurHp + "/" + monsterMaxHp);
                 if (character.getCurrHp() > 0) {
                     if (monsterCurHp > 0) {
-                        binding.currentSituationTextView.setText(character.getCharacterName() + " did and took damage.");
+                        binding.currentSituationTextView.setText(character.getCharacterName() + " did "  + playerDmg + " and took " + monsterDmg + " damage.");
                     } else {
                         binding.currentSituationTextView.setText("You beat the monster!");
-                        showBattleNotification("You Ween");
+                        binding.fleeButton.setText("Return Home");
                     }
                 } else {
                     binding.currentSituationTextView.setText("You died!");
-                    showBattleNotification("Skill Issue");
+                    binding.fleeButton.setText("Game Over");
                 }
             }
         });
@@ -100,15 +118,24 @@ public class BattleScreenActivity extends AppCompatActivity {
         binding.fleeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int chance = random.nextInt(1 + character.getFleeChance(),10);
                 if (monsterCurHp <= 0) {
-                    //go to victory screen
+                    repository.updateCharacter(character);
                     showBattleNotification("You Ween");
+                    startActivity(VictoryScreenActivity.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                 } else if (character.getCurrHp() <= 0) {
-                    //go to loss screen
+                    repository.updateCharacter(character);
                     showBattleNotification("Skill Issue");
+                    startActivity(GameOverScreenActivity.GameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
                 } else {
-                    if (chance > 5) {
+                    int fleeRoll = random.nextInt(1,101);
+
+                    if (fleeRoll <= character.getFleeChance()) {
+                        repository.updateCharacter(character);
+
+                        BattleHistory battleRecord = new BattleHistory(character.getCharacterID(), character.getBattleNum(), character.getCurrHp(), false);
+                        repository.insertBattleHistory(battleRecord);
+
+                        makeToast("Flee successful!");
                         startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                     } else {
                         binding.currentSituationTextView.setText("You tried to flee and failed!");
@@ -139,7 +166,7 @@ public class BattleScreenActivity extends AppCompatActivity {
         }
         Intent intent = new Intent(this, BattleScreenActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_IMMUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, MainActivity.mainIntentFactory(getApplicationContext()), PendingIntent.FLAG_IMMUTABLE);
 
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
                 .setSmallIcon(R.drawable.ic_launcher_background)
@@ -147,8 +174,13 @@ public class BattleScreenActivity extends AppCompatActivity {
                 .setContentText(message)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setContentIntent(pendingIntent);
- 
+
         NotificationManagerCompat.from(this).notify(NOTIFICATION_ID, builder.build());
+    }
+
+
+    public void makeToast(String message) {
+        Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
     /**

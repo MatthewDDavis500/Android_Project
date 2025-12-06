@@ -76,7 +76,7 @@ public class TownShopActivity extends AppCompatActivity {
                     binding.goldTextView.setText("Gold: " + character.getGold());
                     binding.atkModTextView.setText("Attack Modifier: +" + character.getAtkMod());
                     binding.healthTextView.setText("Health: " + character.getCurrHp() + "/" + character.getMaxHp());
-                    binding.fleeChanceTextView.setText("Flee Chance: " + (character.getFleeChance() * 2) + "%");
+                    binding.fleeChanceTextView.setText("Flee Chance: " + character.getFleeChance() + "%");
 
                     characterLiveData.removeObserver(this);
                 }
@@ -103,10 +103,10 @@ public class TownShopActivity extends AppCompatActivity {
 
     private void buyHealth() {
         if(character != null) {
-            if(character.getGold() < 30) {
+            if(character.getGold() < 20) {
                 makeToast("Insufficient gold.");
             } else {
-                character.setGold(character.getGold() - 30);
+                character.setGold(character.getGold() - 20);
 
                 character.setMaxHp(character.getMaxHp() + 5);
                 character.setCurrHp(character.getCurrHp() + 5);
@@ -128,7 +128,7 @@ public class TownShopActivity extends AppCompatActivity {
             } else {
                 character.setGold(character.getGold() - 10);
 
-                character.setFleeChance(character.getFleeChance() + 5);
+                character.setFleeChance(character.getFleeChance() + 10);
 
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
