@@ -653,4 +653,12 @@ public class IntentUnitTests {
         assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
         assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
     }
+
+    @Test
+    public void TownScreenIntentTest() {
+        intent = TownScreenActivity.townScreenIntentFactory(testContext, testUserId, testCharacterId);
+
+        assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
+        assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
+    }
 }
