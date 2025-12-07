@@ -49,4 +49,23 @@ public class TownShopUnitTests {
         assertEquals(TEST_ATTACK_MODIFIER + 1, testCharacter.getAtkMod());
         assertEquals(TEST_GOLD - TownShopActivity.ATTACK_COST, testCharacter.getGold());
     }
+
+    @Test
+    public void purchasingAttackFailed() {
+        // set character gold to be not enough for the purchase
+        testCharacter.setGold(TownShopActivity.ATTACK_COST - 1);
+
+        // test initial values
+        assertEquals(TEST_ATTACK_MODIFIER, testCharacter.getAtkMod());
+        assertFalse(TownShopActivity.ATTACK_COST <= testCharacter.getGold());
+
+        // attempt to purchase attack upgrade
+        townShop.buyAttack(testCharacter);
+
+        // test values after purchase (should not have changed)
+        assertEquals(TEST_ATTACK_MODIFIER, testCharacter.getAtkMod());
+        assertEquals(TownShopActivity.ATTACK_COST - 1, testCharacter.getGold());
+    }
+
+
 }
