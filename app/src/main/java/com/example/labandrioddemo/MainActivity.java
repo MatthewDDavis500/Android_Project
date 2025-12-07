@@ -67,20 +67,26 @@ public class MainActivity extends AppCompatActivity {
      * @param savedInstanceState savedInstanceState to check for login info
      */
     private void loginUser(Bundle savedInstanceState) {
+        // check for shared preferences to remember login
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
-
         loggedInUserId = sharedPreferences.getInt(getString(R.string.preference_userId_key), LOGGED_OUT);
 
+        // check saved instance state for user login info
         if(loggedInUserId == LOGGED_OUT && savedInstanceState != null && savedInstanceState.containsKey(SAVED_INSTANCE_STATE_USERID_KEY)) {
             loggedInUserId = savedInstanceState.getInt(SAVED_INSTANCE_STATE_USERID_KEY, LOGGED_OUT);
         }
+
+        // check intent extra for login info
         if(loggedInUserId == LOGGED_OUT) {
             loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         }
+
+        // if no login info found, automatic login isn't possible
         if(loggedInUserId == LOGGED_OUT) {
             return;
         }
 
+        // Previous login info found, so log user in automatically
         LiveData<User> userLoginLiveData = repository.getUserByUserId(loggedInUserId);
         userLoginLiveData.observe(this, new Observer<User>() {
             @Override
@@ -138,11 +144,13 @@ public class MainActivity extends AppCompatActivity {
     private void verifyUser() {
         String username = binding.userNameLoginEditText.getText().toString();
 
+        // validate that username isn't empty
         if(username.isEmpty()) {
             makeToast("Username may not be empty.");
             return;
         }
 
+        // validate username and password
         LiveData<User> userVerifyLiveData = repository.getUserByUsername(username);
         userVerifyLiveData.observe(this, new Observer<User>() {
             @Override
@@ -153,7 +161,6 @@ public class MainActivity extends AppCompatActivity {
                     userVerifyLiveData.removeObserver(this);
 
                     if(password.equals(user.getPassword())) {
-//                        invalidateOptionsMenu();
                         loggedInUserId = user.getId();
                         updateSharedPreference();
                         makeToast("Successful Login!!!!");
