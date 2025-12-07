@@ -76,7 +76,7 @@ public class TownShopUnitTests {
         assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
         assertTrue(TownShop.HEALTH_COST <= testCharacter.getGold());
 
-        // purchase attack upgrade
+        // purchase health upgrade
         assertEquals(TownShopActivity.SUCCESS, townShop.purchaseHealthUpgrade(testCharacter));
 
         // test values after purchase
@@ -95,7 +95,7 @@ public class TownShopUnitTests {
         assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
         assertFalse(TownShop.HEALTH_COST <= testCharacter.getGold());
 
-        // attempt to purchase attack upgrade
+        // attempt to purchase health upgrade
         assertEquals(TownShopActivity.NOT_ENOUGH_GOLD, townShop.purchaseHealthUpgrade(testCharacter));
 
         // test values after purchase (should not have changed)
@@ -110,7 +110,7 @@ public class TownShopUnitTests {
         assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
         assertTrue(TownShop.FLEE_COST <= testCharacter.getGold());
 
-        // purchase attack upgrade
+        // purchase flee chance upgrade
         assertEquals(TownShopActivity.SUCCESS, townShop.purchaseFleeChanceUpgrade(testCharacter));
 
         // test values after purchase
@@ -127,7 +127,7 @@ public class TownShopUnitTests {
         assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
         assertFalse(TownShop.FLEE_COST <= testCharacter.getGold());
 
-        // attempt to purchase attack upgrade
+        // attempt to purchase flee chance upgrade
         assertEquals(TownShopActivity.NOT_ENOUGH_GOLD, townShop.purchaseFleeChanceUpgrade(testCharacter));
 
         // test values after purchase (should not have changed)
@@ -144,7 +144,7 @@ public class TownShopUnitTests {
         assertEquals(MAX_FLEE_CHANCE, testCharacter.getFleeChance());
         assertTrue(TownShop.FLEE_COST <= testCharacter.getGold());
 
-        // attempt to purchase attack upgrade
+        // attempt to purchase flee chance upgrade
         assertEquals(TownShopActivity.ALREADY_MAX_FLEE, townShop.purchaseFleeChanceUpgrade(testCharacter));
 
         // test values after purchase (should not have changed)

@@ -48,7 +48,7 @@ public class TownScreenUnitTests {
         assertEquals(TEST_LOWER_HP, testCharacter.getCurrHp());
         assertTrue(TownScreen.REST_COST <= testCharacter.getGold());
 
-        // purchase attack upgrade
+        // purchase rest
         assertEquals(TownScreenActivity.SUCCESS, town.attemptRest(testCharacter));
 
         // test values after purchase
@@ -65,7 +65,7 @@ public class TownScreenUnitTests {
         assertEquals(TEST_HIGHER_HP, testCharacter.getCurrHp());
         assertTrue(TownScreen.REST_COST <= testCharacter.getGold());
 
-        // purchase attack upgrade
+        // purchase rest
         assertEquals(TownScreenActivity.SUCCESS, town.attemptRest(testCharacter));
 
         // test values after purchase (should cap at max hp)
@@ -82,7 +82,7 @@ public class TownScreenUnitTests {
         assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
         assertFalse(TownScreen.REST_COST <= testCharacter.getGold());
 
-        // purchase attack upgrade
+        // attempt to purchase rest
         assertEquals(TownScreenActivity.NOT_ENOUGH_GOLD, town.attemptRest(testCharacter));
 
         // test values after purchase (shouldn't have changed)
@@ -99,7 +99,7 @@ public class TownScreenUnitTests {
         assertEquals(TEST_MAX_HP, testCharacter.getCurrHp());
         assertTrue(TownScreen.REST_COST <= testCharacter.getGold());
 
-        // purchase attack upgrade
+        // attempt to purchase rest
         assertEquals(TownScreenActivity.ALREADY_MAX_HEALTH, town.attemptRest(testCharacter));
 
         // test values after purchase (shouldn't have changed)
