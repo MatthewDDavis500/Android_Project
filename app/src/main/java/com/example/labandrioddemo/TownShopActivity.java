@@ -25,9 +25,10 @@ public class TownShopActivity extends AppCompatActivity {
     private ProjectCharacter character;
     private int loggedInUserId = LOGGED_OUT;
     private int loggedInCharacterId = LOGGED_OUT;
-    public static final int ATTACK_COST = 20;
-    public static final int HEALTH_COST = 20;
-    public static final int FLEE_COST = 10;
+    public static final int SUCCESS = 0;
+    public static final int NOT_ENOUGH_GOLD = 1;
+    public static final int ALREADY_MAX_FLEE = 2;
+    public TownShop shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +42,9 @@ public class TownShopActivity extends AppCompatActivity {
         // get info from intent extras
         loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
+
+        // instantiate TownShop for access to logic functions
+        shop = new TownShop();
 
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,17 +102,15 @@ public class TownShopActivity extends AppCompatActivity {
      */
     public void buyAttack(ProjectCharacter character) {
         if(character != null) {
-            if(character.getGold() < ATTACK_COST) {
-                makeToast("Insufficient gold.");
-            } else {
-                character.setGold(character.getGold() - ATTACK_COST);
+            int result = shop.purchaseAttackUpgrade(character);
 
-                character.setAtkMod(character.getAtkMod() + 1);
-
+            if(result == SUCCESS) {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.atkModTextView.setText("Attack Modifier: +" + character.getAtkMod());
                 makeToast("Purchased +1 to Attack Modifier.");
+            } else if(result == NOT_ENOUGH_GOLD) {
+                makeToast("Insufficient gold.");
             }
         }
     }
@@ -122,18 +124,15 @@ public class TownShopActivity extends AppCompatActivity {
      */
     public void buyHealth(ProjectCharacter character) {
         if(character != null) {
-            if(character.getGold() < HEALTH_COST) {
-                makeToast("Insufficient gold.");
-            } else {
-                character.setGold(character.getGold() - HEALTH_COST);
+            int result = shop.purchaseHealthUpgrade(character);
 
-                character.setMaxHp(character.getMaxHp() + 5);
-                character.setCurrHp(character.getCurrHp() + 5);
-
+            if(result == SUCCESS) {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.healthTextView.setText("Health: " + character.getCurrHp() + "/" + character.getMaxHp());
                 makeToast("Purchased +5 to Health.");
+            } else if(result == NOT_ENOUGH_GOLD) {
+                makeToast("Insufficient gold.");
             }
         }
     }
@@ -147,19 +146,17 @@ public class TownShopActivity extends AppCompatActivity {
      */
     public void buyFleeChance(ProjectCharacter character) {
         if(character != null) {
-            if(character.getGold() < FLEE_COST) {
-                makeToast("Insufficient gold.");
-            } else if(character.getFleeChance() >= 100) {
-                makeToast("Flee Chance already 100%.");
-            } else {
-                character.setGold(character.getGold() - FLEE_COST);
+            int result = shop.purchaseFleeChanceUpgrade(character);
 
-                character.setFleeChance(character.getFleeChance() + 10);
-
+            if(result == SUCCESS) {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.fleeChanceTextView.setText("Flee Chance: " + character.getFleeChance() + "%");
                 makeToast("Purchased +10% to Flee Chance.");
+            } else if(result == NOT_ENOUGH_GOLD) {
+                makeToast("Insufficient gold.");
+            } else if(result == ALREADY_MAX_FLEE) {
+                makeToast("Flee Chance already 100%.");
             }
         }
     }
