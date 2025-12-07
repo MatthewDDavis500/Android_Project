@@ -35,6 +35,10 @@ public interface CharacterDAO {
     @Query("SELECT * from " + AccountDatabase.CHARACTER_TABLE + " WHERE characterID == :characterId")
     LiveData<ProjectCharacter> getCharacterByCharacterId(int characterId);
 
+    @Query("SELECT * from " + AccountDatabase.CHARACTER_TABLE + " WHERE characterName == :characterName")
+    ProjectCharacter getCharacterByNameWithoutLiveData(String characterName);
+
+
     @Update
     void updateCharacter(ProjectCharacter character);
 }

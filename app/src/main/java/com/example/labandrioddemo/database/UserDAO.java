@@ -28,6 +28,12 @@ public interface UserDAO {
     @Query("SELECT * FROM " + AccountDatabase.USER_TABLE + " ORDER BY username")
     LiveData<List<User>> getAllUsers();
 
+    @Query("SELECT * FROM " + AccountDatabase.USER_TABLE + " WHERE username == :username")
+    User getUserByUsernameWithoutLiveData(String username);
+
+    @Query("SELECT + FROM " + AccountDatabase.USER_TABLE + " WHERE id == :userId")
+    User getUserByIdWithoutLiveData(int id);
+
     @Query("DELETE FROM " + AccountDatabase.USER_TABLE)
     void deleteAll();
 }
