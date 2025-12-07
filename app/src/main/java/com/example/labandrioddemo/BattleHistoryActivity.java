@@ -8,17 +8,11 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.labandrioddemo.database.AccountRepository;
-import com.example.labandrioddemo.database.entities.User;
 import com.example.labandrioddemo.databinding.ActivityBattleHistoryBinding;
 import com.example.labandrioddemo.viewHolders.HistoryAdapter;
 import com.example.labandrioddemo.viewHolders.HistoryViewModel;
@@ -26,9 +20,7 @@ import com.example.labandrioddemo.viewHolders.HistoryViewModel;
 public class BattleHistoryActivity extends AppCompatActivity {
     private static final int LOGGED_OUT = -1;
     private ActivityBattleHistoryBinding binding;
-    private AccountRepository repository;
     private HistoryViewModel historyViewModel;
-    private User user;
     private int loggedInUserId = LOGGED_OUT;
     private int loggedInCharacterId = LOGGED_OUT;
 
@@ -38,18 +30,18 @@ public class BattleHistoryActivity extends AppCompatActivity {
         binding = ActivityBattleHistoryBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
-        repository = AccountRepository.getRepository(getApplication());
-
+        // receive values from intent extras
         loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
 
+        // setting up recycler view
         historyViewModel = new ViewModelProvider(this).get(HistoryViewModel.class);
-
         RecyclerView recyclerView = binding.historyRecyclerView;
         final HistoryAdapter adapter = new HistoryAdapter(new HistoryAdapter.HistoryDiff());
         recyclerView.setAdapter(adapter);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // binding recycler view to battle histories database call
         historyViewModel.getBattleByCharacterId(loggedInCharacterId).observe(this, battleHistories -> {
             adapter.submitList(battleHistories);
         });
@@ -60,8 +52,6 @@ public class BattleHistoryActivity extends AppCompatActivity {
                 startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(), loggedInUserId, loggedInCharacterId));
             }
         });
-
-
     }
 
     static Intent battleHistoryIntentFactory(Context context, int userId, int characterId) {

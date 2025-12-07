@@ -23,7 +23,12 @@ public class TownShopActivity extends AppCompatActivity {
     private AccountRepository repository;
     private TownShopActivity thisHolder = this;
     private ProjectCharacter character;
+    private int loggedInUserId = LOGGED_OUT;
     private int loggedInCharacterId = LOGGED_OUT;
+    public static final int SUCCESS = 0;
+    public static final int NOT_ENOUGH_GOLD = 1;
+    public static final int ALREADY_MAX_FLEE = 2;
+    public TownShop shop;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,9 +36,15 @@ public class TownShopActivity extends AppCompatActivity {
         binding = ActivityTownShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate the AccountRepository for database access
         repository = AccountRepository.getRepository(getApplication());
 
+        // get info from intent extras
+        loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
+
+        // instantiate TownShop for access to logic functions
+        shop = new TownShop();
 
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,13 +70,11 @@ public class TownShopActivity extends AppCompatActivity {
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(TownScreenActivity.townScreenIntentFactory(getApplicationContext(),
-                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
-                        loggedInCharacterId
-                ));
+                startActivity(TownScreenActivity.townScreenIntentFactory(getApplicationContext(), loggedInUserId, loggedInCharacterId));
             }
         });
 
+        // search for current character to populate relevant character data
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             @Override
@@ -84,56 +93,70 @@ public class TownShopActivity extends AppCompatActivity {
         });
     }
 
-    private void buyAttack() {
+    /**
+     * This method attempts to purchase an attack upgrade for the character.
+     * <br>
+     * If the character lacks the required gold, show a toast and do nothing.
+     * <br>
+     * Otherwise, remove the cost from the character's gold and increment the attackModifier.
+     */
+    public void buyAttack() {
         if(character != null) {
-            if(character.getGold() < 20) {
-                makeToast("Insufficient gold.");
-            } else {
-                character.setGold(character.getGold() - 20);
+            int result = shop.purchaseAttackUpgrade(character);
 
-                character.setAtkMod(character.getAtkMod() + 1);
-
+            if(result == SUCCESS) {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.atkModTextView.setText("Attack Modifier: +" + character.getAtkMod());
                 makeToast("Purchased +1 to Attack Modifier.");
+            } else if(result == NOT_ENOUGH_GOLD) {
+                makeToast("Insufficient gold.");
             }
         }
     }
 
-    private void buyHealth() {
+    /**
+     * This method attempts to purchase a health upgrade for the character.
+     * <br>
+     * If the character lacks the required gold, show a toast and do nothing.
+     * <br>
+     * Otherwise, remove the cost from the character's gold and increase the currHp and maxHp.
+     */
+    public void buyHealth() {
         if(character != null) {
-            if(character.getGold() < 20) {
-                makeToast("Insufficient gold.");
-            } else {
-                character.setGold(character.getGold() - 20);
+            int result = shop.purchaseHealthUpgrade(character);
 
-                character.setMaxHp(character.getMaxHp() + 5);
-                character.setCurrHp(character.getCurrHp() + 5);
-
+            if(result == SUCCESS) {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.healthTextView.setText("Health: " + character.getCurrHp() + "/" + character.getMaxHp());
                 makeToast("Purchased +5 to Health.");
+            } else if(result == NOT_ENOUGH_GOLD) {
+                makeToast("Insufficient gold.");
             }
         }
     }
 
-    private void buyFleeChance() {
+    /**
+     * This method attempts to purchase an flee chance upgrade for the character.
+     * <br>
+     * If the character lacks the required gold, show a toast and do nothing.
+     * <br>
+     * Otherwise, remove the cost from the character's gold and increase the fleeChance.
+     */
+    public void buyFleeChance() {
         if(character != null) {
-            if(character.getGold() < 10) {
-                makeToast("Insufficient gold.");
-            } else if(character.getFleeChance() >= 100) {
-                makeToast("Flee Chance already 100%.");
-            } else {
-                character.setGold(character.getGold() - 10);
+            int result = shop.purchaseFleeChanceUpgrade(character);
 
-                character.setFleeChance(character.getFleeChance() + 10);
-
+            if(result == SUCCESS) {
                 repository.updateCharacter(character);
                 binding.goldTextView.setText("Gold: " + character.getGold());
                 binding.fleeChanceTextView.setText("Flee Chance: " + character.getFleeChance() + "%");
-                makeToast("Purchased +5% to Flee Chance.");
+                makeToast("Purchased +10% to Flee Chance.");
+            } else if(result == NOT_ENOUGH_GOLD) {
+                makeToast("Insufficient gold.");
+            } else if(result == ALREADY_MAX_FLEE) {
+                makeToast("Flee Chance already 100%.");
             }
         }
     }
