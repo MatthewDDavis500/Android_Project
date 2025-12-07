@@ -602,4 +602,12 @@ public class IntentUnitTests {
         assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
         assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
     }
+
+    @Test
+    public void BattleScreenIntentTest() {
+        intent = BattleScreenActivity.battleScreenIntentFactory(testContext, testCharacterId);
+
+        assertFalse(intent.hasExtra(COMP_DOOM_ACTIVITY_USER_ID));
+        assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
+    }
 }
