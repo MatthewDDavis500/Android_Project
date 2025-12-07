@@ -28,12 +28,13 @@ public class GameOverScreenActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         binding = ActivityGameOverScreenBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // instantiate repository to allow for database access
         repository = AccountRepository.getRepository(getApplication());
+
+        // search for the current character to display the character's final level
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, -1));
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
-            /**
-             * Creates the initial layout of the screen by pulling data related to character
-             */
             @Override
             public void onChanged(ProjectCharacter character) {
                 if (character != null) {
@@ -47,9 +48,9 @@ public class GameOverScreenActivity extends AppCompatActivity {
         binding.RestartButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                repository.deleteBattleHistoryByCharacterId(character.getCharacterID());
-                repository.deleteCharacter(character);
-                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), character.getUserID()));
+                repository.deleteBattleHistoryByCharacterId(character.getCharacterID());  // delete the character's battle history
+                repository.deleteCharacter(character);  // delete the character
+                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), character.getUserID())); // move to character select activity
             }
         });
     }
