@@ -23,6 +23,7 @@ public class TownShopActivity extends AppCompatActivity {
     private AccountRepository repository;
     private TownShopActivity thisHolder = this;
     private ProjectCharacter character;
+    private int loggedInUserId = LOGGED_OUT;
     private int loggedInCharacterId = LOGGED_OUT;
 
     @Override
@@ -31,8 +32,11 @@ public class TownShopActivity extends AppCompatActivity {
         binding = ActivityTownShopBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate the AccountRepository for database access
         repository = AccountRepository.getRepository(getApplication());
 
+        // get info from intent extras
+        loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
 
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
@@ -59,13 +63,11 @@ public class TownShopActivity extends AppCompatActivity {
         binding.backButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(TownScreenActivity.townScreenIntentFactory(getApplicationContext(),
-                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
-                        loggedInCharacterId
-                ));
+                startActivity(TownScreenActivity.townScreenIntentFactory(getApplicationContext(), loggedInUserId, loggedInCharacterId));
             }
         });
 
+        // search for current character to populate relevant character data
         LiveData<ProjectCharacter> characterLiveData = repository.getCharacterByCharacterId(loggedInCharacterId);
         characterLiveData.observe(this, new Observer<ProjectCharacter>() {
             @Override
@@ -84,6 +86,13 @@ public class TownShopActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method attempts to purchase an attack upgrade for the character.
+     * <br>
+     * If the character lacks the required gold, show a toast and do nothing.
+     * <br>
+     * Otherwise, remove the cost from the character's gold and increment the attackModifier.
+     */
     private void buyAttack() {
         if(character != null) {
             if(character.getGold() < 20) {
@@ -101,6 +110,13 @@ public class TownShopActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method attempts to purchase a health upgrade for the character.
+     * <br>
+     * If the character lacks the required gold, show a toast and do nothing.
+     * <br>
+     * Otherwise, remove the cost from the character's gold and increase the currHp and maxHp.
+     */
     private void buyHealth() {
         if(character != null) {
             if(character.getGold() < 20) {
@@ -119,6 +135,13 @@ public class TownShopActivity extends AppCompatActivity {
         }
     }
 
+    /**
+     * This method attempts to purchase an flee chance upgrade for the character.
+     * <br>
+     * If the character lacks the required gold, show a toast and do nothing.
+     * <br>
+     * Otherwise, remove the cost from the character's gold and increase the fleeChance.
+     */
     private void buyFleeChance() {
         if(character != null) {
             if(character.getGold() < 10) {
