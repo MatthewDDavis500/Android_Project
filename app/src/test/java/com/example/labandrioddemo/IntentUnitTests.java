@@ -645,4 +645,12 @@ public class IntentUnitTests {
         assertFalse(intent.hasExtra(COMP_DOOM_ACTIVITY_USER_ID));
         assertFalse(intent.hasExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID));
     }
+
+    @Test
+    public void MainMenuIntentTest() {
+        intent = MainMenuActivity.mainMenuIntentFactory(testContext, testUserId, testCharacterId);
+
+        assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
+        assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
+    }
 }
