@@ -101,4 +101,18 @@ public class TownShopUnitTests {
         assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
         assertEquals(TownShopActivity.HEALTH_COST - 1, testCharacter.getGold());
     }
+
+    @Test
+    public void purchaseFleeChanceSuccessful() {
+        // test initial values
+        assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
+        assertTrue(TownShopActivity.FLEE_COST <= testCharacter.getGold());
+
+        // purchase attack upgrade
+        townShop.buyFleeChance(testCharacter);
+
+        // test values after purchase
+        assertEquals(TEST_FLEE_CHANCE + 10, testCharacter.getFleeChance());
+        assertEquals(TEST_GOLD - TownShopActivity.FLEE_COST, testCharacter.getGold());
+    }
 }
