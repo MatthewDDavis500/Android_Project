@@ -89,4 +89,21 @@ public class TownScreenUnitTests {
         assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
         assertEquals(TownScreen.REST_COST - 1, testCharacter.getGold());
     }
+
+    @Test
+    public void purchaseRestFailedAlreadyMaxHealth() {
+        // set character health to be at maximum
+        testCharacter.setCurrHp(TEST_MAX_HP);
+
+        // test initial values
+        assertEquals(TEST_MAX_HP, testCharacter.getCurrHp());
+        assertTrue(TownScreen.REST_COST <= testCharacter.getGold());
+
+        // purchase attack upgrade
+        assertEquals(TownScreenActivity.ALREADY_MAX_HEALTH, town.attemptRest(testCharacter));
+
+        // test values after purchase (shouldn't have changed)
+        assertEquals(TEST_MAX_HP, testCharacter.getCurrHp());
+        assertEquals(TEST_GOLD, testCharacter.getGold());
+    }
 }
