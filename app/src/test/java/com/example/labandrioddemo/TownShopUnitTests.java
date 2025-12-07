@@ -82,4 +82,23 @@ public class TownShopUnitTests {
         assertEquals(TEST_MAX_HP + 5, testCharacter.getMaxHp());
         assertEquals(TEST_GOLD - TownShopActivity.HEALTH_COST, testCharacter.getGold());
     }
+
+    @Test
+    public void purchaseHealthFailed() {
+        // set character gold to be not enough for the purchase
+        testCharacter.setGold(TownShopActivity.HEALTH_COST - 1);
+
+        // test initial values
+        assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
+        assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
+        assertFalse(TownShopActivity.HEALTH_COST <= testCharacter.getGold());
+
+        // attempt to purchase attack upgrade
+        townShop.buyAttack(testCharacter);
+
+        // test values after purchase (should not have changed)
+        assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
+        assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
+        assertEquals(TownShopActivity.HEALTH_COST - 1, testCharacter.getGold());
+    }
 }
