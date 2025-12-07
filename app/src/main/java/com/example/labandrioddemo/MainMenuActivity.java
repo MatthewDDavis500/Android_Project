@@ -29,8 +29,10 @@ public class MainMenuActivity extends AppCompatActivity {
         binding = ActivityMainMenuBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+        // instantiate repository to allow for database access
         repository = AccountRepository.getRepository(getApplication());
 
+        // get info from intent extras
         loggedInUserId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT);
         loggedInCharacterId = getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT);
 
@@ -54,9 +56,7 @@ public class MainMenuActivity extends AppCompatActivity {
         binding.nextMissionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(BattleScreenActivity.BattleScreenIntentFactory(getApplicationContext(),
-                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT)
-                ));
+                startActivity(BattleScreenActivity.BattleScreenIntentFactory(getApplicationContext(), loggedInCharacterId));
             }
         });
 
@@ -70,19 +70,14 @@ public class MainMenuActivity extends AppCompatActivity {
         binding.battleHistoryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(BattleHistoryActivity.battleHistoryIntentFactory(getApplicationContext(),
-                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT),
-                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, LOGGED_OUT)
-                ));
+                startActivity(BattleHistoryActivity.battleHistoryIntentFactory(getApplicationContext(), loggedInUserId, loggedInCharacterId));
             }
         });
 
         binding.mainMenuBackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(),
-                        getIntent().getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, LOGGED_OUT)
-                ));
+                startActivity(CharacterSelectActivity.characterSelectIntentFactory(getApplicationContext(), loggedInUserId));
             }
         });
     }
