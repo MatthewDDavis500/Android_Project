@@ -9,7 +9,7 @@ import org.junit.Test;
 import static org.junit.Assert.*;
 
 public class TownShopUnitTests {
-    private TownShopActivity townShop;
+    private TownShop townShop;
     private ProjectCharacter testCharacter;
     private final int TEST_USERID = 42;
     private final int TEST_LEVEL = 2;
@@ -24,7 +24,7 @@ public class TownShopUnitTests {
 
     @Before
     public void initializeValues() {
-        townShop = new TownShopActivity();
+        townShop = new TownShop();
         testCharacter = new ProjectCharacter("TestingBoi", TEST_USERID, TEST_LEVEL,
                 TEST_GOLD, TEST_CURRENT_HP, TEST_MAX_HP, TEST_ATTACK_MODIFIER, TEST_FLEE_CHANCE,
                 TEST_BATTLE_NUMBER, TEST_SLOT);
@@ -40,31 +40,31 @@ public class TownShopUnitTests {
     public void purchaseAttackSuccessful() {
         // test initial values
         assertEquals(TEST_ATTACK_MODIFIER, testCharacter.getAtkMod());
-        assertTrue(TownShopActivity.ATTACK_COST <= testCharacter.getGold());
+        assertTrue(TownShop.ATTACK_COST <= testCharacter.getGold());
 
         // purchase attack upgrade
-        townShop.buyAttack(testCharacter);
+        assertEquals(TownShopActivity.SUCCESS, townShop.purchaseAttackUpgrade(testCharacter));
 
         // test values after purchase
         assertEquals(TEST_ATTACK_MODIFIER + 1, testCharacter.getAtkMod());
-        assertEquals(TEST_GOLD - TownShopActivity.ATTACK_COST, testCharacter.getGold());
+        assertEquals(TEST_GOLD - TownShop.ATTACK_COST, testCharacter.getGold());
     }
 
     @Test
-    public void purchaseAttackFailed() {
+    public void purchaseAttackInsufficientGold() {
         // set character gold to be not enough for the purchase
-        testCharacter.setGold(TownShopActivity.ATTACK_COST - 1);
+        testCharacter.setGold(TownShop.ATTACK_COST - 1);
 
         // test initial values
         assertEquals(TEST_ATTACK_MODIFIER, testCharacter.getAtkMod());
-        assertFalse(TownShopActivity.ATTACK_COST <= testCharacter.getGold());
+        assertFalse(TownShop.ATTACK_COST <= testCharacter.getGold());
 
         // attempt to purchase attack upgrade
-        townShop.buyAttack(testCharacter);
+        assertEquals(TownShopActivity.NOT_ENOUGH_GOLD, townShop.purchaseAttackUpgrade(testCharacter));
 
         // test values after purchase (should not have changed)
         assertEquals(TEST_ATTACK_MODIFIER, testCharacter.getAtkMod());
-        assertEquals(TownShopActivity.ATTACK_COST - 1, testCharacter.getGold());
+        assertEquals(TownShop.ATTACK_COST - 1, testCharacter.getGold());
     }
 
     @Test
@@ -72,64 +72,64 @@ public class TownShopUnitTests {
         // test initial values
         assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
         assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
-        assertTrue(TownShopActivity.HEALTH_COST <= testCharacter.getGold());
+        assertTrue(TownShop.HEALTH_COST <= testCharacter.getGold());
 
         // purchase attack upgrade
-        townShop.buyHealth(testCharacter);
+        assertEquals(TownShopActivity.SUCCESS, townShop.purchaseHealthUpgrade(testCharacter));
 
         // test values after purchase
         assertEquals(TEST_CURRENT_HP + 5, testCharacter.getCurrHp());
         assertEquals(TEST_MAX_HP + 5, testCharacter.getMaxHp());
-        assertEquals(TEST_GOLD - TownShopActivity.HEALTH_COST, testCharacter.getGold());
+        assertEquals(TEST_GOLD - TownShop.HEALTH_COST, testCharacter.getGold());
     }
 
     @Test
-    public void purchaseHealthFailed() {
+    public void purchaseHealthInsufficientGold() {
         // set character gold to be not enough for the purchase
-        testCharacter.setGold(TownShopActivity.HEALTH_COST - 1);
+        testCharacter.setGold(TownShop.HEALTH_COST - 1);
 
         // test initial values
         assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
         assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
-        assertFalse(TownShopActivity.HEALTH_COST <= testCharacter.getGold());
+        assertFalse(TownShop.HEALTH_COST <= testCharacter.getGold());
 
         // attempt to purchase attack upgrade
-        townShop.buyAttack(testCharacter);
+        assertEquals(TownShopActivity.NOT_ENOUGH_GOLD, townShop.purchaseHealthUpgrade(testCharacter));
 
         // test values after purchase (should not have changed)
         assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
         assertEquals(TEST_MAX_HP, testCharacter.getMaxHp());
-        assertEquals(TownShopActivity.HEALTH_COST - 1, testCharacter.getGold());
+        assertEquals(TownShop.HEALTH_COST - 1, testCharacter.getGold());
     }
 
     @Test
     public void purchaseFleeChanceSuccessful() {
         // test initial values
         assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
-        assertTrue(TownShopActivity.FLEE_COST <= testCharacter.getGold());
+        assertTrue(TownShop.FLEE_COST <= testCharacter.getGold());
 
         // purchase attack upgrade
-        townShop.buyFleeChance(testCharacter);
+        assertEquals(TownShopActivity.SUCCESS, townShop.purchaseFleeChanceUpgrade(testCharacter));
 
         // test values after purchase
         assertEquals(TEST_FLEE_CHANCE + 10, testCharacter.getFleeChance());
-        assertEquals(TEST_GOLD - TownShopActivity.FLEE_COST, testCharacter.getGold());
+        assertEquals(TEST_GOLD - TownShop.FLEE_COST, testCharacter.getGold());
     }
 
     @Test
-    public void purchaseFleeChanceFailed() {
+    public void purchaseFleeChanceInsufficientGold() {
         // set character gold to be not enough for the purchase
-        testCharacter.setGold(TownShopActivity.FLEE_COST - 1);
+        testCharacter.setGold(TownShop.FLEE_COST - 1);
 
         // test initial values
         assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
-        assertFalse(TownShopActivity.FLEE_COST <= testCharacter.getGold());
+        assertFalse(TownShop.FLEE_COST <= testCharacter.getGold());
 
         // attempt to purchase attack upgrade
-        townShop.buyFleeChance(testCharacter);
+        assertEquals(TownShopActivity.NOT_ENOUGH_GOLD, townShop.purchaseFleeChanceUpgrade(testCharacter));
 
         // test values after purchase (should not have changed)
         assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
-        assertEquals(TownShopActivity.FLEE_COST - 1, testCharacter.getGold());
+        assertEquals(TownShop.FLEE_COST - 1, testCharacter.getGold());
     }
 }
