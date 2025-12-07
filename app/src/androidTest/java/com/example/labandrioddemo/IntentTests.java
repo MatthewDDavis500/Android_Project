@@ -3,6 +3,8 @@ package com.example.labandrioddemo;
 import static com.example.labandrioddemo.CharacterCreationActivity.COMP_DOOM_ACTIVITY_SLOT;
 import static com.example.labandrioddemo.CharacterSelectActivity.COMP_DOOM_ACTIVITY_USER_ID;
 import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_CHARACTER_ID;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 
 import android.content.BroadcastReceiver;
 import android.content.ComponentName;
@@ -35,8 +37,6 @@ import androidx.annotation.Nullable;
 import org.junit.After;
 import org.junit.Test;
 
-import static org.junit.Assert.*;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -44,7 +44,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class IntentUnitTests {
+public class IntentTests {
     private final int testUserId = 1;
     private final int testCharacterId = 2;
     private final Context testContext = new Context() {
@@ -622,7 +622,7 @@ public class IntentUnitTests {
         intent = CharacterCreationActivity.characterCreationIntentFactory(testContext, testUserId, testSlot);
 
         assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
-        assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
+        assertFalse(intent.hasExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID));
         assertEquals(testSlot, intent.getIntExtra(COMP_DOOM_ACTIVITY_SLOT, DEFAULT_VALUE));
     }
 
