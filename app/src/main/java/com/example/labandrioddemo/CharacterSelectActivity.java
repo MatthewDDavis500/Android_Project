@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.lifecycle.LiveData;
@@ -26,7 +25,6 @@ public class CharacterSelectActivity extends AppCompatActivity {
     private ActivityCharacterSelectBinding binding;
     private AccountRepository repository;
     int loggedInUserId = -1;
-    private CharacterSelectActivity thisHolder = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +49,8 @@ public class CharacterSelectActivity extends AppCompatActivity {
             @Override
             public void onChanged(User user) {
                 if (user != null) {
-                    // update the admin tag if the user is an admin
+                    // show admin tag and admin powers button if user is an admin
                     if (user.isAdmin()) {
-                        // Use a string resource instead of a literal
                         binding.adminConfirmation.setText(getString(R.string.admin_true));
                         binding.adminPowersButton.setVisibility(View.VISIBLE);
                         userLiveData.removeObserver(this);
@@ -71,9 +68,9 @@ public class CharacterSelectActivity extends AppCompatActivity {
         characterLiveData1.observe(this, new Observer<ProjectCharacter>() {
             @Override
             public void onChanged(ProjectCharacter character) {
+                // if character is found for slot one, button will select that character. Otherwise, button will be character create.
                 if(character != null) {
                     binding.character1Button.setText(character.getCharacterName());
-
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -90,7 +87,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character1Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, 1));
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, SLOT_NUMBER_ONE));
                         }
                     });
                 }
@@ -102,6 +99,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
         characterLiveData2.observe(this, new Observer<ProjectCharacter>() {
             @Override
             public void onChanged(ProjectCharacter character) {
+                // if character is found for slot two, button will select that character. Otherwise, button will be character create.
                 if (character != null) {
                     binding.character2Button.setText(character.getCharacterName());
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +108,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                             startActivity(MainMenuActivity.mainMenuIntentFactory(getApplicationContext(),
                                     loggedInUserId,
                                     character.getCharacterID()
-                                ));
+                            ));
                         }
                     });
 
@@ -120,7 +118,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character2Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, 2));
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, SLOT_NUMBER_TWO));
                         }
                     });
                 }
@@ -132,9 +130,9 @@ public class CharacterSelectActivity extends AppCompatActivity {
         characterLiveData3.observe(this, new Observer<ProjectCharacter>() {
             @Override
             public void onChanged(ProjectCharacter character) {
+                // if character is found for slot three, button will select that character. Otherwise, button will be character create.
                 if (character != null) {
                     binding.character3Button.setText(character.getCharacterName());
-
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
@@ -151,7 +149,7 @@ public class CharacterSelectActivity extends AppCompatActivity {
                     binding.character3Button.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View view) {
-                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, 3));
+                            startActivity(CharacterCreationActivity.characterCreationIntentFactory(getApplicationContext(), loggedInUserId, SLOT_NUMBER_THREE));
                         }
                     });
                 }
@@ -173,6 +171,11 @@ public class CharacterSelectActivity extends AppCompatActivity {
         });
     }
 
+    /**
+     * This method logs the user out of the application.
+     * This involves updating the loggedInUserId, shared preferences, and the intent extra.
+     * Additionally, the user is moved to the Main Activity, which is the login page.
+     */
     private void logout() {
         loggedInUserId = LOGGED_OUT;
         updateSharedPreference();
@@ -180,6 +183,10 @@ public class CharacterSelectActivity extends AppCompatActivity {
         startActivity(MainActivity.mainIntentFactory(getApplicationContext()));
     }
 
+    /**
+     * This method updates the user's shared preferences.
+     * Updated shared preferences allows the app to remember user login information.
+     */
     private void updateSharedPreference() {
         SharedPreferences sharedPreferences = getApplicationContext().getSharedPreferences(getString(R.string.preference_file_key), Context.MODE_PRIVATE);
         SharedPreferences.Editor sharedPrefEditor = sharedPreferences.edit();
