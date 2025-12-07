@@ -42,7 +42,13 @@ dependencies {
     implementation(libs.material)
     implementation(libs.activity)
     implementation(libs.constraintlayout)
+    implementation(libs.androidx.junit)
     testImplementation(libs.junit)
+    testImplementation(libs.junit)
+
+    androidTestImplementation(libs.ext.junit)
+    androidTestImplementation("androidx.test:core:1.5.0")
+
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
 
