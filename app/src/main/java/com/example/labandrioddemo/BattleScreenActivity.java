@@ -214,7 +214,7 @@ public class BattleScreenActivity extends AppCompatActivity {
      * @param characterId the id for the selected character
      * @return the intent
      */
-    static Intent BattleScreenIntentFactory(Context context, int characterId) {
+    static Intent battleScreenIntentFactory(Context context, int characterId) {
         Intent intent = new Intent(context, BattleScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;
