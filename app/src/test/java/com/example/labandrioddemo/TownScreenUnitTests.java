@@ -1,7 +1,6 @@
 package com.example.labandrioddemo;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 
 import com.example.labandrioddemo.database.entities.ProjectCharacter;
 
@@ -72,5 +71,22 @@ public class TownScreenUnitTests {
         // test values after purchase (should cap at max hp)
         assertEquals(TEST_MAX_HP, testCharacter.getCurrHp());
         assertEquals(TEST_GOLD - TownScreen.REST_COST, testCharacter.getGold());
+    }
+
+    @Test
+    public void purchaseRestFailedInsufficientGold() {
+        // set character gold to be not enough for the purchase
+        testCharacter.setGold(TownScreen.REST_COST - 1);
+
+        // test initial values
+        assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
+        assertFalse(TownScreen.REST_COST <= testCharacter.getGold());
+
+        // purchase attack upgrade
+        assertEquals(TownScreenActivity.NOT_ENOUGH_GOLD, town.attemptRest(testCharacter));
+
+        // test values after purchase (shouldn't have changed)
+        assertEquals(TEST_CURRENT_HP, testCharacter.getCurrHp());
+        assertEquals(TownScreen.REST_COST - 1, testCharacter.getGold());
     }
 }
