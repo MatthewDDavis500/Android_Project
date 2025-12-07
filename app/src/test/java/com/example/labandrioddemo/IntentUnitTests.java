@@ -1,5 +1,6 @@
 package com.example.labandrioddemo;
 
+import static com.example.labandrioddemo.CharacterCreationActivity.COMP_DOOM_ACTIVITY_SLOT;
 import static com.example.labandrioddemo.CharacterSelectActivity.COMP_DOOM_ACTIVITY_USER_ID;
 import static com.example.labandrioddemo.MainMenuActivity.COMP_DOOM_ACTIVITY_CHARACTER_ID;
 
@@ -571,6 +572,7 @@ public class IntentUnitTests {
 
         }
     };
+    private final int testSlot = 3;
     private final int DEFAULT_VALUE = -1;
     private Intent intent;
 
@@ -609,5 +611,14 @@ public class IntentUnitTests {
 
         assertFalse(intent.hasExtra(COMP_DOOM_ACTIVITY_USER_ID));
         assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
+    }
+
+    @Test
+    public void CharacterCreationIntentTest() {
+        intent = CharacterCreationActivity.characterCreationIntentFactory(testContext, testUserId, testSlot);
+
+        assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
+        assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
+        assertEquals(testSlot, intent.getIntExtra(COMP_DOOM_ACTIVITY_SLOT, DEFAULT_VALUE));
     }
 }
