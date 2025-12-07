@@ -11,6 +11,7 @@ import static org.junit.Assert.*;
 public class TownShopUnitTests {
     private TownShop townShop;
     private ProjectCharacter testCharacter;
+    private final String TEST_NAME = "Testing Dummy";
     private final int TEST_USERID = 42;
     private final int TEST_LEVEL = 2;
     private final int TEST_GOLD = 30;
@@ -26,7 +27,7 @@ public class TownShopUnitTests {
     @Before
     public void initializeValues() {
         townShop = new TownShop();
-        testCharacter = new ProjectCharacter("TestingBoi", TEST_USERID, TEST_LEVEL,
+        testCharacter = new ProjectCharacter(TEST_NAME, TEST_USERID, TEST_LEVEL,
                 TEST_GOLD, TEST_CURRENT_HP, TEST_MAX_HP, TEST_ATTACK_MODIFIER, TEST_FLEE_CHANCE,
                 TEST_BATTLE_NUMBER, TEST_SLOT);
     }
