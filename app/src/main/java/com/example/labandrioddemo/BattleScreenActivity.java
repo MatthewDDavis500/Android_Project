@@ -89,7 +89,7 @@ public class BattleScreenActivity extends AppCompatActivity {
                 if (monsterCurHp <= 0) {
                     repository.updateCharacter(character);
                     showBattleNotification("You Ween");
-                    startActivity(VictoryScreenActivity.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
+                    startActivity(VictoryScreenActivity.victoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                 } else if (character.getCurrHp() <= 0) {
                     repository.updateCharacter(character);
                     showBattleNotification("Skill Issue");
