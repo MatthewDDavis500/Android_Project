@@ -49,21 +49,21 @@ public class TownShopActivity extends AppCompatActivity {
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyAttack(character);
+                buyAttack();
             }
         });
 
         binding.healthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyHealth(character);
+                buyHealth();
             }
         });
 
         binding.fleeChanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyFleeChance(character);
+                buyFleeChance();
             }
         });
 
@@ -100,7 +100,7 @@ public class TownShopActivity extends AppCompatActivity {
      * <br>
      * Otherwise, remove the cost from the character's gold and increment the attackModifier.
      */
-    public void buyAttack(ProjectCharacter character) {
+    public void buyAttack() {
         if(character != null) {
             int result = shop.purchaseAttackUpgrade(character);
 
@@ -122,7 +122,7 @@ public class TownShopActivity extends AppCompatActivity {
      * <br>
      * Otherwise, remove the cost from the character's gold and increase the currHp and maxHp.
      */
-    public void buyHealth(ProjectCharacter character) {
+    public void buyHealth() {
         if(character != null) {
             int result = shop.purchaseHealthUpgrade(character);
 
@@ -144,7 +144,7 @@ public class TownShopActivity extends AppCompatActivity {
      * <br>
      * Otherwise, remove the cost from the character's gold and increase the fleeChance.
      */
-    public void buyFleeChance(ProjectCharacter character) {
+    public void buyFleeChance() {
         if(character != null) {
             int result = shop.purchaseFleeChanceUpgrade(character);
 
