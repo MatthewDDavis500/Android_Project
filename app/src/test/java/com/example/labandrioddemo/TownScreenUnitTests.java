@@ -18,6 +18,7 @@ public class TownScreenUnitTests {
     private final int TEST_GOLD = 30;
     private final int TEST_CURRENT_HP = 80;
     private final int TEST_LOWER_HP = 60;
+    private final int TEST_HIGHER_HP = 90;
     private final int TEST_MAX_HP = 100;
     private final int TEST_ATTACK_MODIFIER = 2;
     private final int TEST_FLEE_CHANCE = 20;
@@ -53,6 +54,23 @@ public class TownScreenUnitTests {
 
         // test values after purchase
         assertEquals(TEST_LOWER_HP + 25, testCharacter.getCurrHp());
+        assertEquals(TEST_GOLD - TownScreen.REST_COST, testCharacter.getGold());
+    }
+
+    @Test
+    public void purchaseRestSuccessfulToOverFullHealth() {
+        // set character health to be more than 75 (so that heal would fill over max hp)
+        testCharacter.setCurrHp(TEST_HIGHER_HP);
+
+        // test initial values
+        assertEquals(TEST_HIGHER_HP, testCharacter.getCurrHp());
+        assertTrue(TownScreen.REST_COST <= testCharacter.getGold());
+
+        // purchase attack upgrade
+        assertEquals(TownScreenActivity.SUCCESS, town.attemptRest(testCharacter));
+
+        // test values after purchase (should cap at max hp)
+        assertEquals(TEST_MAX_HP, testCharacter.getCurrHp());
         assertEquals(TEST_GOLD - TownScreen.REST_COST, testCharacter.getGold());
     }
 }
