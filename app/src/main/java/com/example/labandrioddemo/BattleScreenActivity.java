@@ -93,7 +93,7 @@ public class BattleScreenActivity extends AppCompatActivity {
                 } else if (character.getCurrHp() <= 0) {
                     repository.updateCharacter(character);
                     showBattleNotification("Skill Issue");
-                    startActivity(GameOverScreenActivity.GameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
+                    startActivity(GameOverScreenActivity.gameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
                 } else {
                     int fleeRoll = random.nextInt(1,101);
 
