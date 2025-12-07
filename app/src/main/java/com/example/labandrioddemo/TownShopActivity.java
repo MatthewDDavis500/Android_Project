@@ -42,21 +42,21 @@ public class TownShopActivity extends AppCompatActivity {
         binding.attackButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyAttack();
+                buyAttack(character);
             }
         });
 
         binding.healthButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyHealth();
+                buyHealth(character);
             }
         });
 
         binding.fleeChanceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                buyFleeChance();
+                buyFleeChance(character);
             }
         });
 
@@ -93,7 +93,7 @@ public class TownShopActivity extends AppCompatActivity {
      * <br>
      * Otherwise, remove the cost from the character's gold and increment the attackModifier.
      */
-    private void buyAttack() {
+    public void buyAttack(ProjectCharacter character) {
         if(character != null) {
             if(character.getGold() < 20) {
                 makeToast("Insufficient gold.");
@@ -117,7 +117,7 @@ public class TownShopActivity extends AppCompatActivity {
      * <br>
      * Otherwise, remove the cost from the character's gold and increase the currHp and maxHp.
      */
-    private void buyHealth() {
+    public void buyHealth(ProjectCharacter character) {
         if(character != null) {
             if(character.getGold() < 20) {
                 makeToast("Insufficient gold.");
@@ -142,7 +142,7 @@ public class TownShopActivity extends AppCompatActivity {
      * <br>
      * Otherwise, remove the cost from the character's gold and increase the fleeChance.
      */
-    private void buyFleeChance() {
+    public void buyFleeChance(ProjectCharacter character) {
         if(character != null) {
             if(character.getGold() < 10) {
                 makeToast("Insufficient gold.");
