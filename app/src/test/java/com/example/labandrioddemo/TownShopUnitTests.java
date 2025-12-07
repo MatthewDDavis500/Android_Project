@@ -115,4 +115,21 @@ public class TownShopUnitTests {
         assertEquals(TEST_FLEE_CHANCE + 10, testCharacter.getFleeChance());
         assertEquals(TEST_GOLD - TownShopActivity.FLEE_COST, testCharacter.getGold());
     }
+
+    @Test
+    public void purchaseFleeChanceFailed() {
+        // set character gold to be not enough for the purchase
+        testCharacter.setGold(TownShopActivity.FLEE_COST - 1);
+
+        // test initial values
+        assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
+        assertFalse(TownShopActivity.FLEE_COST <= testCharacter.getGold());
+
+        // attempt to purchase attack upgrade
+        townShop.buyFleeChance(testCharacter);
+
+        // test values after purchase (should not have changed)
+        assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
+        assertEquals(TownShopActivity.FLEE_COST - 1, testCharacter.getGold());
+    }
 }
