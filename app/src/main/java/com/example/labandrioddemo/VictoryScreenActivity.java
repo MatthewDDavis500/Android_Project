@@ -77,7 +77,7 @@ public class VictoryScreenActivity extends AppCompatActivity {
         });
     }
 
-    static Intent VictoryScreenIntentFactory(Context context, int userId, int characterId) {
+    static Intent victoryScreenIntentFactory(Context context, int userId, int characterId) {
         Intent intent = new Intent(context, VictoryScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_USER_ID, userId);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);

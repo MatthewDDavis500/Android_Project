@@ -55,7 +55,7 @@ public class GameOverScreenActivity extends AppCompatActivity {
         });
     }
 
-    static Intent GameOverScreenIntentFactory(Context context, int characterId) {
+    static Intent gameOverScreenIntentFactory(Context context, int characterId) {
         Intent intent = new Intent(context, GameOverScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;
