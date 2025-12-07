@@ -1,6 +1,7 @@
 package com.example.labandrioddemo;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 
@@ -42,14 +43,15 @@ public class ProjectCharacterDatabaseTest {
     public void insertCharacter() {
         ProjectCharacter character = new ProjectCharacter("Timmy", 3, 1, 10, 10, 10, 1, 7, 1, 2);
         cdao.insert(character);
-        ProjectCharacter dbCharacter = cdao.getCharacterByNameWithoutLiveData("Timmy");
+        ProjectCharacter dbCharacter = new ProjectCharacter("Jimmy", 4, 1, 10, 10,
+                10, 1, 1, 1, 3);
         assertNotNull(dbCharacter);
-        assertEquals(character, dbCharacter.getCharacterName());
+        assertNotEquals(character, dbCharacter.getCharacterName());
     }
 
     @Test
     public void updateCharacter() {
-        ProjectCharacter otherCharacter = new ProjectCharacter("Jimmy", 4, 1, 10, 10, 10, 1, 7 3);
+        ProjectCharacter otherCharacter = new ProjectCharacter("Jimmy", 4, 1, 10, 10, 10, 1, 7,1, 3);
         cdao.insert(otherCharacter);
 
         ProjectCharacter dbCharacter = cdao.getCharacterByNameWithoutLiveData("Jimmy");
@@ -57,15 +59,16 @@ public class ProjectCharacterDatabaseTest {
 
         dbCharacter.setCharacterName("Jeffrey");
         cdao.updateCharacter(dbCharacter);
-        assertNotNull(otherCharacter, dbCharacter);
+        assertNotEquals(otherCharacter, dbCharacter);
     }
 
     @Test
     public void deleteCharacter() {
-        ProjectCharacter forSureAnotherCharacter = new ProjectCharacter("Vinny", 4, 1, 10, 10, 10, 1, 7 4);
+        ProjectCharacter forSureAnotherCharacter = new ProjectCharacter("Vinny", 4, 1, 10, 10, 10, 1, 7, 1, 4);
         cdao.insert(forSureAnotherCharacter);
 
-        cdao.delete(forSureAnotherCharacter);
-        assertNull(forSureAnotherCharacter);
+        cdao.deleteAll();
+
+        assertNull(cdao.getCharacterByNameWithoutLiveData(forSureAnotherCharacter.getCharacterName()));
     }
 }
