@@ -18,6 +18,7 @@ public class TownShopUnitTests {
     private final int TEST_MAX_HP = 100;
     private final int TEST_ATTACK_MODIFIER = 2;
     private final int TEST_FLEE_CHANCE = 20;
+    private final int MAX_FLEE_CHANCE = 100;
     private final int TEST_BATTLE_NUMBER = 3;
     private final int TEST_SLOT = 1;
 
@@ -131,5 +132,22 @@ public class TownShopUnitTests {
         // test values after purchase (should not have changed)
         assertEquals(TEST_FLEE_CHANCE, testCharacter.getFleeChance());
         assertEquals(TownShop.FLEE_COST - 1, testCharacter.getGold());
+    }
+
+    @Test
+    public void purchaseFleeChanceMaxFlee() {
+        // set character flee chance to be max
+        testCharacter.setFleeChance(MAX_FLEE_CHANCE);
+
+        // test initial values
+        assertEquals(MAX_FLEE_CHANCE, testCharacter.getFleeChance());
+        assertTrue(TownShop.FLEE_COST <= testCharacter.getGold());
+
+        // attempt to purchase attack upgrade
+        assertEquals(TownShopActivity.ALREADY_MAX_FLEE, townShop.purchaseFleeChanceUpgrade(testCharacter));
+
+        // test values after purchase (should not have changed)
+        assertEquals(MAX_FLEE_CHANCE, testCharacter.getFleeChance());
+        assertEquals(TEST_GOLD, testCharacter.getGold());
     }
 }
