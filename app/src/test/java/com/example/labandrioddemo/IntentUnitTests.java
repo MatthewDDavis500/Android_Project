@@ -621,4 +621,12 @@ public class IntentUnitTests {
         assertEquals(testCharacterId, intent.getIntExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, DEFAULT_VALUE));
         assertEquals(testSlot, intent.getIntExtra(COMP_DOOM_ACTIVITY_SLOT, DEFAULT_VALUE));
     }
+
+    @Test
+    public void CharacterSelectionIntentTest() {
+        intent = CharacterSelectActivity.characterSelectIntentFactory(testContext, testUserId);
+
+        assertEquals(testUserId, intent.getIntExtra(COMP_DOOM_ACTIVITY_USER_ID, DEFAULT_VALUE));
+        assertFalse(intent.hasExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID));
+    }
 }
