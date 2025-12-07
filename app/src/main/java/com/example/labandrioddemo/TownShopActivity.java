@@ -25,6 +25,9 @@ public class TownShopActivity extends AppCompatActivity {
     private ProjectCharacter character;
     private int loggedInUserId = LOGGED_OUT;
     private int loggedInCharacterId = LOGGED_OUT;
+    public static final int ATTACK_COST = 20;
+    public static final int HEALTH_COST = 20;
+    public static final int FLEE_COST = 10;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,10 +98,10 @@ public class TownShopActivity extends AppCompatActivity {
      */
     public void buyAttack(ProjectCharacter character) {
         if(character != null) {
-            if(character.getGold() < 20) {
+            if(character.getGold() < ATTACK_COST) {
                 makeToast("Insufficient gold.");
             } else {
-                character.setGold(character.getGold() - 20);
+                character.setGold(character.getGold() - ATTACK_COST);
 
                 character.setAtkMod(character.getAtkMod() + 1);
 
@@ -119,10 +122,10 @@ public class TownShopActivity extends AppCompatActivity {
      */
     public void buyHealth(ProjectCharacter character) {
         if(character != null) {
-            if(character.getGold() < 20) {
+            if(character.getGold() < HEALTH_COST) {
                 makeToast("Insufficient gold.");
             } else {
-                character.setGold(character.getGold() - 20);
+                character.setGold(character.getGold() - HEALTH_COST);
 
                 character.setMaxHp(character.getMaxHp() + 5);
                 character.setCurrHp(character.getCurrHp() + 5);
@@ -144,12 +147,12 @@ public class TownShopActivity extends AppCompatActivity {
      */
     public void buyFleeChance(ProjectCharacter character) {
         if(character != null) {
-            if(character.getGold() < 10) {
+            if(character.getGold() < FLEE_COST) {
                 makeToast("Insufficient gold.");
             } else if(character.getFleeChance() >= 100) {
                 makeToast("Flee Chance already 100%.");
             } else {
-                character.setGold(character.getGold() - 10);
+                character.setGold(character.getGold() - FLEE_COST);
 
                 character.setFleeChance(character.getFleeChance() + 10);
 
