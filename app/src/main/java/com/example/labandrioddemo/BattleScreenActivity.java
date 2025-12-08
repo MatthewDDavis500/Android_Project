@@ -89,11 +89,11 @@ public class BattleScreenActivity extends AppCompatActivity {
                 if (monsterCurHp <= 0) {
                     repository.updateCharacter(character);
                     showBattleNotification("You Ween");
-                    startActivity(VictoryScreenActivity.VictoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
+                    startActivity(VictoryScreenActivity.victoryScreenIntentFactory(getApplicationContext(), character.getUserID(), character.getCharacterID()));
                 } else if (character.getCurrHp() <= 0) {
                     repository.updateCharacter(character);
                     showBattleNotification("Skill Issue");
-                    startActivity(GameOverScreenActivity.GameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
+                    startActivity(GameOverScreenActivity.gameOverScreenIntentFactory(getApplicationContext(), character.getCharacterID()));
                 } else {
                     int fleeRoll = random.nextInt(1,101);
 
@@ -214,7 +214,7 @@ public class BattleScreenActivity extends AppCompatActivity {
      * @param characterId the id for the selected character
      * @return the intent
      */
-    static Intent BattleScreenIntentFactory(Context context, int characterId) {
+    static Intent battleScreenIntentFactory(Context context, int characterId) {
         Intent intent = new Intent(context, BattleScreenActivity.class);
         intent.putExtra(COMP_DOOM_ACTIVITY_CHARACTER_ID, characterId);
         return intent;

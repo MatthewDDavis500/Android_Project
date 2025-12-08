@@ -56,7 +56,7 @@ public class MainMenuActivity extends AppCompatActivity {
         binding.nextMissionButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(BattleScreenActivity.BattleScreenIntentFactory(getApplicationContext(), loggedInCharacterId));
+                startActivity(BattleScreenActivity.battleScreenIntentFactory(getApplicationContext(), loggedInCharacterId));
             }
         });
 
