@@ -29,11 +29,17 @@ import java.util.Random;
 public class BattleScreenActivity extends AppCompatActivity {
     private static final String CHANNEL_ID = "MESSAGE_CHANNEL";
     private static final int NOTIFICATION_ID = 1;
+
+    public static final int IS_DEAD = 0;
+
+    public static final int HAS_WON = 2;
+
+    public static final int SUCCESS = 3;
     private ActivityBattleScreenBinding binding;
     private AccountRepository repository;
     private int monsterMaxHp;
     private int monsterCurHp;
-    Random random = new Random();
+    private Random random = new Random();
     private ProjectCharacter character;
     private BattleScreenActivity thisHolder = this;
 
